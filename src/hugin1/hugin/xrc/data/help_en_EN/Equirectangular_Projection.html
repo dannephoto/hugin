@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Equirectangular Projection - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Equirectangular_Projection rootpage-Equirectangular_Projection skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Equirectangular Projection</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+</p>
+<div class="floatright"><img alt="Equirectangular Projection, with permission from Ben Kreunen" src="Big_ben_equirectangular.jpg" decoding="async" width="600" height="300" /></div>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+
+</ul>
+</div>
+
+<h2><a name="Description"><span class="mw-headline">Description</span></a></h2>
+<p>This is a type of <a href="Projections.html" title="Projections">projection</a> for mapping a portion of the surface of a sphere to a flat image.  It is also called the "non-projection", or <i>plate carre</i>, since the horizontal coordinate is simply longitude, and the vertical coordinate is simply latitude, with no transformation or scaling applied.  The equirectangular projection was used in map creation since it was invented around 100 A.D. by Marinus of Tyre.  See <a rel="nofollow" class="external text" href="http://mathworld.wolfram.com/EquirectangularProjection.html">Mathworld's page</a> for more detailed information on the mathematics of this projection.
+</p><p>In an equirectangular panoramic image all verticals remain vertical, and the horizon becomes a straight line across the middle of the image. Coordinates in the image relate linearly to pan and tilt angles in the real world. The poles (<a href="Zenith.html" title="Zenith">Zenith</a>, <a href="Nadir.html" title="Nadir">Nadir</a>) are located at the top and bottom edge and are stretched to the entire width of the image.  Areas near the poles get stretched horizontally.
+</p><p>The Equirectangular projection is the default output format of a rotating (scanning) panorama camera equipped with a fisheye lens -- 180° fisheye giving a full sphere at 360° rotation. Scanning cameras sometimes cover more than one 360° turn but software often assumes that equirectangular images cover 360° horizontally and 180° vertically, i.e. make sure that your equirectangular image has a proper <a href="Aspect_Ratio.html" title="Aspect Ratio">aspect ratio</a> of 2:1. Look at the pixel values -- a file with 1650 x 824 pixels lacks one pixel at the short side thus confusing some applications.
+</p><p>The Equirectangular projection is commonly used as the projection type of the source images for spherical panorama viewers<a class="external" href="https://wiki.panotools.org/Panorama_Viewers">[*]</a>, including <a href="Panorama_tools.html" title="Panorama tools">PTViewer</a>. The other possibility is the <a href="Cubic_Projection.html" title="Cubic Projection">Cubic Projection</a>.
+</p>
+<h2><a name="Common_problems"><span class="mw-headline">Common problems</span></a></h2>
+<h3><a name="Retouching"><span class="mw-headline">Retouching</span></a></h3>
+<p>The polar regions of an equirectangular image are extremely distorted, making
+retouching of these areas very difficult.  Some tips are given in the
+Zenith and Nadir editing overview<a class="external" href="https://wiki.panotools.org/Zenith_and_Nadir_editing_overview">[*]</a> tutorial.
+</p>
+<h3><a name="Blending"><span class="mw-headline">Blending</span></a></h3>
+<p>There are related problems with automatically blending seams near the poles.
+None of the tools that perform blending such as <a href="PTStitcher.html" title="PTStitcher">PTStitcher</a>, <a href="Enblend.html" title="Enblend">Enblend</a>
+or <a href="SmartBlend.html" title="SmartBlend">SmartBlend</a> feather equirectangular images differently to any other
+projection type.
+</p><p>So if you find that seams are running very close to the
+zenith or nadir, you may need to stitch the entire scene in a different
+orientation to get good results.
+</p>
+<h3><a name="Tone_Mapping"><span class="mw-headline">Tone Mapping</span></a></h3>
+<p>There are more related problems with local <a href="Tone_mapping.html" title="Tone mapping">tone mapping</a> operators which produce
+strange results near the poles.  The solution is to either use global tone mapping
+or retouch the zenith and nadir manually.
+</p>
+<h3><a name="Scaling"><span class="mw-headline">Scaling</span></a></h3>
+<p>Equirectangular images have a very large amount of data redundancy near the
+poles because they are stretched in the 'latitude' direction.  When downsizing
+an image in an editor such as Photoshop<a class="external" href="https://wiki.panotools.org/Photoshop">[*]</a> or GIMP<a class="external" href="https://wiki.panotools.org/GIMP">[*]</a>, the effective
+resolution of the image is decreased as expected <i>except near the poles</i>.
+</p><p>This can cause strange radial artefacts when viewed later in
+Panorama Viewers<a class="external" href="https://wiki.panotools.org/Panorama_Viewers">[*]</a>.  The solution is to always switch to a less distorted
+projection such as <a href="Cubic_Projection.html" title="Cubic Projection">Cubic Projection</a> before scaling, blurring or
+sharpening<a class="external" href="https://wiki.panotools.org/Sharpening">[*]</a> a panorama - Switching back later if necessary
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   11.514      1 Template:Glossary
+100.00%   11.514      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Equirectangular_Projection&amp;oldid=17340">https://wiki.panotools.org/index.php?title=Equirectangular_Projection&amp;oldid=17340</a>"</div>
+		</div></div></body></html>

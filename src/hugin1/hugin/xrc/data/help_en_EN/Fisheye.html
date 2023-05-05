@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Fisheye Projection - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Fisheye_Projection rootpage-Fisheye_Projection skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Fisheye Projection</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		<div id="contentSub"><span class="mw-redirectedfrom">(Redirected from Fisheye<a class="external" href="https://wiki.panotools.org/index.php?title=Fisheye&amp;redirect=no">[*]</a>)</span></div>
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+</p>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Big_ben_circ_fisheye.jpg"><img alt="" src="Big_ben_circ_fisheye.jpg" decoding="async" width="300" height="300" class="thumbimage" /></a>  <div class="thumbcaption">Circular Fisheye projection, with permission from Ben Kreunen</div></div></div>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Big_ben_ff_fisheye.jpg"><img alt="" src="Big_ben_ff_fisheye.jpg" decoding="async" width="300" height="300" class="thumbimage" /></a>  <div class="thumbcaption">Fullframe Fisheye projection, with permission from Ben Kreunen</div></div></div>
+<p>This is a class of <a href="Projections.html" title="Projections">projections</a> for mapping a portion of the surface of a sphere to a flat image, typically a camera's film or detector plane.  In a fisheye projection the distance from the centre of the image to a point is close to proportional to the true angle of separation.
+</p><p>Commonly there are two types of fisheye distinguished: circular fisheyes<a class="external" href="https://wiki.panotools.org/Fisheyes">[*]</a> and fullframe fisheyes<a class="external" href="https://wiki.panotools.org/Fisheyes">[*]</a>. However, both follow the same projection geometrics. The only difference is one of <a href="Field_of_View.html" title="Field of View">Field of View</a>: for a circular fisheye the circular image fits (more or less) completely in the frame, leaving blank areas in the corner. For the full frame variety, the image is over-filled by the circular fisheye image, leaving no blank space on the film or detector.  A circular fisheye can be made full frame if you use it with a smaller sensor/film size (and vice versa), or by zooming a fisheye adaptor on a zoom lens.
+</p><p>There is no single fisheye projection, but instead there are a class of projection transformation all referred to as <i>fisheye</i> by various lens manufacturers, with names like <i>equisolid angle projection</i>, or <i>equidistance fisheye</i>.  Less common are traditional spherical projections which map to circular images, such as the <a rel="nofollow" class="external text" href="http://mathworld.wolfram.com/OrthographicProjection.html">orthographic</a> (lenses commonly designated <i>OP</i>) or <a href="Stereographic_Projection.html" title="Stereographic Projection">stereographic</a> projections.  Luckily, <a href="Panorama_tools.html" title="Panorama tools">Panorama tools</a> and <a href="Hugin.html" title="Hugin">Hugin</a> can deal with most of these mentioned projections. 
+</p><p><b><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta \,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mspace width="thinmathspace" />
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta \,}</annotation>
+  </semantics>
+</math></span><img src="228647b7d4a18b6c8c0c390b439a61da8fafec76.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.478ex; height:2.176ex;" alt="{\displaystyle \theta \,}"/></span></b> is the angle in rad between a point in the real world and the optical axis, which goes from the center of the image through the center of the lens, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="132e57acb643253e7810ee9702d9581f159a1c61.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="{\displaystyle f}"/></span> is the focal length of the lens and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R}</annotation>
+  </semantics>
+</math></span><img src="4b0bfb3769bf24d80e15374dc37b0441e2616e33.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="{\displaystyle R}"/></span> is radial position of a point on the image on the film or sensor.
+</p>
+<table class="wikitable">
+
+<tbody><tr>
+<th>projection
+</th>
+<th>math
+</th>
+<th>real lenses, matching this projection
+</th></tr>
+<tr>
+<td>equidistant fisheye
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=f\cdot \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=f\cdot \theta }</annotation>
+  </semantics>
+</math></span><img src="1876c10b5fac40156f4cd7ab00928c9fc2bed36b.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:8.911ex; height:2.509ex;" alt="{\displaystyle R=f\cdot \theta }"/></span>
+</td>
+<td>e.g. Peleng 8mm f/3.5 Fisheye <br />This is the ideal fisheye projection panotools uses internally
+</td></tr>
+<tr>
+<td>stereographic
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=2f\cdot \tan \left({\frac {\theta }{2}}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mn>2</mn>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>tan</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mrow>
+          <mo>(</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mfrac>
+              <mi>&#x03B8;<!-- θ --></mi>
+              <mn>2</mn>
+            </mfrac>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=2f\cdot \tan \left({\frac {\theta }{2}}\right)}</annotation>
+  </semantics>
+</math></span><img src="c81f99c35740e0ae9e1602d890467f02f02ade21.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:17.762ex; height:6.176ex;" alt="{\displaystyle R=2f\cdot \tan \left({\frac {\theta }{2}}\right)}"/></span>
+</td>
+<td>e.g. Samyang 8 mm f/3.5
+</td></tr>
+<tr>
+<td>orthographic
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=f\cdot \sin \left(\theta \right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>sin</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mrow>
+          <mo>(</mo>
+          <mi>&#x03B8;<!-- θ --></mi>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=f\cdot \sin \left(\theta \right)}</annotation>
+  </semantics>
+</math></span><img src="2c5d28ca1131956936f41807db3895584e54ba78.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:13.576ex; height:2.843ex;" alt="{\displaystyle R=f\cdot \sin \left(\theta \right)}"/></span>
+</td>
+<td>e.g. Yasuhara - MADOKA 180 circle fisheye lens
+</td></tr>
+<tr>
+<td>equisolid
+<p>(equal-area fisheye)
+</p>
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=2f\cdot \sin \left({\frac {\theta }{2}}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mn>2</mn>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>sin</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mrow>
+          <mo>(</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mfrac>
+              <mi>&#x03B8;<!-- θ --></mi>
+              <mn>2</mn>
+            </mfrac>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=2f\cdot \sin \left({\frac {\theta }{2}}\right)}</annotation>
+  </semantics>
+</math></span><img src="d1e5d518892671cb94ae0907a94eddf2f170438c.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:17.258ex; height:6.176ex;" alt="{\displaystyle R=2f\cdot \sin \left({\frac {\theta }{2}}\right)}"/></span>
+</td>
+<td>e. g. Sigma 8mm f/4.0 AF EX, (also convex mirror)
+</td></tr>
+<tr>
+<td>Thoby fisheye
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=k_{1}\cdot f\cdot \sin \left(k_{2}\cdot \theta \right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <msub>
+          <mi>k</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>sin</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <msub>
+              <mi>k</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msub>
+            <mo>&#x22C5;<!-- ⋅ --></mo>
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=k_{1}\cdot f\cdot \sin \left(k_{2}\cdot \theta \right)}</annotation>
+  </semantics>
+</math></span><img src="0014985448cc97c209313a079e4eda593c810582.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:21.465ex; height:2.843ex;" alt="{\displaystyle R=k_{1}\cdot f\cdot \sin \left(k_{2}\cdot \theta \right)}"/></span>
+<p>with <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k_{1}=1.47}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>k</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mn>1.47</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k_{1}=1.47}</annotation>
+  </semantics>
+</math></span><img src="c31fdc58e559f2dcdf2cee6a137cc3db024f093c.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:9.498ex; height:2.509ex;" alt="{\displaystyle k_{1}=1.47}"/></span> and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k_{2}=0.713}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>k</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mn>0.713</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k_{2}=0.713}</annotation>
+  </semantics>
+</math></span><img src="566a3cea17751229daea11d526505235164b25df.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:10.661ex; height:2.509ex;" alt="{\displaystyle k_{2}=0.713}"/></span>
+</p>
+</td>
+<td>e. g. AF DX Fisheye-Nikkor 10.5mm f/2.8G ED
+<p>(empirical found math for this lens)
+</p>
+</td></tr>
+<tr>
+<td>PTGui 11 fisheye
+</td>
+<td><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R={\begin{cases}{f \over k}\cdot \tan \left(k\cdot \theta \right)&amp;{\text{for}}\ 0&lt;k\leq 1\\f\cdot \theta &amp;{\text{for}}\ k=0\\{f \over k}\cdot \sin \left(k\cdot \theta \right)&amp;{\text{for}}\ {\text{-}}1\leq k&lt;0\end{cases}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mrow>
+            <mo>{</mo>
+            <mtable columnalign="left left" rowspacing=".2em" columnspacing="1em" displaystyle="false">
+              <mtr>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mfrac>
+                      <mi>f</mi>
+                      <mi>k</mi>
+                    </mfrac>
+                  </mrow>
+                  <mo>&#x22C5;<!-- ⋅ --></mo>
+                  <mi>tan</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <mrow>
+                    <mo>(</mo>
+                    <mrow>
+                      <mi>k</mi>
+                      <mo>&#x22C5;<!-- ⋅ --></mo>
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                    <mo>)</mo>
+                  </mrow>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mtext>for</mtext>
+                  </mrow>
+                  <mtext>&#xA0;</mtext>
+                  <mn>0</mn>
+                  <mo>&lt;</mo>
+                  <mi>k</mi>
+                  <mo>&#x2264;<!-- ≤ --></mo>
+                  <mn>1</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mi>f</mi>
+                  <mo>&#x22C5;<!-- ⋅ --></mo>
+                  <mi>&#x03B8;<!-- θ --></mi>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mtext>for</mtext>
+                  </mrow>
+                  <mtext>&#xA0;</mtext>
+                  <mi>k</mi>
+                  <mo>=</mo>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mfrac>
+                      <mi>f</mi>
+                      <mi>k</mi>
+                    </mfrac>
+                  </mrow>
+                  <mo>&#x22C5;<!-- ⋅ --></mo>
+                  <mi>sin</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <mrow>
+                    <mo>(</mo>
+                    <mrow>
+                      <mi>k</mi>
+                      <mo>&#x22C5;<!-- ⋅ --></mo>
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                    <mo>)</mo>
+                  </mrow>
+                </mtd>
+                <mtd>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mtext>for</mtext>
+                  </mrow>
+                  <mtext>&#xA0;</mtext>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mtext>-</mtext>
+                  </mrow>
+                  <mn>1</mn>
+                  <mo>&#x2264;<!-- ≤ --></mo>
+                  <mi>k</mi>
+                  <mo>&lt;</mo>
+                  <mn>0</mn>
+                </mtd>
+              </mtr>
+            </mtable>
+            <mo fence="true" stretchy="true" symmetric="true"></mo>
+          </mrow>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R={\begin{cases}{f \over k}\cdot \tan \left(k\cdot \theta \right)&amp;{\text{for}}\ 0&lt;k\leq 1\\f\cdot \theta &amp;{\text{for}}\ k=0\\{f \over k}\cdot \sin \left(k\cdot \theta \right)&amp;{\text{for}}\ {\text{-}}1\leq k&lt;0\end{cases}}}</annotation>
+  </semantics>
+</math></span><img src="dd7303c9e2a572c54f834b7ed72ba86e118153de.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -4.838ex; width:36.446ex; height:10.843ex;" alt="{\displaystyle R={\begin{cases}{f \over k}\cdot \tan \left(k\cdot \theta \right)&amp;{\text{for}}\ 0&lt;k\leq 1\\f\cdot \theta &amp;{\text{for}}\ k=0\\{f \over k}\cdot \sin \left(k\cdot \theta \right)&amp;{\text{for}}\ {\text{-}}1\leq k&lt;0\end{cases}}}"/></span>
+</td>
+<td>The <a rel="nofollow" class="external text" href="http://www.ptgui.com/support.html#3_28">fisheye factor</a> <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k}</annotation>
+  </semantics>
+</math></span><img src="c3c9a2c7b599b37105512c5d570edc034056dd40.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.211ex; height:2.176ex;" alt="{\displaystyle k}"/></span> can model any possible fisheye. Different values correspond to the different fisheye mappings:<br />
+<p>equidistant: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k=0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>=</mo>
+        <mn>0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k=0}</annotation>
+  </semantics>
+</math></span><img src="6307c8a99dad7d0bcb712352ae0a748bd99a038b.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.472ex; height:2.176ex;" alt="{\displaystyle k=0}"/></span><br />
+stereographic: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k=0.5}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>=</mo>
+        <mn>0.5</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k=0.5}</annotation>
+  </semantics>
+</math></span><img src="6aea83a57db153f846b8b7b1a8306e59c4e43ef0.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.281ex; height:2.176ex;" alt="{\displaystyle k=0.5}"/></span><br />
+orthographic: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k=-1.0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>=</mo>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>1.0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k=-1.0}</annotation>
+  </semantics>
+</math></span><img src="435638222a3155b22cedd949f090863742aeb32e.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:9.09ex; height:2.343ex;" alt="{\displaystyle k=-1.0}"/></span><br />
+equisolid: <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k=-0.5}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>=</mo>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>0.5</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k=-0.5}</annotation>
+  </semantics>
+</math></span><img src="0d04667eb3325cfad4ec50e994bf00c22782f509.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:9.09ex; height:2.343ex;" alt="{\displaystyle k=-0.5}"/></span><br />
+rectilinear (normal lens): <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle k=1.0}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>=</mo>
+        <mn>1.0</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k=1.0}</annotation>
+  </semantics>
+</math></span><img src="f351bd4263519281b738ce53c3b402823e9ab2ec.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.281ex; height:2.176ex;" alt="{\displaystyle k=1.0}"/></span>
+</p>
+</td></tr></tbody></table>
+<p>So for example 90 degrees, which would be the maximum
+theta of a lens with 180 degree <a href="Field_of_View.html" title="Field of View">Field of View</a>, f=8mm, equisolid mapping, you get
+R = 11.3mm, which is the radius of the image circle.
+</p><p>Btw, a rectilinear lens has a mapping <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle R=f\cdot tan(\theta )}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>R</mi>
+        <mo>=</mo>
+        <mi>f</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>t</mi>
+        <mi>a</mi>
+        <mi>n</mi>
+        <mo stretchy="false">(</mo>
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle R=f\cdot tan(\theta )}</annotation>
+  </semantics>
+</math></span><img src="77b1d0af49406a510722c741051555ca7ae87b1b.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:14.184ex; height:2.843ex;" alt="{\displaystyle R=f\cdot tan(\theta )}"/></span>
+</p><p>More information on fisheyes<a class="external" href="https://wiki.panotools.org/Fisheyes">[*]</a> and their distortions from <a rel="nofollow" class="external text" href="http://www.bobatkins.com/photography/technical/field_of_view.html">Bob Atkins Photography</a>
+</p><p>Panotools fisheye mapping mentioned by Helmut Dersch<a class="external" href="https://wiki.panotools.org/Helmut_Dersch">[*]</a> in <a rel="nofollow" class="external free" href="http://www.panotools.org/mailarchive/msg/6864#msg6864">http://www.panotools.org/mailarchive/msg/6864#msg6864</a>
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    8.951      1 Template:Glossary
+100.00%    8.951      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Fisheye_Projection&amp;oldid=16173">https://wiki.panotools.org/index.php?title=Fisheye_Projection&amp;oldid=16173</a>"</div>
+		</div></div></body></html>

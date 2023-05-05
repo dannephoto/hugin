@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Stitching a photo-mosaic - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Stitching_a_photo-mosaic rootpage-Stitching_a_photo-mosaic skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Stitching a photo-mosaic</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>This section is a stub.
+</p><p><br />
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+
+</ul>
+</div>
+
+<h2><a name="Definition_of_photo-mosaic"><span class="mw-headline">Definition of photo-mosaic</span></a></h2>
+<p>A photo-mosaic is an image that is stitched together by photographs all taken from different viewpoints.   This differs from the <a href="Panorama.html" title="Panorama">panorama</a> where all images are taken from one single viewpoint but with different angles.
+</p><p>The typical case of a photo-mosaic is the linear panorama<a class="external" href="https://wiki.panotools.org/index.php?title=Linear_panorama&amp;action=edit&amp;redlink=1">[*]</a>, where one large subject like a wall, is photographed by taking photos of the wall, each covering a proportion of the wall, and moving the camera parallel to the wall with each shot.
+</p><p>The classical way to stitch these kinds of mosaics was to lay the prints out on a light-table and glue them together.   Now with the mosaic-mode in the panotools lens model, it is possible to use the software to estimate the camera position including angles, lens distortion etc. and to re-project and stitch the images to a photo-mosaic.
+</p><p><br />
+</p>
+<h2><a name="Understanding_the_mosaic_lens_model"><span class="mw-headline">Understanding the mosaic lens model</span></a></h2>
+<h3><a name="Parameters"><span class="mw-headline">Parameters</span></a></h3>
+<p>The panotools <a href="Lens_correction_model.html" title="Lens correction model">lens model</a> has been expanded with the addition of five new parameters that describe the camera position in <a rel="nofollow" class="external text" href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">cartesian coordinates</a>, TrX, TrY, and TrZ, and the yaw and pitch of the translation remapping plane, Tpy and Tpp.
+</p><p>The <a href="Yaw.html" title="Yaw">yaw</a>, <a href="Pitch.html" title="Pitch">pitch</a> and <a href="Roll.html" title="Roll">roll</a> angles now apply to the camera around the camera's TrX, TrY and TrZ position in space. Together these six parameters describe where the camera viewpoint is (TrX,TrY,TrZ) and the direction the camera's optical axis point (y,p,r).
+</p>
+<h3><a name="Mosaic_lens_model"><span class="mw-headline">Mosaic lens model</span></a></h3>
+<p>In order to generate a photo-mosaic from the individual images, the panotools lens model re-projects the images in the following way.
+</p>
+<ul><li>Each image is projected onto a plane with yaw Tpy and pitch Tpp (the translation remapping plane). This re-projection uses all the lens model's parameters; the position parameters described above, as well as FOV, distortion. etc.</li>
+<li>The plane is projected onto the panosphere.</li>
+<li>The panorama camera, which gives the viewpoint of the photo mosaic, sits in the center of the panosphere and looks straight ahead at the panosphere (and the perpendicular projection plane).  This camera gives the FOV of the whole photo-mosaic.</li></ul>
+<p><br />
+To illustrate the model, consider the following picture, which looks straight down at a photo mosaic which consists of three images taken "to the right" of the center.
+</p>
+<ul><li>The unit-panosphere<a class="external" href="https://wiki.panotools.org/index.php?title=Panosphere&amp;action=edit&amp;redlink=1">[*]</a> is drawn in gray.</li>
+<li>"The panorama camera" is centered in Origin, X,Y,Z =0. The translation remapping plane has default position Tpy=0 and Tpp=0.</li>
+<li>Three photos are taken with camera positions 1, 2 and 3 by varying TrX,TrZ and Yaw</li>
+<li>The photos are reprojected to a plane (red) that touches the panosphere in (0,0,1) and then onto the panosphere using the "Panorama camera"</li></ul>
+<p><img alt="Illustration4.png" src="Illustration4.png" decoding="async" width="712" height="547" />
+</p>
+<h3><a name="Result"><span class="mw-headline">Result</span></a></h3>
+<p>Because the projection plane is a plane and perpendicular to the panorama camera, there will be miss-fit when this assumption is not true for the real-world subject.  For example, photos of a flat wall mural could be rendered perfect, while a three dimensional subject would not be.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Stitching_a_photo-mosaic&amp;oldid=16348">https://wiki.panotools.org/index.php?title=Stitching_a_photo-mosaic&amp;oldid=16348</a>"</div>
+		</div></div></body></html>

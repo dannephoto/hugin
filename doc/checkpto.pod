@@ -1,0 +1,46 @@
+=head1 NAME
+
+checkpto - Helper program for Hugin's assistant
+
+=head1 SYNOPSIS
+
+B<checkpto> I<input.pto>
+
+=head1 DESCRIPTION
+
+B<checkpto> examines the connections between images in a project and
+reports back the number of parts or image groups in that project
+
+
+B<checkpto> is used by the assistant when creating a new project.
+
+=head1 FURTHER SWITCHES
+
+=over
+
+=item B<--print-output-info>
+
+Print more information about the output
+
+=item B<--print-lens-info>
+
+Print more information about the lenses in the project
+
+=item B<--print-stack-info>
+
+Print more information about assigned stacks in the project
+
+=item B<--print-image-info>
+
+Print more information about images in the project
+
+=item B<--create-missing-images>
+
+Creates placeholder images for non-existing images in the same directory as the pto file
+
+=back
+
+=head1 AUTHORS
+
+Thomas Modes
+

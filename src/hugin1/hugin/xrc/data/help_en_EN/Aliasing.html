@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Aliasing - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Aliasing rootpage-Aliasing skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Aliasing</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+</p>
+<h3><a name="Definition_and_Background"><span class="mw-headline">Definition and Background</span></a></h3>
+<p><i><b>Aliasing</b></i> is a process that results in "jaggies" or Moire effects when an image is sampled or resampled.
+</p><p>The word "aliasing" comes from frequency-domain analysis.  Slow periodic sampling of a signal causes high frequency components to be "aliased" into low frequency ones that corrupt the sampled signal.
+</p><p>To avoid aliasing, a signal must not contain frequencies that are higher than one half the sample rate.  Likewise, an input image must not contain details that are smaller than one pixel in the output image.  
+</p><p>This can be accomplished by appropriately filtering the signal or blurring the image before resampling it.  
+</p><p>Such filtering is one way to <i><b>anti-alias</b></i>.  <small>(There are others, not relevant here.)</small>
+</p><p>When using older versions of Panorama Tools<a class="external" href="https://wiki.panotools.org/Panorama_Tools">[*]</a> (and derived tools such as <a href="PTStitcher.html" title="PTStitcher">PTStitcher</a>, <a href="Nona.html" title="Nona">nona</a> or the Panorama Tools Plugins<a class="external" href="https://wiki.panotools.org/Panorama_Tools_Plugins">[*]</a>) the important thing to know was that Panorama Tools did not anti-alias until pano12 version 2.7.0.11.  This meant that if you had Panorama Tools make a small panorama directly, it was likely to show jaggies or Moire effects. 
+</p><p>In version 2.7.0.11 a couple of anti-aliasing interpolators<a class="external" href="https://wiki.panotools.org/Anti-aliasing_interpolators">[*]</a> where added which can be used by either specifying the correct interpolator number in the <a rel="nofollow" class="external text" href="http://photocreations.ca/panotools/stitch.txt">script</a>] or by choosing one of the interpolators directly if the Software supports it. However, the traditional interpolators "poly3", "spline16", "spline36", "sinc256", "spline64", "bilinear", "nearest neighbor" and "sinc1024" still cause aliasing.
+</p>
+<h3><a name="Guidance"><span class="mw-headline">Guidance</span></a></h3>
+<p>You will get better results by having Panorama Tools make a large panorama, then resizing it (downsampling) using some tool like Photoshop<a class="external" href="https://wiki.panotools.org/Photoshop">[*]</a>, ImageMagick<a class="external" href="https://wiki.panotools.org/ImageMagick">[*]</a> or GIMP<a class="external" href="https://wiki.panotools.org/GIMP">[*]</a> that does incorporate anti-aliasing, if you use a version prior to 2.7.0.11 or if it's not possible to use the new anti-aliasing filters.
+</p>
+<h3><a name="Illustrations"><span class="mw-headline">Illustrations</span></a></h3>
+<p>The following images illustrate this guidance.  They show crops from a 1000x500 panorama.  
+</p><p>On the left is what Photoshop produced by downsampling from a 6068x3034 pano, using the Image Size command with Bicubic resampling.  (6068x3034 was the PTGui<a class="external" href="https://wiki.panotools.org/PTGui">[*]</a> "optimum" size.)  
+</p><p>On the right is what old Panorama Tools produced directly at 1000x500.
+</p><p><b>Actual pixels</b>
+</p><p><img alt="AliasingPsCubic.jpg" src="AliasingPsCubic.jpg" decoding="async" width="218" height="244" /> <img alt="AliasingPtPoly3.jpg" src="AliasingPtPoly3.jpg" decoding="async" width="218" height="244" /> 
+</p><p><br />
+<b>2X enlargement to show the aliasing more clearly</b>
+</p><p><img alt="AliasingPsCubic 2x.jpg" src="AliasingPsCubic_2x.jpg" decoding="async" width="261" height="290" /> <img alt="AliasingPtPoly3 2x.jpg" src="AliasingPtPoly3_2x.jpg" decoding="async" width="261" height="290" />
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   14.681      1 Template:Glossary
+100.00%   14.681      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Aliasing&amp;oldid=17344">https://wiki.panotools.org/index.php?title=Aliasing&amp;oldid=17344</a>"</div>
+		</div></div></body></html>

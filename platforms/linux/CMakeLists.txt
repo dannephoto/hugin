@@ -1,0 +1,3 @@
+ADD_SUBDIRECTORY(appdata)
+ADD_SUBDIRECTORY(icons)
+

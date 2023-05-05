@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Hugin Reset Values window - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hugin_Reset_Values_window rootpage-Hugin_Reset_Values_window skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Hugin Reset Values window</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>Sometimes the optimiser can be fouled by some start values. In this case it can be helpful to go back to a defined start value of the parameters. Sometime you want to reset only selected parameters, e.g. you are satisfied with the geometric optimisation, but the photometric optimiser did not found the optimal result. So you can only reset the photometric parameters and leave the geometric parameters as they are.
+</p><p>If no image on the hugin Camera and Lens tab<a class="external" href="https://wiki.panotools.org/Hugin_Camera_and_Lens_tab">[*]</a> is selected, resets affects all images. If you select individual images this function is limited to the selected images.
+</p><p>Select the parameters you want to reset: (A more detailed descriptions of the parameters can be found here<a class="external" href="https://wiki.panotools.org/Hugin_Camera_and_Lens_tab">[*]</a>)
+</p>
+<ul><li><b>Image orientations:</b> This will reset yaw, pitch and roll and also the translation parameters to zero. In case the EXIF data of your images contains information about the orientation of the image, these information will be used to reset the roll value to a sensible start value.</li>
+<li><b>Field of view:</b> In this case hugin tries to calculate the field of view from the information in the EXIF data. If this fails (e.g. not enough information in the EXIF data) the field of view remains unchanged.</li>
+<li><b>Lens parameters:</b> This options will reset the radial distortion (parameter a, b, c), image center shift (d, e) and image shearing (g, t) to zero.</li>
+<li><b>Exposure:</b> Here you can select to which value the exposure value should be set (note that when you use this option Hugin will reset the global exposure of the panorama as a whole to the average of all photos):
+<ul><li>To EXIF values: will reset to the exposure value found in the EXIF data</li>
+<li>To zero: will reset the exposure value to zero. This means that hugin is not correcting the exposure.</li></ul></li>
+<li><b>Color:</b> This will reset the white balance factors for all selected images.
+<ul><li>To EXIF values: will reset the red and blue multipliers to the values found in the EXIF data and referenced to the exposure anchor.</li>
+<li>To one: will reset the red and blue multipliers to 1 corresponding to no white balance change.</li></ul></li>
+<li><b>Vignetting:</b> This will reset the parameters for vignetting correction and vignetting center shift to zero (parameters Vb, Vc, Vd, Vx and Vy).</li>
+<li><b><a href="Camera_response_curve.html" title="Camera response curve">Camera response curve</a>:</b> Resets the values of the camera response curve to achieve a generic response curve.</li></ul>
+<p><br style="clear:both;" />
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    7.037      1 Template:Clr
+100.00%    7.037      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Reset_Values_window&amp;oldid=15567">https://wiki.panotools.org/index.php?title=Hugin_Reset_Values_window&amp;oldid=15567</a>"</div>
+		</div></div></body></html>

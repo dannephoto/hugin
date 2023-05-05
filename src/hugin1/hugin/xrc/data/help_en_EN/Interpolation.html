@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Interpolation - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Interpolation rootpage-Interpolation skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Interpolation</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+
+
+</ul>
+</div>
+
+<h3><a name="Definition"><span class="mw-headline">Definition</span></a></h3>
+<p>For panorama creation images have to be changed in geometry, they have to be remapped. Since image content is rastered in pixels it has to be moved to different pixels. In most cases a destination pixel does not correspond exactly with the location of a source pixel, it lies somewhere in between. The process of getting the best image content from in between some pixels is called interpolation.
+</p>
+<h3><a name="Types"><span class="mw-headline">Types</span></a></h3>
+<p>There are several types of interpolation used in Panotools, from fast but not so good ones to very slow but precise ones. There is a comparison of the different types by Helmut Dersch: <a rel="nofollow" class="external free" href="http://www.panotools.org/dersch/interpolator/interpolator.html">http://www.panotools.org/dersch/interpolator/interpolator.html</a> Jim Watters extended this test to some interpolators that where introduced later and added some timing information: <a rel="nofollow" class="external free" href="http://photocreations.ca/interpolator/index.html">http://photocreations.ca/interpolator/index.html</a>
+</p>
+<h3><a name="Issues"><span class="mw-headline">Issues</span></a></h3>
+<h4><a name="Aliasing"><span class="mw-headline">Aliasing</span></a></h4>
+<p>If the image content is reduced significantly in size such that original image detail will be smaller than pixel size in the result image an effect called aliasing occures. Better image processors use an anti aliasing filter to prevent this. Panotools prior to version 2.7.0.11 do not use such a filter and hence should not be used to downsample images. Newer versions have additional anti-aliasing filters - the old filters still cause aliasing. See <a href="Aliasing.html" title="Aliasing">Aliasing</a> article for details.
+</p>
+<h4><a name="Echos"><span class="mw-headline">Echos</span></a></h4>
+<p>Although the large kernel sinc interpolators (sinc256 and sinc1024) are far superior if you have small regular details that most likely will cause moiré with less sophisticated interpolators there is some drawback using the sinc versions if you have hard edges. They cause some echos of the edge in either direction. The example images below (enlarged to 400%) have been only interpolated twice - one rotation 5 degrees to the left and one rotation 5 degrees to the right.
+</p>
+<div class="thumb tleft"><div class="thumbinner" style="width:242px;"><a class="external" href="https://wiki.panotools.org/File:InterpolateNone.jpg"><img alt="" src="InterpolateNone.jpg" decoding="async" width="240" height="136" class="thumbimage" /></a>  <div class="thumbcaption">Original</div></div></div><div class="thumb tleft"><div class="thumbinner" style="width:242px;"><a class="external" href="https://wiki.panotools.org/File:InterpolatePoly3.jpg"><img alt="" src="InterpolatePoly3.jpg" decoding="async" width="240" height="136" class="thumbimage" /></a>  <div class="thumbcaption">Poly 3 interpolator</div></div></div><div class="thumb tleft"><div class="thumbinner" style="width:242px;"><a class="external" href="https://wiki.panotools.org/File:InterpolateSinc256.jpg"><img alt="" src="InterpolateSinc256.jpg" decoding="async" width="240" height="136" class="thumbimage" /></a>  <div class="thumbcaption">Sinc 256 interpolator</div></div></div>
+<p><br style="clear:both;" />
+<small>--Erik Krause<a class="external" href="https://wiki.panotools.org/User:Erik_Krause">[*]</a> 05:59, 6 Jul 2005 (EDT)</small>
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   23.463      1 -total
+ 49.98%   11.726      1 Template:Clr
+ 49.65%   11.649      1 Template:Glossary
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Interpolation&amp;oldid=16601">https://wiki.panotools.org/index.php?title=Interpolation&amp;oldid=16601</a>"</div>
+		</div></div></body></html>

@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Hugin Raw Import - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hugin_Raw_Import rootpage-Hugin_Raw_Import skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Hugin Raw Import</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>Hugin is able to use a raw converter to convert raw images to TIFF format and adds the converted images directly to the current project.
+</p><p>Currently the following raw converter are supported:
+</p>
+<ul><li>dcraw</li>
+<li>RawTherapee</li>
+<li>darktable</li></ul>
+<p>These programs needs to be installed separately and you need to give the paths to the programs in the <a href="Hugin_Preferences.html" title="Hugin Preferences">Hugin Preferences</a>.
+</p><p>It is recommended to add all raw images of one project at once and not image for image. 
+</p><p>One image can be marked as white-balance reference. This image is converted first. The white-balance settings are read from this raw file or from the corresponding raw converter settings (e.g. corresponding .pp3 or .xmp file). All further images are then developed with the same settings as the white-balance reference image.
+</p><p>The developed TIFF files are stored beside the corresponding raw image with the same filename. Hugins raw import is using the development settings from the corresponding sidecar file. So you can setup your conversion settings in your preferred raw converter and save the settings in the corresponding sidecar file. Refer to the documentation of your raw converter if this is done automatically or how to do this manually.
+These settings need only be done for the wb reference image. The settings of this image are used also for the other images.
+</p><p>For RawTherapee you can also provide a default processing profile (with your default converter settings) which is used as default when no sidecar file is found.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Raw_Import&amp;oldid=16085">https://wiki.panotools.org/index.php?title=Hugin_Raw_Import&amp;oldid=16085</a>"</div>
+		</div></div></body></html>

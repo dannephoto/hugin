@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Pto merge - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Pto_merge rootpage-Pto_merge skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Pto merge</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><b>pto_merge</b> can merge several project files to one project file, so that the final project contains every image only once. The same function can be accessed in Hugin by File&gt;Merge project (see <a href="Hugin_Main_window.html#File" title="Hugin Main window">Main menu</a>)
+</p><p>Invoke it by
+</p>
+<pre>  pto_merge -o merged.pto project1.pto project2.pto project3.pto
+</pre>
+<p>This will merge the project files project1.pto, project2.pto and project3.pto into a new project file named merged.pto.
+</p><p>If the switch -o or --output is not given, it will add the suffix _merge to the filename of the first project file. So
+</p>
+<pre>  pto_merge project1.pto project2.pto
+</pre>
+<p>will create a merged project file project1_merge.pto.
+</p><p>Hint:
+</p>
+<ul><li><b>pto_merge</b> does not check for duplicate control points. It adds all control points found in the given input files.</li></ul>
+<p><br style="clear:both;" />
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   12.221      1 Template:Clr
+100.00%   12.221      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Pto_merge&amp;oldid=12817">https://wiki.panotools.org/index.php?title=Pto_merge&amp;oldid=12817</a>"</div>
+		</div></div></body></html>

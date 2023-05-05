@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Hugin stitch project - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hugin_stitch_project rootpage-Hugin_stitch_project skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Hugin stitch project</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><b>Hugin_stitch_project</b> stitches a Hugin project file. It provides an GUI interface to select the .pto project file and to select the output folder and output prefix. The project file and the output folder/prefix can also be specified on the command line
+</p>
+<pre>   hugin_stitch_project --output=path/to/output/prefix project.pto
+</pre>
+<p>If you don't need the project file after stitching it can be deleted automatic at the end of the stitching with the switch <code>--delete</code>.
+</p><p><b>Hugin_stitch_project</b> checks for the existence of the generated files and ask for confirmation for overwriting these files. This confirmation can be suppressed by supplying the switch <code>/w</code> or <code>--overwrite</code> on the command line.
+</p><p>If you want to stitch from the command line without a GUI, use hugin_executor instead of hugin_stitch_project:
+</p>
+<pre>    hugin_executor --prefix=prefix project.pto
+</pre>
+<p><b>Hugin_stitch_project</b> and <a href="Hugin_executor.html" title="Hugin executor">Hugin_executor</a> makes use of specified alternative programs for enblend and enfuse and their default command line switches as specified in <a href="Hugin_Preferences.html" title="Hugin Preferences">Hugin Preferences</a>.
+</p><p>For more control above the stitching an executor file can be specified by <tt>--user-defined-output=executor_file</tt> for an <a href="User_defined_output_sequence.html" class="mw-redirect" title="User defined output sequence">user defined output sequence</a>.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_stitch_project&amp;oldid=15972">https://wiki.panotools.org/index.php?title=Hugin_stitch_project&amp;oldid=15972</a>"</div>
+		</div></div></body></html>

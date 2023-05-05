@@ -1,0 +1,40 @@
+[AutoPano]
+AutoPanoCount=6
+Default=0
+
+[AutoPano/AutoPano_0]
+Type=1
+Description=Hugin's CPFind
+Program=cpfind.exe
+Arguments=--multirow -o %o %s
+
+[AutoPano/AutoPano_1]
+Type=1
+Description=Hugin's CPFind + Celeste (slower, but no cps on clouds)
+Program=cpfind.exe
+Arguments=--celeste --multirow -o %o %s
+
+[AutoPano/AutoPano_2]
+Type=1
+Description=Align image stack
+Program=align_image_stack.exe
+Arguments=-f %v -v -p %o %i
+
+[AutoPano/AutoPano_3]
+Type=1
+Description=Align image stack Full Frame Fisheye
+Program=align_image_stack
+Arguments=-f %v -e -p %o %i
+
+[AutoPano/AutoPano_4]
+Type=1
+Description=Vertical lines
+Program=linefind.exe
+Arguments=-o %o %s
+
+[AutoPano/AutoPano_5]
+Type=1
+Description=Hugin's CPFind (prealigned)
+Program=cpfind.exe
+Arguments=--prealigned -o %o %s
+

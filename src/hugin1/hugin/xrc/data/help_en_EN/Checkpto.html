@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Checkpto - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Checkpto rootpage-Checkpto skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Checkpto</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><b>checkpto</b> is a command-line tool and Helper program for <a href="Hugin.html" title="Hugin">Hugin</a>'s assistant that examines a Hugin's project file and reports back the number of image chains or parts present. It does this by examining how images are connected with control points. If images are not connected together they can not be positioned correctly by optimizing their position.
+</p><p><br />
+</p>
+<h3><a name="usage"><span class="mw-headline">usage</span></a></h3>
+<p>A typical usage would be:
+</p>
+<pre> checkpto project.pto
+</pre>
+<h3><a name="return"><span class="mw-headline">return</span></a></h3>
+<pre>0   If only one image chain present.
+-1   If error.
+&gt;1  If more than one image chain present. Return value is number of image chains.
+</pre>
+<h3><a name="Further_uses"><span class="mw-headline">Further uses</span></a></h3>
+<p><b>checkpto</b> can also print some more information the pto file.
+</p>
+<ul><li><tt>--print-output-info</tt> Print more information about the output (e.g. images in output ROI, output layers, exposure layers)</li>
+<li><tt>--print-lens-info</tt> Print more information about lenses</li>
+<li><tt>--print-stack-info</tt> Print more information about assigned stacks</li>
+<li><tt>--print-image-info</tt> Prints extended information about image files</li>
+<li><tt>--create-missing-images</tt> Creates placeholder images for non-existing images in same directory as the pto file. This can be useful for debugging pto files without the need for all (big) images. (This is similar to ptodummy from Panotools-Scripts.)</li></ul>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Checkpto&amp;oldid=16589">https://wiki.panotools.org/index.php?title=Checkpto&amp;oldid=16589</a>"</div>
+		</div></div></body></html>

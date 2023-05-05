@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Gamma - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Gamma rootpage-Gamma skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Gamma</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+<b>Gamma</b> is the relation between pixel value respectively electric power and visible brightness on a specific output medium. 
+</p><p>Although for common uses the <b>gamma</b> value just controls the subjective brightness of the mid range
+of pixels, there are certain situations in a photo stitching workflow where it makes a quantitative difference
+to the results:
+</p>
+<ul><li>Pixel values are interpolated when correcting TCA (transverse <a href="Chromatic_aberration.html" title="Chromatic aberration">chromatic aberration</a>).</li>
+<li>Pixel intensity is scaled when correcting <a href="Vignetting.html" title="Vignetting">vignetting</a>.</li>
+<li>Pixel values are interpolated when photos are re-projected into the output image.</li>
+<li>Blending via feathering, <a href="Enblend.html" title="Enblend">enblend</a> or smartblend<a class="external" href="https://wiki.panotools.org/Smartblend">[*]</a> averages pixel values between images.</li></ul>
+<p>In any of these situations, it may be necessary to work with linear data (gamma = 1.0) or to use tools that
+work internally with gamma corrected data like so:
+</p><p>When using <a href="Fulla.html" title="Fulla">fulla</a> to correct chromatic aberration and vignetting, be sure to set the <b>-i</b> parameter to
+the gamma of your input images.
+</p><p><a href="Nona.html" title="Nona">nona</a>, <a href="PTStitcher.html" title="PTStitcher">PTStitcher</a> and <a href="PTmender.html" title="PTmender">PTmender</a> all accept a <b>g</b> (gamma) parameter on the <b>m</b> line, most
+GUI front-ends<a class="external" href="https://wiki.panotools.org/GUI_front-ends">[*]</a> allow you to set this.
+</p><p><a href="Enblend.html" title="Enblend">enblend</a> (including version 3.0) appears to assume that input data is already gamma-corrected, so if you are
+working with linear data you probably need to change to gamma = 2.2 before running enblend.
+</p><p>See Helmut Dersch's article on <a rel="nofollow" class="external text" href="http://www.panotools.org/dersch/gamma/gamma.html">Interpolation and Gamma Correction</a>.
+</p><p>For details see the w:gamma correction<a class="external" href="http://www.wikipedia.org/wiki/gamma_correction">[*]</a> article and the
+<a rel="nofollow" class="external text" href="http://www.poynton.com/notes/colour_and_gamma/GammaFAQ.html">Gamma FAQ</a>.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   10.061      1 Template:Glossary
+100.00%   10.061      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Gamma&amp;oldid=13467">https://wiki.panotools.org/index.php?title=Gamma&amp;oldid=13467</a>"</div>
+		</div></div></body></html>

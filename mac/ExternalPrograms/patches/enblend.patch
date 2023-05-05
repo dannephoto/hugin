@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -56,7 +56,7 @@
+
+ # Try to get the package version from file
+ set(TOP_SRC_DIR ${CMAKE_SOURCE_DIR})
+-file(STRINGS "${TOP_SRC_DIR}/VERSION" _version_lines)
++file(STRINGS "${TOP_SRC_DIR}/ENBLEND_VERSION" _version_lines)
+ foreach(_v_l ${_version_lines})
+   if(_v_l MATCHES "^\([0-9]+\)\\.\([0-9]+\)\(.*\)")
+     set(ENBLEND_MAJOR_VERSION ${CMAKE_MATCH_1})
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -6,14 +6,14 @@
+ #                   , Harry van der Wolf <hvdwolf@gmail.com>
+ #
+
+-# Get the version-string from ${TOP_SRC_DIR}/VERSION
++# Get the version-string from ${TOP_SRC_DIR}/enblend_version
+
+ add_custom_command(
+   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/signature.h"
+   COMMAND ${PERL_EXECUTABLE} -I"${TOP_SRC_DIR}/src" "${TOP_SRC_DIR}/src/gen_sig"
+   "--extra=${ENBLEND_MAJOR_VERSION}.${ENBLEND_MINOR_VERSION}-${ENBLEND_CHANGESET}"
+   ">" "${CMAKE_CURRENT_BINARY_DIR}/signature.h"
+-  DEPENDS "${TOP_SRC_DIR}/src/gen_sig" "${TOP_SRC_DIR}/VERSION"
++  DEPENDS "${TOP_SRC_DIR}/src/gen_sig" "${TOP_SRC_DIR}/enblend_version"
+   )
+ add_custom_target(signature DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/signature.h")

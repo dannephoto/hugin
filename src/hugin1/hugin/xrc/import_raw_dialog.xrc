@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resource version="2.5.3.0" xmlns="http://www.wxwidgets.org/wxxrc">
+  <object class="wxDialog" name="import_raw_dialog">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>WB reference:</label>
+                </object>
+                <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="raw_choice_wb"/>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <object class="sizeritem">
+                <object class="wxGridBagSizer">
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="raw_rb_dcraw">
+                      <label>dcraw</label>
+                    </object>
+                    <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                    <cellpos>0,0</cellpos>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxBoxSizer">
+                      <object class="sizeritem">
+                        <object class="wxStaticText" name="raw_dcraw_text">
+                          <label>Additional dcraw parameters:</label>
+                        </object>
+                        <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                        <border>3</border>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="raw_dcraw_parameter"/>
+                        <option>1</option>
+                        <flag>wxALL|wxEXPAND</flag>
+                        <border>3</border>
+                      </object>
+                      <orient>wxHORIZONTAL</orient>
+                    </object>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                    <cellpos>0,1</cellpos>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticLine">
+                      <style>wxLI_VERTICAL</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                    <cellpos>1,0</cellpos>
+                    <cellspan>0,2</cellspan>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="raw_rb_rt">
+                      <label>RawTherapee</label>
+                    </object>
+                    <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                    <cellpos>2,0</cellpos>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxBoxSizer">
+                      <object class="sizeritem">
+                        <object class="wxStaticText" name="raw_rt_text">
+                          <label>Processing profile:</label>
+                        </object>
+                        <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                        <border>3</border>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="raw_rt_processing_profile">
+                          <tooltip>Leave empty to use default settings in RawTherapee</tooltip>
+                        </object>
+                        <option>1</option>
+                        <flag>wxALL|wxEXPAND</flag>
+                        <border>3</border>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxButton" name="raw_rt_processing_profile_select">
+                          <label>Choose...</label>
+                        </object>
+                        <flag>wxALL</flag>
+                        <border>3</border>
+                      </object>
+                      <orient>wxHORIZONTAL</orient>
+                    </object>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                    <cellpos>2,1</cellpos>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticLine">
+                      <style>wxLI_HORIZONTAL</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                    <cellpos>3,0</cellpos>
+                    <cellspan>0,2</cellspan>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="raw_rb_darktable">
+                      <label>darktable</label>
+                    </object>
+                    <flag>wxTOP|wxBOTTOM</flag>
+                    <border>3</border>
+                    <cellpos>4,0</cellpos>
+                  </object>
+                  <cols>2</cols>
+                  <rows>5</rows>
+                  <hgap>30</hgap>
+                  <growablecols>1</growablecols>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <label>Raw converter</label>
+              <orient>wxVERTICAL</orient>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <label>Import</label>
+            </object>
+          </object>
+          <object class="button">
+            <object class="wxButton" name="wxID_CANCEL"/>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>3</border>
+      </object>
+    </object>
+    <title>Import Raw Images</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxRESIZE_BORDER</style>
+  </object>
+</resource>

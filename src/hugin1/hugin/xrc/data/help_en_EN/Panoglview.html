@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Panoglview - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Panoglview rootpage-Panoglview skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Panoglview</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><div class="thumb tright"><div class="thumbinner" style="width:202px;"><a class="external" href="https://wiki.panotools.org/File:Panoglview.png"><img alt="" src="200px-Panoglview.png" decoding="async" width="200" height="163" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>panoglview on Linux</div></div></div><p><b>panoglview</b> is an OpenGL hardware accelerated immersive viewer for <a href="Equirectangular.html" class="mw-redirect" title="Equirectangular">equirectangular</a> images, originally created by Fabian Wenzel and currently hosted on the <a rel="nofollow" class="external text" href="http://sf.net/projects/hugin">hugin sourceforge site</a>.
+</p><p>The license for <b>panoglview</b> is the <a rel="nofollow" class="external text" href="http://www.gnu.org/copyleft/gpl.html#SEC1">GNU General Public License (GPL)</a>.
+</p><p>You can download pre-compiled versions of <b>panoglview</b> as part of the <a href="Hugin.html" title="Hugin">hugin</a> installer bundles for OS X and Windows.
+</p>
+<h2><a name="compiling_panoglview"><span class="mw-headline">compiling panoglview</span></a></h2>
+<p>See Hugin Compiling Ubuntu#PanoGLView<a class="external" href="https://wiki.panotools.org/Hugin_Compiling_Ubuntu#PanoGLView">[*]</a>.
+</p>
+<h2><a name="using_panoglview"><span class="mw-headline">using panoglview</span></a></h2>
+<p>Panoglview is intended to view full 180x360 (equirectangular) panoramas projected onto a globe which can be spun around using the mouse.
+</p><p>For viewing a partial panorama, you use project files.  There are no examples in the distribution, but they can be created by opening an equirectangular image and saving a .paf 'project'.
+</p><p>These are simple text files and fairly self-explanatory, but the interesting thing is that these .paf files contain stuff like camera field-of-view, pan, tilt, boundaries and now partial panorama settings.
+</p>
+<h2><a name="as_a_replacement_for_PTEditor"><span class="mw-headline">as a replacement for PTEditor</span></a></h2>
+<p>PTEditor<a class="external" href="https://wiki.panotools.org/PTEditor">[*]</a> is an older unsupported tool for viewing a panorama, extracting undistorted views for external editing and reinserting those edited views. The <b>panoglview</b> .paf saving feature can be used to imitate this functionality in conjunction with the <a rel="nofollow" class="external text" href="http://search.cpan.org/dist/Panotools-Script/bin/pafextract">pafextract</a> tool.
+</p><p>The <a rel="nofollow" class="external text" href="http://www.flickr.com/photos/36383814@N00/2845671569/">pafextract workflow</a> goes something like this:
+</p>
+<ol><li>open a panorama in <b>panoglview</b></li>
+<li>find a viewpoint to edit, save a .paf viewpoint</li>
+<li>extract a bitmap image of this view with pafextract</li>
+<li>edit it with the GIMP<a class="external" href="https://wiki.panotools.org/GIMP">[*]</a> or another image editor, save</li>
+<li>remap this using the .pto project created by pafextract</li>
+<li>merge with the panorama</li></ol>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Panoglview&amp;oldid=17343">https://wiki.panotools.org/index.php?title=Panoglview&amp;oldid=17343</a>"</div>
+		</div></div></body></html>

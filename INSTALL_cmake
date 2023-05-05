@@ -1,0 +1,152 @@
+CMake based build system
+============================
+
+The file contains the instruction to build Hugin with CMake.
+
+1. DEPENDENCIES
+
+Hugin depends on the following packages. 
+
+1.1. Build-Time Dependencies
+
+Users compiling Hugin from source will need:
+
+    A C++compiler which supports OpenMP and C++11.
+        * OpenMP support is not required. But when compiling
+          without OpenMP nona and cpfind (and some other
+          algorithm) are running only with one thread, 
+          which is slower.
+    
+    The wxWidgets GUI toolkit version >=3.0.0.
+    C++17 TS <filesystem> or boost::filesystem (boost >=1.47)
+    libtiff the TIFF library with LZW support.
+    libpano13 version >=2.9.19
+    libjpg the JPEG library
+    libpng the PNG library
+    libopenexr the OpenEXR library
+    libvigra the VIGRA libray, header files and impex library (>=1.9)
+    Exiv2 Image metadata library
+    GLEW the OpenGL Extension Wrangler Library or libepoxy (see BUILD_WITH_EPOXY switch below)
+    gettext
+    sqlite3, the SQL database backend for the lens database
+    littlecms2, little cms color engine
+    optionally, lapack
+    optionally, libfftw3
+    on Unix you need also
+        libGLU the OpenGL utility library
+        libxi
+        libxmu
+    on Windows you need
+        HTML Help Workshop for generating compiled HTML help file
+    on Mac OS you need
+        freeglut or glut, the OpenGL utility toolkit
+    for the optional Python Scripting Interface (currently functional and tested only on Linux and Windows)
+        Python version >=3.0
+        Python package setuptools only with Python >=3.12
+        SWIG >=2.0.4 
+    Hugin can be compiled with gcc, as well as with MSVC.
+    The build process requires CMake version >=3.8
+
+If cmake fails to pick up some dependencies, make sure you have
+the corresponding development packages installed (often named:
+libjpeg-dev and so on).
+
+Notes: 
+When using wxWidgets 3.0.x series Hugin does not run native on Wayland. A workaround is to use the
+XWayland emulation layer. This has be activated during building by adding -DUSE_GDKBACKEND_X11=on 
+to the CMake command line. (This is not necessary when compiling against wxWidgets 3.2.x or later).
+
+On Linux wxWidgets 3.1.5 and later is by default compiled with EGL support for the wxGLCanvas class. 
+In this case you need to activate EGL support explicitly also in GLEW, otherwise there are crashes when
+intializing the wxGLCanvas. Alternatively you can also use the epoxy library instead of GLEW, which does
+the detection at run time. To build with epoxy add -DBUILD_WITH_EPOXY=on to the CMake command line.
+
+1.2. At runtime
+
+During runtime of Hugin the following programs are needed:
+
+    enblend >= 3.2 is required.
+    Exiftool, version >=9.09 is required to support GPano tags. Otherwise they are ignored.
+    
+    Optionally Python argparse command-line parsing library for the Python scripts. 
+
+2. COMPILING
+=======================================
+
+First, create a build directory and change into it:
+$ mkdir mybuild
+$ cd mybuild
+
+Then call CMake from this build directory.
+CMake can also create install package. Depending on the format of your packages
+call for a Debian package
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_DEB:BOOL=ON /PATH/TO/HUGIN/SOURCES
+or for a rpm package
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_RPM:BOOL=ON /PATH/TO/HUGIN/SOURCES
+(for other formats see CMake documentation)
+
+Build the package
+$ make package
+and install the package with your package manager
+
+The build process can be configured with different switches. These variables
+can be set with the -D command line parameter. Important variables include:
+
+CMAKE_INSTALL_PREFIX  Destination directory of make install
+                      (default: /usr/local)
+CMAKE_BUILD_TYPE      Specify the build type (Release (Default) or Debug)
+LIB_SUFFIX            Specifies suffix used for library paths. For AMD64,
+                      usually 64 is used as prefix. Default: empty.
+                      Setting to 64 results in: $CMAKE_INSTALL_PREFIX/lib64
+HUGIN_SHARED          set to 0 to disable build shared libraries for internal
+                      functions.
+BUILD_HSI=on          Set to on to build with Python scripting support
+USE_GDKBACKEND_X11=on Set to on to enforce using X11 as GDKBACKEND.
+                      This is needed for Wayland, because wxWidgets wxGLCanvas
+                      does not support Wayland at the moment.
+BUILD_WITH_EGL=on     When set to on it uses EGL to initialize OpenGL context
+                      in nona instead of X windows functions.
+BUILD_WITH_EPOXY=on   Use libepoxy instead of GLEW for handling OpenGL function 
+                      pointers
+
+MAC_SELF_CONTAINED_BUNDLE=1 Configures hugin for a fully bundled version, where
+                      all required programs (nona, enblend, HuginStitchProject,
+                      etc.) are embedded in the bundle.
+                      Without this switch, hugin will behave just like on
+                      any other unix platform and depend on resources
+                      outside the bundle (translations, data files etc.).
+UNIX_SELF_CONTAINED_BUNDLE=on Configure hugin for building a fully bundled 
+                      AppImage version, where all dependencies are embedded in 
+                      the bundle.
+
+CMake offers also a GUI which makes setting these variables and checking the paths
+to the dependencies easier.
+
+
+3. FURTHER REMARKS
+=======================================
+
+3.1 Fedora's rpmbuild
+=====================
+If using Fedora's rpmbuild to build an rpm package, the recommended procedure 
+is similar to the above.
+$ cd hugin
+$ mkdir mybuild
+$ cd mybuild
+$ cmake ..
+$ make package_source
+copy, or move the selected source archive (.bz2 or .gz) from your mybuild dir to your rpmbuild
+SOURCE dir, generate or edit your .spec file, and build your package.
+
+3.2 For distributors
+====================
+CMake supports the DESTDIR variable during make install, this
+might be helpful to install into a temporary directory during
+package creation
+
+$ make install DESTDIR=mytmp_package_dir
+
+
+
+Please report any problems to the hugin-ptx group at google:
+http://groups.google.com/group/hugin-ptx

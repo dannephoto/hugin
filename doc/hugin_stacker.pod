@@ -1,0 +1,124 @@
+=head1 NAME
+
+hugin_stacker - stack overlapping images to a single image
+
+=head1 SYNOPSIS
+
+B<hugin_stacker> [options] --mode=STRING images
+
+=head1 DESCRIPTION
+
+B<hugin_stacker> acts on a stack of overlapping images and produces a combined image
+and/or a set of masked output images.
+
+B<hugin_stacker> is useful for e.g.
+
+=over
+
+=item * automatic tourist removal (not only tourists, also other moving
+objects ;-))
+
+=item * noise reduction
+
+=item * visualize movement
+
+=item * multiplicity
+
+=back
+
+=head1 OPTIONS
+
+=over
+
+=item B<--mode>
+
+Select stack mode:
+
+=over
+
+=item B<min|minimum|darkest>
+
+Select the darkest pixel.
+
+=item B<max|maximum|brightest>
+
+Select the brightest pixel.
+
+=item B<avg|average|mean>
+
+Calculate the mean for each position.
+
+=item B<median>
+
+Calculate the median for each position.
+
+=item B<winsor>
+
+Calculate the Winsor trimmed mean for each position.
+The parameter can be set with B<--winsor-trim=NUMBER> (default: 0.2).
+
+=item B<sigma>
+
+Calculate the sigma clipped mean for each position.
+Fine-tune with B<--max-sigma=NUMBER> (default: 2)
+and B<--max-iterations=NUMBER> (default: 5).
+
+=back
+
+=back
+
+=head2 Further parameters
+
+=over
+
+=item B<--output=FILE>
+
+Set the filename for the output file (if not given final.tif is used).
+
+=item B<--compression=value>
+
+Set the compression of the output files.
+For jpeg files use values between 0 and 100.
+For tiff files valid values are: PACKBITS, DEFLATE, LZW.
+
+=item B<--bigtiff>
+
+Write output in BigTIFF format (only with TIFF output).
+
+=back
+
+=head2 Mask input images
+
+=over
+
+=item B<--mask-input>
+
+Beside the stacked output hugin_stacker can also mask the
+input images (available only for stacking modes median|winsor|clip). This mode
+is activated with --mask-input. In this case the stacked image is first
+calculated. Then each pixel in each image is checked: if the value of this
+pixel differs more then mask sigma * standard deviation from the mean/median,
+this pixel is made visible. If it is in the mentioned range the pixel is masked
+out.
+
+=item B<--mask-sigma=NUMBER>
+
+sets the sigma parameter for --mask-input. Default is 2.
+
+=item B<--mask-suffix=STRING>
+
+Output a separate mask image for each input image named I<inputfilenameSTRING>.
+Default value is "_mask".
+
+=item B<--multi-layer-output>
+
+Output a layered TIFF with the name specified
+with B<--output>. The file contains the averaged image as layer 0 and all input images
+as additional layers with the mask as described above.
+
+=back
+
+=head1 AUTHORS
+
+POD-format documentation converted from L<https://wiki.panotools.org/Hugin_stacker> by
+Andreas Metzler

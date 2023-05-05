@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Hugin Fast Preview window - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hugin_Fast_Preview_window rootpage-Hugin_Fast_Preview_window skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Hugin Fast Preview window</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+
+
+
+
+
+
+
+</ul>
+</div>
+
+<h1><a name="Distinction"><span class="mw-headline">Distinction</span></a></h1>
+<p>Like the more accurate <a href="Hugin_Preview_window.html" title="Hugin Preview window">Hugin Preview window</a>, the fast preview shows something similar to the final stitched output, but with a few important differences:
+</p>
+<ul><li>The window features a row of tabs at the top, clicking on a tab switches between modes that allow you to interact with the panorama in different ways.</li>
+<li>Reduced resolution input images are used, so some areas can appear blurred that will be sharp in the final output.</li>
+<li>Seams are not created, images are simply overlaid with the first image at the bottom of the stack and the last at the top.</li>
+<li>Blending by a tool such as <a href="Enblend.html" title="Enblend">enblend</a> isn't shown.</li>
+<li>The brightness display of <a href="HDR.html" title="HDR">HDR</a> and 16bit images is controlled by settings in the hugin Preferences, these settings are not used when stitching. The colouring of these images will also be inaccurate when using exposure or white balance correction. For HDR panoramas, the <a href="Hugin_Preview_window.html" title="Hugin Preview window">Hugin Preview window</a> is recommended instead.</li>
+<li>Only the first photo from each stack is visible (the others are hidden behind), if you want to see the combined stack then use the HDR mode of the <a href="Hugin_Preview_window.html" title="Hugin Preview window">Hugin Preview window</a> instead.</li>
+<li>Photometric correction only includes white balance and exposure, unless full photometric correction is enabled with the the Photometrics button.</li>
+<li>The remappings are approximate, the output by a tool such as <a href="Nona.html" title="Nona">nona</a> is more accurate. If this concerns you more than speed, use the <a href="Hugin_Preview_window.html" title="Hugin Preview window">Hugin Preview window</a> instead.</li>
+<li>It's much faster&#160;;-)</li></ul>
+<h1><a name="General_features"><span class="mw-headline">General features</span></a></h1>
+<h2><a name="Overview"><span class="mw-headline">Overview</span></a></h2>
+<div class="thumb tleft"><div class="thumbinner" style="width:202px;"><a class="external" href="https://wiki.panotools.org/File:Hugin-2011.0_fpw_overview.png"><img alt="" src="200px-Hugin-2011.0_fpw_overview.png" decoding="async" width="200" height="267" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>Screenshot of docked Overview in Panosphere mode</div></div></div>
+<p>The <b>Overview</b> introduced in Hugin 2011.0 represents an interactive preview of the panorama.
+</p><p>Just click the button 'Show/Hide' to toggle the display the docked Overview window. Zoom it by dragging the handle located at the center of the border to the preview canvas.
+</p><p>The 'Grid' checkbox can be used to toggle the grid overlay in both overview and the preview canvas.
+</p><p>Clicking the small pin icon in the header of the docked Overview area (or dragging the Overview title bar) will switch to a floating window instead. To put that floating window back in a docked position just drag it in either the top, bottom, left or right boundary of the preview's actual image area.
+</p><p>The default mode is a Panosphere to display typical panoramas and can be used to e.g. easily check for errors in the nadir or zenith regions.
+<br style="clear:both;" />
+</p>
+<h2><a name="Displayed_images"><span class="mw-headline">Displayed images</span></a></h2>
+<p>Every input image in the preview has <i>toggle</i> button where display can be disabled or enabled.
+</p><p>In addition, this display also controls the behaviour of the <a href="Hugin_Optimiser_tab.html" title="Hugin Optimiser tab">Optimiser tab</a> and the <a href="Hugin_Stitcher_tab.html" title="Hugin Stitcher tab">Stitcher tab</a> - Any photos disabled here are not used in optimisation or stitching.
+</p>
+<h3><a name="All"><span class="mw-headline"><img alt="Hugin preview show all.png" src="Hugin_preview_show_all.png" decoding="async" width="22" height="22" /> All</span></a></h3>
+<p>By default all input images are shown in the preview, however individual images can be enabled and disabled in the
+<b>Displayed images</b> section.  Use the <b>All</b> button to return to the default and display all the images.
+</p>
+<h3><a name="None"><span class="mw-headline"><img alt="Hugin preview show none.png" src="Hugin_preview_show_none.png" decoding="async" width="22" height="22" /> None</span></a></h3>
+<p>Similarly, hide all images with the <b>None</b> button, use this if you want to enable preview images one by one.
+</p>
+<h2><a name="Preview_canvas"><span class="mw-headline">Preview canvas</span></a></h2>
+<p>The image window itself shows a representation of the final stitched output panorama, use the scroll bars
+to change the horizontal and vertical <a href="Field_of_View.html" title="Field of View">Field of View</a>.
+</p><p>To toggle the grid use the checkbox <i>Grid</i> in the Overview window.
+</p><p><br />
+</p>
+<h1><a name="Preview_tab"><span class="mw-headline">Preview tab</span></a></h1>
+<h2><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Identify"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Identify"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Identify</span></a></h2>
+<p>Using this tool you can find where your images are, and match them to their number. You can also edit control points.
+</p><p>Move the mouse over the visibility buttons for the images (the numbers at the top of the preview) and the corresponding image lights up red in the preview. 
+When this tool is turned on, moving the mouse over the panorama highlights all the images under the mouse in different colours. The buttons for those images lights up in matching colours.
+The same can be achieved when holding the Control key and moving the mouse over the panorama.
+</p><p>When the mouse is on the overlap of two images, click to edit the control points between those images.
+</p>
+<h2><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Photometrics"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Photometrics"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Photometrics</span></a></h2>
+<p>Enables full photometric correction. When turned on, this will cause significant delay when changing photometric parameters. It also takes a while to turn on and off. However, with it enabled you get much better representation of the colours in the output. With it turned off, you get correction only for exposure and white balance. With it turned on, you also get vignetting and colour response correction. The <a href="Hugin_Preview_window.html" title="Hugin Preview window">Hugin Preview window</a> does all these things by default, so you may wish to use that instead.
+</p>
+<h2><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Show_control_points"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Show_control_points"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Show control points</span></a></h2>
+<p>When this tool is turned on, all <a href="Control_points.html" title="Control points">Control points</a> are drawn as lines with crosses at each end. Green, yellow, orange, and red lines and their crosses indicate 'normal' control points. A red control point is misaligned (the ends of the line are father apart), and a green control point is well aligned (the ends of the line are almost in the same position). Blue indicates <a href="Horizontal_control_points.html" title="Horizontal control points">horizontal control points</a>, <a href="Vertical_control_points.html" title="Vertical control points">vertical control points</a> or <a href="Straight_line_control_points.html" title="Straight line control points">straight line control points</a>.
+</p>
+<h2><a name="Blend_mode"><span class="mw-headline">Blend mode</span></a></h2>
+<p>The <i>normal</i> blend mode will draw the images with the first photos in the project above later photos as this approximates the order that blending is performed.. The <i>difference</i> blend mode will do the same, except the image under the mouse pointer will be subtracted from the rest of the stack. Use this to determine if the alignment went well: where you can see edges in the subtracted image, these edges are misaligned. Be warned that this isn't fully accurate, the other preview has a better difference mode.
+</p>
+<h2><a name="EV"><span class="mw-headline">EV</span></a></h2>
+<p><b>EV</b> stands for <i>Exposure Value</i>, clicking the <b>Reset</b> button will set it to the average of all
+the input image exposures or setting it to <b>0</b> (zero)
+will result in no exposure change being applied to the panorama (note that unless all the photos also have their individual EV set to zero in the <a href="Hugin_Photos_tab.html" title="Hugin Photos tab">Photos tab</a> they will likely appear incredibly bright or dark).
+</p><p><b>EV</b> is a standard photographic scale, each increase or decrease by one unit will change the exposure by
+the equivalent of one <i>f-stop</i> (ie. halving or doubling the exposure).  It is worth adjusting the exposure
+here in <a href="Hugin.html" title="Hugin">hugin</a> rather than later in an external image editor, since <b>hugin</b> uses the <a href="Camera_response_curve.html" title="Camera response curve">camera response curve</a>
+calculated in the <a href="Hugin_Exposure_tab.html" title="Hugin Exposure tab">hugin Exposure tab</a> to perform the correction in a <i>linear</i> colour space.
+</p><p>The average value isn't always wanted. If you see colour artefacts in bright sky areas, set this
+to the negative of the darkest input image - This has a side-effect of clipping brighter images.
+</p>
+<h2><a name="Grey_Picker"><span class="mw-headline">Grey Picker</span></a></h2>
+<p>Hugin can align the white balance (w:Color balance<a class="external" href="http://www.wikipedia.org/wiki/Color_balance">[*]</a>) of the photos in the panorama to match that of the <i>anchor</i> photo, this is done when optimising <b>White Balance</b> in the <a href="Hugin_Exposure_tab.html" title="Hugin Exposure tab">Hugin Exposure tab</a> or when you use the <b>Align...</b> button in the <a href="Hugin_Assistant_tab.html" title="Hugin Assistant tab">Hugin Assistant tab</a> - Usually this <i>anchor</i> is the first photo in the project, but it can be changed using <b>anchor this image for exposure</b> in the <a href="Hugin_Photos_tab.html" title="Hugin Photos tab">Hugin Photos tab</a>.
+</p><p>However, often the first photo, or even none of the photos, in the project has the wanted white balance.  You can use the <b>Grey Picker</b> button to adjust the white balance of the whole panorama by using any 'neutral' colour object in the scene as a sample.  Just push the button and then click on the object in the preview canvas.
+</p><p>An ideal neutral colour object is white or grey, this could be a test card, an overcast sky, snow, or a white object - It is important to remember that white paint and paper comes in lots of colour shades so it really isn't very reliable, prefer a transparent material that is white due to light diffusion such as etched glass or polystyrene foam.  Avoid objects that are 'blown out', or which are in shade and illuminated only by secondary light sources in the scene.
+</p>
+<h1><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Layout_tab"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Layout_tab"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div>Layout tab</span></a></h1>
+<p>The Layout tab shows the entire project as a diagram with colour-coded lines connecting each of the photographs.
+</p><p><img alt="Layout-small.png" src="Layout-small.png" decoding="async" width="200" height="145" />
+</p><p>Green lines connecting images show the control points have a small error, red lines show a large error. Grey lines show no control points connecting the images.
+</p><p>You can see where the project is OK and where there are problems if it isn't quite right. Just click on any connection and Hugin jumps to the Control Points tab to edit that pair of photos.
+</p><p>Use the <b>Scale</b> slider to change the size of the photo thumbnails, this only effects the Layout display and won't change the final panorama.
+</p>
+<h1><a name="Projection_tab"><span class="mw-headline">Projection tab</span></a></h1>
+<p>This tab is for adjusting <a href="Projections.html" title="Projections">projection</a> of the panorama, some projections have adjustable parameters which will appear when selected.
+</p>
+<h2><a name="Fit"><span class="mw-headline"><img alt="Hugin fit pano.png" src="Hugin_fit_pano.png" decoding="async" width="22" height="22" /> Fit</span></a></h2>
+<p>This doesn't change any input image parameters, it just readjusts the output <a href="Field_of_View.html" title="Field of View">Field of View</a> such that all the input images are visible.  If the images are all off-centre, then there will be a lot of black space.
+</p>
+<h2><a name="Field_of_View"><span class="mw-headline">Field of View</span></a></h2>
+<p>This is the horizontal and vertical angle of view of the output image.
+</p>
+<h2><a name="Projection"><span class="mw-headline">Projection</span></a></h2>
+<p>Use the drop down list to change the output projection of the panorama, the list is exactly the same as that
+in the <a href="Hugin_Stitcher_tab.html" title="Hugin Stitcher tab">hugin Stitcher tab</a>.  Note that for some projections, the scroll-bar sliders to change the
+<a href="Field_of_View.html" title="Field of View">Field of View</a> are disabled.  If you are having trouble, switch to <a href="Equirectangular_Projection.html" title="Equirectangular Projection">Equirectangular Projection</a>, adjust
+the field of view and switch back.
+</p>
+<h1><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Move/Drag_tab"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Move.2FDrag_tab"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Move/Drag tab</span></a></h1>
+<p>Using this tool you can recentre the panorama interactively. With it turned on, try the following:
+</p>
+<ul><li>Drag the panorama with the left mouse button to rotate the panorama's images. The centre of rotation is the point where you pushed the mouse button down.</li>
+<li>Hold shift when doing the above to constrain movement to yaw or pitch. Note pitch is affected by the centre of rotation.</li>
+<li>Drag the panorama with the right mouse button or hold control and drag with the left to roll the panorama (rotate around the middle)</li></ul>
+<p>If the panorama contains unconnected components (i.e. not connected by <a href="Control_points.html" title="Control points">control points</a>), they will move individually.  There is also an <b>Individual</b> Drag mode, see below.
+</p>
+<h2><a name="Drag_mode"><span class="mw-headline">Drag mode</span></a></h2>
+<p>This determines what parameters that are changed when the images are dragged.
+</p>
+<ul><li><b>Normal</b> - When dragged left-right, the yaw parameter is changed and when dragged up-down the pitch parameter is changed. I.e. the camera is tilted in the yaw and pitch angles.</li>
+<li><b>Normal, individual</b> - Adds checkboxes to the <b>displayed images</b> buttons, here you can select which images to drag individually or together.  With this mode selected the control point connections between photos are ignored.</li>
+<li><b>Mosaic</b> - When dragged left-right, X parameter is changed and when dragged up-down the Y parameter is changed. I.e. the camera is moved in the X and Y dimensions.</li>
+<li><b>Mosaic, individual</b> - Allows selected photos to be dragged in mosaic mode.</li></ul>
+<p>In individual mode you can select the images to drag with the checkboxes. You can also add images to the selection group by clicking on the image with pressed Control key on the image in the panorama. By clicking on an image with Control and Shift key pressed it is removed from the selection group.
+</p>
+<h2><a name="Center"><span class="mw-headline"><img alt="Hugin center pano.png" src="Hugin_center_pano.png" decoding="async" width="22" height="22" /> Center</span></a></h2>
+<p>This button horizontally <i>pans</i> the output, changing the <a href="Yaw.html" title="Yaw">yaw</a> of the remapped images so they fit to the centre of the output frame.  This is useful if there is a lot of black space on the left or right of the output.  This also performs a <b>Fit</b>, equivalent to the next button.
+</p><p>Note that centering a <a href="Rectilinear_Projection.html" title="Rectilinear Projection">Rectilinear Projection</a> or <a href="Fisheye_Projection.html" title="Fisheye Projection">Fisheye Projection</a> panorama will change the perspective, this may be unwanted.
+</p>
+<h2><a name="Fit_2"><span class="mw-headline"><img alt="Hugin fit pano.png" src="Hugin_fit_pano.png" decoding="async" width="22" height="22" /> Fit</span></a></h2>
+<p>This doesn't change any input image parameters, it just readjusts the output <a href="Field_of_View.html" title="Field of View">Field of View</a> such that all the input images are visible.  If the images are all off-centre, then there will be a lot of black space.
+</p>
+<h2><a name="Straighten"><span class="mw-headline"><img alt="Hugin straighten pano.png" src="Hugin_straighten_pano.png" decoding="async" width="22" height="22" /> Straighten</span></a></h2>
+<p>Straightening the panorama optimises the <a href="Roll.html" title="Roll">roll</a> and <a href="Pitch.html" title="Pitch">pitch</a> of the input images without changing their relative positions, levelling the panorama in the process.  This normally produces good results, if you need more accurate positioning, try adding <a href="Vertical_control_points.html" title="Vertical control points">vertical control points</a> in the <a href="Hugin_Control_Points_tab.html" title="Hugin Control Points tab">hugin Control Points tab</a> and reoptimise.
+</p>
+<h2><a name="Numeric_Transform"><span class="mw-headline">Numeric Transform</span></a></h2>
+<p>Enter a <b>numerical transform</b> to rotate the input images without changing their relative positions - Effectively this rotates the entire panorama. Enter <a href="Roll.html" title="Roll">roll</a>, <a href="Pitch.html" title="Pitch">pitch</a> and <a href="Yaw.html" title="Yaw">yaw</a> values in degrees.
+</p>
+<h1><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Crop_tab"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Crop_tab"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Crop tab</span></a></h1>
+<p>Using this tool you can set the output cropping region interactively. To do this precisely instead, use the <a href="Hugin_Stitcher_tab.html" title="Hugin Stitcher tab"> Stitcher tab</a>. Initially, the entire panorama is in the output region (i.e. nothing is cropped).
+</p><p>To change the cropping at each edge, move the mouse towards that edge until a white box appears along it, then drag with the left mouse button until the edge is where you want it. The darker areas represent the region that is cropped off. You can move two edges at once by moving the mouse towards the corner shared by the edges until both white boxes appear. If you wish to move the whole region at once, move the mouse into the middle so that all four edges have boxes along them and drag.
+</p>
+<h2><span id="Error_creating_thumbnail:_/bin/bash:_line_1:_rsvg-convert:_command_not_found_Autocrop"></span><a name="Error_creating_thumbnail:_.2Fbin.2Fbash:_line_1:_rsvg-convert:_command_not_found_Autocrop"><span class="mw-headline"><div class="MediaTransformError" style="width: 22px; height: 22px; display:inline-block;"> </div> Autocrop</span></a></h2>
+<p>The autocrop button adjusts the crop rectangle so that it is entirely  within the image area, i.e. there will be no 'black' borders in the final stitched image.  It does this by maximising the area of the rectangle rather than the width or height.
+</p>
+<h1><a name="In_practice"><span class="mw-headline">In practice</span></a></h1>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Fast_preview_guide_start.png"><img alt="" src="300px-Fast_preview_guide_start.png" decoding="async" width="300" height="214" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>A panorama with unconnected image groups after optimisation.</div></div></div>
+<p>Let's try using this preview to help with a panorama where automatic alignment failed. This panorama was taken where a lot of things were blowing around in the wind, and the clouds were changing quickly, so it is not surprising that it aligning it is a struggle. The <a href="Hugin_Assistant_tab.html" title="Hugin Assistant tab">Assistant tab</a> tells us there are multiple unconnected image groups. We can optimise the panorama and end up with a images correctly positioned amongst the group they are in, but the groups themselves are not aligned. Try this first. 
+</p>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Fast_preview_guide_drag.png"><img alt="" src="300px-Fast_preview_guide_drag.png" decoding="async" width="300" height="214" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>Dragging images with the drag tool.</div></div></div>
+<p>Using the Drag tool, we can roughly align the groups together:
+</p>
+<ol><li>Turn on the tool with the <i>Drag</i> button.</li>
+<li>Drag each component so the horizon is in the middle, using the left mouse button.</li>
+<li>Drag with the right mouse button (or hold control and drag with the left) to level the horizon.<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Fast_preview_guide_rotate_drag.png"><img alt="" src="300px-Fast_preview_guide_rotate_drag.png" decoding="async" width="300" height="214" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>Rotating images with the drag tool.</div></div></div></li>
+<li>Hold shift and drag with the left mouse button sideways to approximately line up the image with the other groups.</li></ol>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Fast_preview_guide_identify.png"><img alt="" src="300px-Fast_preview_guide_identify.png" decoding="async" width="300" height="214" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>Two images highlighted in the preview window.</div></div></div>
+<p>When we have the images in approximately the right position, we can begin placing control points to guide the optimiser. The Identify tool lends a hand here. Firstly, turn on the identify tool. Move the mouse on an overlap that was recently created between two image groups. The images in the overlap light up. Move the mouse to a place where there is only two images in that overlap, and click. The two images are opened in the <a href="Hugin_Control_Points_tab.html" title="Hugin Control Points tab">control point editor</a> (there may be a short pause while the images are loaded). Once you have placed control points manually, you can return to the preview to find some more image pairs.
+</p>
+<div class="thumb tright"><div class="thumbinner" style="width:302px;"><a class="external" href="https://wiki.panotools.org/File:Fast_preview_guide_crop.png"><img alt="" src="300px-Fast_preview_guide_crop.png" decoding="async" width="300" height="214" class="thumbimage" /></a>  <div class="thumbcaption"><div class="magnify"></div>Adjusting the cropping region.</div></div></div>
+<p>When you are happy that your panorama contains sufficient control points, optimise it again. The panorama will likely have the horizon at the wrong angle, in this case press <i>Straighten</i> on the preview window. You can then frame the panorama using the drag tool (hold shift so you don't make it wonky again!). Use your artistic judgement here. If you want to crop your panorama, click <i>Crop</i> and drag the edges of the cropping rectangle.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   14.194      1 Template:Clr
+100.00%   14.194      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Fast_Preview_window&amp;oldid=15080">https://wiki.panotools.org/index.php?title=Hugin_Fast_Preview_window&amp;oldid=15080</a>"</div>
+		</div></div></body></html>

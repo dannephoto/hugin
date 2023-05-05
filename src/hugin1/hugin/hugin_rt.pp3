@@ -1,0 +1,20 @@
+[Crop]
+Enabled=false
+
+[Coarse Transformation]
+Rotate=0
+HorizontalFlip=false
+VerticalFlip=false
+
+[Resize]
+Enabled=false
+
+[Rotation]
+Degree=0
+
+[Perspective]
+Horizontal=0
+Vertical=0
+
+[MetaData]
+Mode=0

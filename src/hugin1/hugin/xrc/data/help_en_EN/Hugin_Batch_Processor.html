@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Hugin Batch Processor - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Hugin_Batch_Processor rootpage-Hugin_Batch_Processor skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Hugin Batch Processor</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>Batch Processor is a component of <a href="Hugin.html" title="Hugin">hugin</a> that provides functionality to stitch multiple projects in a batch queue. Its goal is to make stitching of multiple projects faster. The process of stitching multiple projects is simplified using a queue of projects. User can add/edit/delete projects in the queue.
+The Batch Processor can also queue the creation of the final project. In this case it runs the same steps as in the <a href="Hugin_Assistant_tab.html" title="Hugin Assistant tab">Hugin Assistant tab</a>.
+</p><p><b>Hugin Batch Processor</b> consists of a list of projects. Projects in the list are ordered in sequential order. By default, the list is reinstated every time you open the application. What is more, entire queue of projects can be saved and reopened later using buttons Clear Batch, Open Batch, Save Batch.
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+
+
+
+</ul>
+</div>
+
+<h1><a name="Usage"><span class="mw-headline">Usage</span></a></h1>
+<p>Just create several project files (do everything and just skip the export step), load them in the batch processor and start the process. This way you can run several large projects unattended. The output file name will be the same as the name of the corresponding project file (xyz.pto -&gt; xyz.tif) and is saved in the same folder.
+</p>
+<h1><a name="Flag_options"><span class="mw-headline">Flag options</span></a></h1>
+<p>Batch process is also influenced by the following check boxes:
+</p>
+<ul><li><b>overwrite always</b>: Always(for each project) overwrite output filename if it exists. Otherwise, you will get a dialog box whether you want to overwrite files or not.</li>
+<li><b>When done</b>: Operation to do when batch process ends. This can be closing PTBatcherGUI, shutdown the computer or suspend computer. The actual available options depends on the operating system.</li>
+<li><b>Remove finished projects</b>: If checked successful finished projects will be automatic removed from the queue. Otherwise the items remains in the queue and the user is responsible for the queue management.</li>
+<li><b>Automatic stitch after assistant</b>: If checked successful detected projects (projects in the assistant queue) will be added the stitching queue and will therefore automatically stitched.</li>
+<li><b>Remove finished project</b>: Removed successful finished project from the queue.</li>
+<li><b>Verbose output</b>: Show a verbose output for the stitching or assistant.</li>
+<li><b>Always save log</b>: Always saves the log to disc. When disabled a log is only saved for failed projects.</li></ul>
+<p><br />
+</p>
+<h1><a name="Functions"><span class="mw-headline">Functions</span></a></h1>
+<h2><a name="Queue_management"><span class="mw-headline">Queue management</span></a></h2>
+<p>The management of the queue can done by the appropriate menu items or by the corresponding toolbar buttons.
+</p>
+<ul><li>Add project files to queue</li>
+<li>Remove project file from queue (you need to select the project file in the list)</li>
+<li>The complete queue list can be saved and loaded from disc (The current active list is automatically saved at the end. You don't need to save it explicitly.)</li>
+<li>The complete list can be cleared.</li></ul>
+<h2><a name="Item_management"><span class="mw-headline">Item management</span></a></h2>
+<p>The single items in the queue can be modified by the buttons on the right side of the window
+</p>
+<ul><li><b>Remove complete</b> will remove all items form the queue which were successfully finished.</li>
+<li><b>Change prefix</b> will change the output prefix. This is only possible if the item is in the stitching queue. It does not work for items in the assistant queue.</li>
+<li><b>Reset project</b>/<b>Reset all</b> resets the status of the selected project/all projects to default value. This allows to execute the stitching again.</li>
+<li><b>Edit with Hugin</b> opens the selected in Hugin to modify it.</li>
+<li>The order of the items can be change with <b>Move project up</b> and <b>Move project down</b></li>
+<li>You can also add an arbitrary command to the queue with <b>Add application</b>.</li></ul>
+<h2><a name="Executing_queue"><span class="mw-headline">Executing queue</span></a></h2>
+<p>The queue can be started, paused/resumed and stopped with the toolbar buttons.
+You can also skip one project.
+</p>
+<h2><a name="Automation"><span class="mw-headline">Automation</span></a></h2>
+<p>PTBatcherGUI provides some more features for automation. This can be accessed by File-&gt;Search directory for.
+</p>
+<h3><a name="Existing_project_files"><span class="mw-headline">Existing project files</span></a></h3>
+<p>With File-&gt;Search directory for...-&gt;Projects you can search recursively in the given folder for (existing) project files and appends them to (stitching) queue.
+</p>
+<h3><span id="Image_sets_(create_project_files)"></span><a name="Image_sets_.28create_project_files.29"><span class="mw-headline">Image sets (create project files)</span></a></h3>
+<p>First select a folder in which PTBatcherGui should search for image sets. After pressing start it will search for image files in the folder (and optionally its sub folders). It uses the information stored in the EXIF data to decide which images could belong to a an image set forming a panorama. This works only in one folder level, it does not match images in different folders. (The algorithm uses camera maker, camera model, focal length, image size and date/time for this decision.) 
+</p><p>After the search has finished it shows a list of the found panoramas. With <b>Send selected panoramas to queue</b> the project files are created and sent to the assistant queue. You can deselect individual panoramas from this processing step by untick the panorama.
+</p><p>The project files are named with the selected name scheme
+</p>
+<ul><li>PanoramaXX.pto: This will generate project files: panorama0.pto, panorama1.pto,...</li>
+<li>First file - last file.pto: The project files will by named by the first and last image of the panorama.</li>
+<li>Foldername.pto: In this case the project file is named like the containing folder.</li>
+<li>Template from preferences: This will use the template defined in the <a href="Hugin_Preferences.html" title="Hugin Preferences">preferences</a> of Hugin.</li></ul>
+<p>Existing project files will not be overwritten, instead it appends an increasing number.
+</p><p>If the images are shot with auto bracketing it tries to generate the appropriate stacks. In this case check that your default control point generator setting is such that it works with stacks (check <a href="Hugin_Preferences.html#Control_Point_Detectors" title="Hugin Preferences">Preferences in Hugin</a> and <a href="Hugin_Parameters_for_Control_Point_Detectors_dialog.html" title="Hugin Parameters for Control Point Detectors dialog">control point detector parameters</a>).
+</p><p>On the options tab you can fine-tune the algorithm:
+</p>
+<ul><li><b>Minimum number of images</b>: This is the minimal number of images a sequence of consecutive images must have to be detected as panorama.</li>
+<li><b>Maximum time difference</b>: The maximal time between 2 images to be detected as consecutive/related images.</li>
+<li><b>Create links</b>: Select this option, if you shoot from a tripod. This will link the positions of all images of one stack. If you deselect this option, it will create the stacks but will not link the positions of the images (e.g. when shooting free hand).</li>
+<li><b>Load distortion data</b>: Try to automatic load distortion data from lens database. Otherwise the distortion values are initialized to zero and will be calculated by the optimizer.</li>
+<li><b>Load vignetting data</b>: Try to automatic load vignetting data from lens database. Otherwise the distortion values are initialized to zero and are calculated by the optimizer.</li></ul>
+<p>If you set the tickmark <b>Automatic stitch after assistant</b>, PTBatcherGui will first run the assistant on all found panoramas, thereby creating the complete project files, and then stitch all created projects.
+</p>
+<h3><a name="Generate_sequence_from_template"><span class="mw-headline">Generate sequence from template</span></a></h3>
+<p>The functions is useful for stitching of sequences of panoramas shooting with fixed camera-arrays, e.g. time-lapse panoramas.
+</p><p>First create a template pto file for the first pano/frame.
+Then oad this template with "Generate sequence from template" in PTBatcherGUI.
+It lists now all images in the template. You need to give a directory and/or image template. This should provide instruction how to generate the filenames for the other frames. 
+For this there are 3 different counters available:
+</p>
+<ul><li>%p is counting up for each pano, this counter determines also how many panoramas are generated.</li>
+<li>%i is counting up for each images in each pano and resets to 0 for each pano</li>
+<li>%x is a consecutive counter</li></ul>
+<p>For each counter the start value and the step width can be set. Also the number of digits used can be set (padding with zeros, width 4 would be 0001, 0002, ...)
+</p><p>Some examples (assuming template has 6 images):
+</p><p>a) consecutive image numbers
+</p>
+<pre>    pano0: img0.jpg, img1.jpg, ... , img5.jpg
+    pano1: img6.jpg, img7.jpg, ..., img11.jpg
+    pano2: ...
+</pre>
+<p>Sequence image name should be <code>img%x.jpg</code> for all images (this can be easily done by "change all images")
+</p><p>b) panox-y.jpg type
+</p>
+<pre>   pano0: pano0-0.jpg, pano0-1.jpg, ... , pano0-5.jpg
+   pano1: pano1-0.jpg, pano1-1.jpg, ... , pano1-5.jpg
+</pre>
+<p>Sequence image name: <code>pano%p-%i.jpg</code>
+</p><p>c) subdirectory for each pano
+</p>
+<pre>   pano0: pano0/img_0.jpg, pano0/img_1.jpg, .. , pano0/img_5.jpg
+   pano1: pano1/img_0.jpg, pano1/img_1.jpg, .. , pano1/img_5.jpg
+</pre>
+<p>Directory template: <code>pano%p</code> (if no other sub-directories exits you can also use the option "iterate all sub-directories")
+</p><p>Sequence image name: <code>img_%i.jpg</code>
+</p><p>d) sub-directory for each individual camera (assuming 3 cameras)
+</p>
+<pre>   pano0: left/0.jpg, center/0.jpg, right/0.jpg
+   pano1: left/1.jpg, center/1.jpg, right/1.jpg
+</pre>
+<p>Sequence image names:
+</p>
+<ul><li>for first image: <code>left/%p.jpg</code></li>
+<li>for second image: <code>center/%p.jpg</code></li>
+<li>for third image: <code>right/%p.jpg</code></li></ul>
+<p>All paths are relative to the given base path. By default this is the path of the template pto file. But this can be changed.
+The generated pto files are saved in the base path.
+</p><p>By pressing "Generate preview" you can generate the file list for the current settings. If it matches your folder/file structure then press "Generate assistant/stitching sequence". This will generate all pto files and add them to PTBatcherGUI queue.
+The filenames of the generated pto files can be chosen with the different naming choices in the dialog (see section "Image sets" above for more details).
+</p>
+<h1><a name="Command_line_switches"><span class="mw-headline">Command line switches</span></a></h1>
+<p>To add a project to the (stitching) queue use
+</p>
+<pre>   PTBatcherGUI project.pto output_prefix
+</pre>
+<p>on Mac OS X use
+</p>
+<pre>   open PTBatcherGui.app --args project.pto output_prefix
+</pre>
+<p><br />
+</p><p>You can also add several projects
+</p>
+<pre>   PTBatcherGUI project1.pto prefix1 project2.pto prefix2
+</pre>
+<p>on Mac OS X use
+</p>
+<pre>   open PTBatcherGui.app --args project1.pto prefix1 project2.pto prefix2
+</pre>
+<p><br />
+The prefix is optionally. If you don't provide a prefix, the filename (without extension) of the project file is used as prefix.
+</p><p><br />
+You can also add a project to the assistant queue.
+</p>
+<pre>   PTBatcherGUI --assistant project.pto
+</pre>
+<p>and on Mac OS X
+</p>
+<pre>   open PTBatcherGui.app --args --assistant project.pto
+</pre>
+<p>Some of the above described options can be accessed also by command line switches:
+</p>
+<ul><li><code> /h, --help </code>           show this help message</li>
+<li><code> /b, --batch </code>          run batch immediately</li>
+<li><code> /d, --delete </code>         delete *.pto files after stitching</li>
+<li><code> /o, --overwrite </code>      overwrite previous files without asking</li>
+<li><code> /s, --shutdown </code>       shutdown computer after batch is complete</li>
+<li><code>/v, --verbose </code>         show verbose output when processing projects</li>
+<li><code>/a, --assistant</code>        run the assistant on the given projects</li>
+<li><code>/u, --user-defined=&lt;str&gt;</code> use the given user defined sequence for the specified projects</li></ul>
+<p>Please keep in mind that only one instance of PTBatcherGUI can run at one time. Starting PTBatcherGUI a second time with command line switches will influence the already running instance and not start a second instance with own options.
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Batch_Processor&amp;oldid=17406">https://wiki.panotools.org/index.php?title=Hugin_Batch_Processor&amp;oldid=17406</a>"</div>
+		</div></div></body></html>

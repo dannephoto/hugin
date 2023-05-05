@@ -1,0 +1,1257 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+  <object class="wxFrame" name="batch_frame">
+    <title>Batch Processor</title>
+    <centered>1</centered>
+    <style>wxDEFAULT_FRAME_STYLE|wxCAPTION|wxSYSTEM_MENU|wxRESIZE_BORDER|wxMINIMIZE_BOX|wxMAXIMIZE_BOX|wxFULL_REPAINT_ON_RESIZE</style>
+    <object class="wxBoxSizer">
+      <object class="sizeritem">
+        <object class="wxPanel" name="panel_main">
+          <style>wxTAB_TRAVERSAL</style>
+          <object class="wxBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <object class="sizeritem">
+              <object class="ProjectListBox" name="project_listbox">
+                <style>wxLC_REPORT</style>
+              </object>
+              <option>1</option>
+              <flag>wxEXPAND</flag>
+              <minsize>200,100</minsize>
+            </object>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_addcommand">
+                    <label>Add application...</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_remove">
+                    <label>Remove completed</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_prefix">
+                    <label>Change prefix...</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_user_defined">
+                    <label>Change user defined sequence...</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_reset">
+                    <label>Reset project</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_resetall">
+                    <label>Reset all</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_edit">
+                    <label>Edit with Hugin...</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_move_up">
+                    <label>Move project up</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="button_move_down">
+                    <label>Move project down</label>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="spacer">
+                  <size>0,12</size>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="cb_overwrite">
+                    <label>Overwrite always</label>
+                    <tooltip>Overwrite existing image files without further notice</tooltip>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="cb_autoremove">
+                    <label>Remove finished project</label>
+                    <tooltip>Automatically remove successfully finished projects from queue</tooltip>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="cb_autostitch">
+                    <label>Automatic stitch after assistant</label>
+                    <tooltip>Automatically stitch projects after (successfully) running assistant</tooltip>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <label>When done</label>
+                      </object>
+                      <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                    </object>
+                    <object class="spacer">
+                      <size>6,-1</size>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxChoice" name="choice_end"/>
+                      <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="cb_verbose">
+                    <label>Verbose output</label>
+                    <tooltip>Show detailed output in separate window</tooltip>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="cb_savelog">
+                    <label>Always save log</label>
+                    <tooltip>Saves always the log of the stitching process. Otherwise it is only saved for failed stitches</tooltip>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxEXPAND</flag>
+      </object>
+      <orient>wxHORIZONTAL</orient>
+    </object>
+  </object>
+  <object class="wxDialog" name="find_pano_dialog">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxPanel">
+          <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+              <object class="wxNotebook">
+                <object class="notebookpage">
+                  <object class="wxPanel">
+                    <object class="wxBoxSizer">
+                      <orient>wxVERTICAL</orient>
+                      <object class="sizeritem">
+                        <object class="wxBoxSizer">
+                          <object class="sizeritem">
+                            <object class="wxGridBagSizer">
+                              <object class="sizeritem">
+                                <object class="wxStaticText" name="find_pano_label_dir">
+                                  <label>Directory:</label>
+                                </object>
+                                <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>0,0</cellpos>
+                              </object>
+                              <object class="sizeritem">
+                                <object class="wxTextCtrl" name="find_pano_dir"/>
+                                <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>0,1</cellpos>
+                              </object>
+                              <object class="sizeritem">
+                                <object class="wxButton" name="find_pano_select_dir">
+                                  <label>Choose...</label>
+                                </object>
+                                <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>0,2</cellpos>
+                              </object>
+                              <object class="sizeritem">
+                                <object class="wxCheckBox" name="find_pano_subdir">
+                                  <label>include sub-directories</label>
+                                </object>
+                                <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>1,1</cellpos>
+                              </object>
+                              <object class="sizeritem">
+                                <object class="wxStaticText">
+                                  <label>Naming:</label>
+                                </object>
+                                <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>2,0</cellpos>
+                              </object>
+                              <object class="sizeritem">
+                                <object class="wxChoice" name="find_pano_naming">
+                                  <content>
+                                    <item translate="0">PanoramaXX.pto</item>
+                                    <item>First file - last file.pto</item>
+                                    <item>Foldername.pto</item>
+                                    <item>Template from preferences</item>
+                                  </content>
+                                  <selection>0</selection>
+                                </object>
+                                <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                                <cellpos>2,1</cellpos>
+                              </object>
+                              <vgap>6</vgap>
+                              <hgap>12</hgap>
+                              <growablecols>1</growablecols>
+                            </object>
+                            <option>1</option>
+                            <flag>wxALL|wxEXPAND</flag>
+                            <border>12</border>
+                          </object>
+                          <object class="spacer">
+                            <size>-1,12</size>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxButton" name="find_pano_start_stop">
+                              <label>Start</label>
+                            </object>
+                            <flag>wxALL|wxALIGN_CENTRE_HORIZONTAL</flag>
+                            <border>6</border>
+                          </object>
+                          <orient>wxVERTICAL</orient>
+                        </object>
+                        <flag>wxALL|wxEXPAND</flag>
+                        <border>6</border>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText" name="find_pano_label"/>
+                        <flag>wxALL|wxEXPAND</flag>
+                        <border>6</border>
+                      </object>
+                    </object>
+                  </object>
+                  <label>Directories</label>
+                </object>
+                <object class="notebookpage">
+                  <object class="wxPanel">
+                    <object class="wxBoxSizer">
+                      <orient>wxVERTICAL</orient>
+                      <object class="sizeritem">
+                        <object class="wxGridBagSizer">
+                          <object class="sizeritem">
+                            <object class="wxStaticText">
+                              <label>Minimum number of images:</label>
+                            </object>
+                            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>0,0</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxSpinCtrl" name="find_pano_min_number_images">
+                              <size>80,-1</size>
+                              <value>2</value>
+                              <min>2</min>
+                              <max>100</max>
+                              <tooltip>Minimum number of images a panorama should contain</tooltip>
+                            </object>
+                            <cellpos>0,1</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxStaticText">
+                              <label>Maximum time difference:</label>
+                            </object>
+                            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>1,0</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxBoxSizer">
+                              <object class="sizeritem">
+                                <object class="wxSpinCtrl" name="find_pano_max_time_diff">
+                                  <size>80,-1</size>
+                                  <value>30</value>
+                                  <min>1</min>
+                                  <max>3600</max>
+                                  <tooltip>Maximal time difference in seconds between two consecutive images belonging to one panorama</tooltip>
+                                </object>
+                              </object>
+                              <orient>wxHORIZONTAL</orient>
+                              <object class="sizeritem">
+                                <object class="wxStaticText">
+                                  <label translate="0">s</label>
+                                </object>
+                                <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                                <border>6</border>
+                              </object>
+                            </object>
+                            <cellpos>1,1</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxStaticText">
+                              <label>Stacks:</label>
+                            </object>
+                            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>2,0</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxCheckBox" name="find_pano_create_links">
+                              <label>Create links</label>
+                              <tooltip>Check if the stacks were shot on a tripod</tooltip>
+                            </object>
+                            <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>2,1</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxStaticText">
+                              <label>Lens database:</label>
+                            </object>
+                            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>3,0</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxCheckBox" name="find_pano_load_distortion">
+                              <label>Load distortion data</label>
+                              <tooltip>Tries to load distortion data from lens database if checked</tooltip>
+                            </object>
+                            <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>3,1</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxCheckBox" name="find_pano_load_vignetting">
+                              <label>Load vignetting data</label>
+                              <tooltip>Tries to load vignetting data from lens database if checked</tooltip>
+                            </object>
+                            <flag>wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>4,1</cellpos>
+                          </object>
+                          <vgap>6</vgap>
+                          <hgap>12</hgap>
+                          <growablecols>1</growablecols>
+                          <object class="sizeritem">
+                            <object class="wxStaticText">
+                              <label>Blender:</label>
+                            </object>
+                            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>5,0</cellpos>
+                          </object>
+                          <object class="sizeritem">
+                            <object class="wxChoice" name="find_pano_default_blender">
+                              <content>
+                                <item/>
+                              </content>
+                            </object>
+                            <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                            <cellpos>5,1</cellpos>
+                          </object>
+                        </object>
+                        <flag>wxALL|wxEXPAND</flag>
+                        <border>12</border>
+                      </object>
+                    </object>
+                  </object>
+                  <label>Options</label>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND|wxADJUST_MINSIZE</flag>
+              <border>6</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxStaticBoxSizer">
+                <label>Found panoramas</label>
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                      <object class="wxSplitterWindow" name="find_pano_splitter">
+                        <object class="wxCheckListBox" name="find_pano_list">
+                          <size>200,-1</size>
+                          <style>wxLB_SINGLE|wxLB_HSCROLL|wxLB_NEEDED_SB</style>
+                        </object>
+                        <object class="wxPanel">
+                          <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                              <object class="wxGridSizer">
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Camera:</label>
+                                  </object>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="find_pano_selected_cam"/>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Lens:</label>
+                                  </object>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="find_pano_selected_lens"/>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Focal length:</label>
+                                  </object>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="find_pano_selected_focallength"/>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Start date (duration):</label>
+                                  </object>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="find_pano_selected_date_time"/>
+                                </object>
+                                <cols>2</cols>
+                                <rows>4</rows>
+                                <hgap>5</hgap>
+                              </object>
+                              <flag>wxALL</flag>
+                              <border>5</border>
+                            </object>
+                            <object class="sizeritem">
+                              <object class="wxListCtrl" name="find_pano_selected_thumbslist">
+                                <style>wxLC_ICON|wxLC_AUTOARRANGE|wxLC_SINGLE_SEL</style>
+                              </object>
+                              <option>1</option>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                          </object>
+                        </object>
+                        <orientation>vertical</orientation>
+                        <style>wxSP_NOBORDER</style>
+                      </object>
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND</flag>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="spacer">
+                          <option>1</option>
+                          <flag>wxEXPAND</flag>
+                        </object>
+                        <object class="sizeritem">
+                          <object class="wxButton" name="find_pano_add_queue">
+                            <label>Send selected panoramas to queue</label>
+                          </object>
+                          <flag>wxALL|wxEXPAND</flag>
+                          <border>3</border>
+                        </object>
+                      </object>
+                      <flag>wxALL|wxEXPAND</flag>
+                    </object>
+                  </object>
+                  <option>1</option>
+                  <flag>wxALL|wxEXPAND</flag>
+                </object>
+              </object>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>6</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="spacer">
+                  <size>0,0</size>
+                  <option>1</option>
+                  <flag>wxALL|wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="find_pano_close">
+                    <label>Close</label>
+                  </object>
+                  <flag>wxALL|wxALIGN_RIGHT</flag>
+                  <border>6</border>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Searching panoramas</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxRESIZE_BORDER|wxCLOSE_BOX</style>
+  </object>
+  <object class="wxDialog" name="failed_project_dialog">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxHORIZONTAL</orient>
+          <object class="sizeritem">
+            <object class="wxSplitterWindow" name="failed_splitter">
+              <object class="wxPanel">
+                <object class="wxStaticBoxSizer">
+                  <label>Failed projects</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxListBox" name="failed_list">
+                      <content/>
+                      <style>wxLB_SINGLE</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>6</border>
+                  </object>
+                </object>
+              </object>
+              <object class="wxPanel">
+                <object class="wxStaticBoxSizer">
+                  <label>Output</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="failed_log">
+                      <style>wxTE_MULTILINE|wxTE_READONLY</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>6</border>
+                  </object>
+                </object>
+              </object>
+              <orientation>vertical</orientation>
+              <style>wxSP_NOBORDER|wxSP_NO_XP_THEME</style>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <label>&amp;Close</label>
+              <default>1</default>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Status report</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxRESIZE_BORDER|wxCLOSE_BOX</style>
+  </object>
+  <object class="wxDialog" name="change_user_defined_dialog">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <object class="sizeritem">
+            <object class="wxGridBagSizer">
+              <growablecols>1</growablecols>
+              <object class="sizeritem">
+                <object class="wxRadioButton" name="radio_default_sequence">
+                  <label>Default sequence</label>
+                </object>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <cellpos>0,0</cellpos>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticLine"/>
+                <option>1</option>
+                <flag>wxTOP|wxBOTTOM|wxEXPAND</flag>
+                <border>6</border>
+                <cellpos>1,0</cellpos>
+                <cellspan>1,2</cellspan>
+              </object>
+              <object class="sizeritem">
+                <object class="wxRadioButton" name="radio_user_defined">
+                  <label>User defined sequence</label>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <cellpos>2,0</cellpos>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="choice_user_defined"/>
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="label_user_defined"/>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="label_user_defined_filename"/>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <cellpos>2,1</cellpos>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticLine"/>
+                <option>1</option>
+                <flag>wxTOP|wxBOTTOM|wxEXPAND</flag>
+                <border>6</border>
+                <cellpos>3,0</cellpos>
+                <cellspan>1,2</cellspan>
+              </object>
+              <object class="sizeritem">
+                <object class="wxRadioButton" name="radio_external_sequence">
+                  <label>External sequence</label>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <cellpos>4,0</cellpos>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="text_external_file"/>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="button_external_file">
+                      <label>Choose...</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <cellpos>4,1</cellpos>
+              </object>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <label>User defined sequence</label>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <label>Ok</label>
+              <default>1</default>
+            </object>
+          </object>
+          <object class="button">
+            <object class="wxButton" name="wxID_CANCEL">
+              <label>Cancel</label>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Change user defined sequence</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxRESIZE_BORDER</style>
+  </object>
+  <object class="wxDialog" name="generate_sequence_dialog">
+    <object class="wxBoxSizer">
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <object class="sizeritem">
+            <object class="wxFlexGridSizer">
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Base directory:</label>
+                </object>
+                <flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="sequence_base_path">
+                  <style>wxTE_READONLY</style>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="sequence_select_base_path">
+                  <label translate="0">...</label>
+                </object>
+                <flag>wxALL</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Subdirectories:</label>
+                </object>
+                <flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="sequence_choice_subdirectory">
+                      <content>
+                        <item>No sub-directories</item>
+                        <item>Iterate all existing sub-directories</item>
+                        <item>Use name template</item>
+                      </content>
+                      <selection>0</selection>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="sequence_directory_name"/>
+                    <option>2</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+              </object>
+              <object class="spacer"/>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Naming:</label>
+                </object>
+                <flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="sequence_naming">
+                  <content>
+                    <item translate="0">PanoramaXX.pto</item>
+                    <item>First file - last file.pto</item>
+                    <item>Foldername.pto</item>
+                    <item>Template from preferences</item>
+                  </content>
+                  <selection>0</selection>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <cols>3</cols>
+              <rows>3</rows>
+              <growablecols>1</growablecols>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <label>Directory</label>
+          <orient>wxVERTICAL</orient>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <label>Counter</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxFlexGridSizer">
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Panorama %p:</label>
+                </object>
+                <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Offset:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_p_offset">
+                      <min>0</min>
+                      <max>1000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Step:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_p_step">
+                      <min>1</min>
+                      <max>10000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>End:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_p_end">
+                      <min>0</min>
+                      <max>1000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Number digits:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_p_width">
+                      <min>0</min>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Per panorama %i:</label>
+                </object>
+                <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Offset:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_i_offset">
+                      <min>0</min>
+                      <max>1000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Step:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_i_step">
+                      <min>1</min>
+                      <max>10000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>End:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_i_end">
+                      <min>0</min>
+                      <max>1000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Number digits:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_i_width">
+                      <min>0</min>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Consecutive counter %x:</label>
+                </object>
+                <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Offset:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_x_offset">
+                      <min>0</min>
+                      <max>1000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Step:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_x_step">
+                      <min>1</min>
+                      <max>10000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>End:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_x_end">
+                      <min>0</min>
+                      <max>10000000</max>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Number digits:</label>
+                    </object>
+                    <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxSpinCtrl" name="sequence_x_width">
+                      <min>0</min>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <option>1</option>
+                <flag>wxEXPAND</flag>
+              </object>
+              <cols>5</cols>
+              <rows>3</rows>
+              <growablecols>1,2,3,4</growablecols>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <object class="sizeritem">
+            <object class="wxListCtrl" name="sequence_images_list">
+              <style>wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES|wxLC_NO_SORT_HEADER</style>
+            </object>
+            <option>2</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxFlexGridSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Template image name:</label>
+                    </object>
+                    <flag>wxALL</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="sequence_orignal_image_text">
+                      <label>Image0.png</label>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Sequence image name:</label>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="sequence_image_text">
+                      <enabled>0</enabled>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="spacer"/>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="sequence_change_image">
+                      <label>Change selected image</label>
+                      <enabled>0</enabled>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="spacer"/>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="sequence_change_all_images">
+                      <label>Change all images</label>
+                      <enabled>0</enabled>
+                    </object>
+                    <option>1</option>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <cols>2</cols>
+                  <growablecols>1</growablecols>
+                </object>
+                <flag>wxEXPAND</flag>
+              </object>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxStaticLine">
+                  <style>wxLI_HORIZONTAL</style>
+                </object>
+                <flag>wxTOP|wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="sequence_counter_help">
+                  <value>Define here how to construct the image filename in the panorama sequence.\nYou can use the counter %p, %i and %x, which will be replaced with the current values for each image and panorama.</value>
+                  <style>wxBORDER_NONE|wxTE_AUTO_SCROLL|wxTE_MULTILINE|wxTE_READONLY</style>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>3</border>
+                <minsize>-1,15</minsize>
+              </object>
+            </object>
+            <option>3</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <label>Images</label>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <label>Preview</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="sequence_preview">
+              <style>wxTE_AUTO_SCROLL|wxTE_MULTILINE|wxTE_READONLY</style>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxButton" name="sequence_generate_preview">
+                  <label>Generate preview</label>
+                </object>
+                <flag>wxALL|wxALIGN_RIGHT</flag>
+                <border>3</border>
+              </object>
+              <orient>wxVERTICAL</orient>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="spacer">
+            <size>1</size>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="sequence_generate_assistant">
+              <label>Generate assistant sequence</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>3</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="sequence_generate_stitching">
+              <label>Generate stitching sequence</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>3</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="wxID_CANCEL">
+              <label>Cancel</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>3</border>
+          </object>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <flag>wxALL|wxALIGN_RIGHT</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Generate panorama sequence from %s</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU|wxRESIZE_BORDER</style>
+  </object>
+</resource>

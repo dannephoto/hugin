@@ -1,0 +1,54 @@
+[General]
+Description=Scanned images
+Help=Assistant for scanned images
+StepCount=9
+
+[Step0]
+Description=Setting initial values
+Program=pano_modify
+Arguments=--projection=0 --fov=20x20 --output=%project% %project%
+
+[Step1]
+Description=Reset initial positions
+Condition=not connected
+Program=pto_var
+Arguments=--set=y=0,p=0 --output=%project% %project%
+
+[Step2]
+Description=Searching control points
+Condition=not connected
+Program=cpfind
+Arguments=--multirow --output=%project% %project%
+
+[Step3]
+Description=Check result
+Condition=not connected
+Program=checkpto
+Arguments=%project%
+
+[Step4]
+Description=Cleaning control points
+Condition=not connected
+Program=cpclean
+Arguments=--output=%project% %project%
+
+[Step5]
+Description=Searching line cp
+Condition=no line cp
+Program=linefind
+Arguments=--output=%project% %project%
+
+[Step6]
+Description=Setting optimizer variables
+Program=pto_var
+Arguments=--unlink v0,d0,e0 --opt v,r,d,e,!r0,!d0,!e0,!v0 --output=%project% %project%
+
+[Step7]
+Description=Optimizing
+Program=autooptimiser
+Arguments=-n -m -l --output=%project% %project%
+
+[Step8]
+Description=Searching for best crop
+Program=pano_modify
+Arguments=--fov=AUTO --canvas=70% --crop=AUTO --output=%project% %project%

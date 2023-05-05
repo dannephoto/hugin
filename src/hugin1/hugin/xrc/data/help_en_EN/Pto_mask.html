@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Pto mask - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Pto_mask rootpage-Pto_mask skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Pto mask</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><b>Pto_mask</b> can add mask to <a href="Hugin.html" title="Hugin">Hugin</a> .pto project files. 
+</p><p>The general use is:
+</p>
+<pre>   pto_mask [switches] options input.pto
+</pre>
+<h2><a name="Options"><span class="mw-headline">Options</span></a></h2>
+<ul><li><b>--mask=mask.msk@imgNr</b> Load the mask from the file named mask.msk and apply it to the image with the number imgNr. The mask file can be generated from the <a href="Hugin_Mask_tab.html" title="Hugin Mask tab">mask tab</a> - <b>Save mask</b>. This switch can be specified several times to add several mask at once.</li>
+<li><b>--delete-mask=all|all@imgNr|maskNr@imgNr</b> Deletes the specified mask from the project. (The switch can be given several times to remove several masks in one go.)
+<ul><li><b>all</b> removes all masks from all images</li>
+<li><b>all@imgNr</b> removes all masks for the given image</li>
+<li><b>maskNr@imgNr</b> removes only the specified mask from the given image</li></ul></li></ul>
+<h2><a name="Switches"><span class="mw-headline">Switches</span></a></h2>
+<ul><li><b>-o|--output output.pto</b> Output a pto file with the given filename. If not given it will append "_mask" to the input filename.</li>
+<li><b>--rotate=CLOCKWISE|90|COUNTERCLOCKWISE|-90</b> Rotates the mask 90° clockwise or counter-clockwise before apply the mask to the image.</li>
+<li><b>--process=CLIP|SCALE|PROP_SCALE</b> Processing options, if the mask size does not correspond to the image size
+<ul><li><b>CLIP</b> Does clip the mask at the image borders.</li>
+<li><b>SCALE</b> Scale the mask independently at x and y scale to fit inside the image.</li>
+<li><b>PROP_SCALE</b> Scale the mask proportional to fit inside the image.</li></ul></li>
+<li><b>-h | --help</b> Display help.</li></ul>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Pto_mask&amp;oldid=17274">https://wiki.panotools.org/index.php?title=Pto_mask&amp;oldid=17274</a>"</div>
+		</div></div></body></html>

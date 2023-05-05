@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Field of View - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Field_of_View rootpage-Field_of_View skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Field of View</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><br />
+The <b>angle of view</b> of a photograph or camera is a measure of the proportion of a scene included in the image. Simply said: How many degrees of view are included in an image. A typical fixed lens camera might have an angle of view of 50°, a <a href="Fisheye_Projection.html" title="Fisheye Projection">fisheye</a> lens can have an angle of view greater than 180° and a full <a href="Equirectangular.html" class="mw-redirect" title="Equirectangular">equirectangular</a> or <a href="Cylindrical_panorama.html" title="Cylindrical panorama">cylindrical panorama</a> would have an angle of view of 360°.
+</p><p>Most people speak of <b>field of view</b> when in fact they mean <b>angle of view</b>. Field of view is the distance covered by a projection at a certain distance. So if an image exactly shows a 2 meter wide object at 1 meter distance, then the field of view is 2 meter (and the angle of view is 90°).
+Angle of view is also known as <b>angle of coverage</b>.
+</p>
+<div class="center"><div class="floatnone"><div class="MediaTransformError" style="width: 197px; height: 283px; display:inline-block;"> </div></div></div>
+<p>From here on and on the rest of the wiki we will only speak of field of view (although we should speak of angle of view).
+</p><p>Field of view is often abbreviated as <b>FoV</b>.
+Usually <b>field of view</b> refers to the <b>horizontal field of view</b> (hFoV) of an image. Some applications make use of the <b>vertical field of view</b> (vFoV) which can be calculated from the <a href="Aspect_Ratio.html" title="Aspect Ratio">Aspect Ratio</a> of the image:
+</p><p>For rectilinear images:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle AspectRatio={\frac {tan({\frac {hFoV}{2}})}{tan({\frac {vFoV}{2}})}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+        <mi>s</mi>
+        <mi>p</mi>
+        <mi>e</mi>
+        <mi>c</mi>
+        <mi>t</mi>
+        <mi>R</mi>
+        <mi>a</mi>
+        <mi>t</mi>
+        <mi>i</mi>
+        <mi>o</mi>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mrow>
+              <mi>t</mi>
+              <mi>a</mi>
+              <mi>n</mi>
+              <mo stretchy="false">(</mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>h</mi>
+                    <mi>F</mi>
+                    <mi>o</mi>
+                    <mi>V</mi>
+                  </mrow>
+                  <mn>2</mn>
+                </mfrac>
+              </mrow>
+              <mo stretchy="false">)</mo>
+            </mrow>
+            <mrow>
+              <mi>t</mi>
+              <mi>a</mi>
+              <mi>n</mi>
+              <mo stretchy="false">(</mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>v</mi>
+                    <mi>F</mi>
+                    <mi>o</mi>
+                    <mi>V</mi>
+                  </mrow>
+                  <mn>2</mn>
+                </mfrac>
+              </mrow>
+              <mo stretchy="false">)</mo>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle AspectRatio={\frac {tan({\frac {hFoV}{2}})}{tan({\frac {vFoV}{2}})}}}</annotation>
+  </semantics>
+</math></span><img src="b46e7c5d2bb0d7e3dc91da9577785c32b9fe1c97.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.505ex; width:26.979ex; height:8.176ex;" alt="{\displaystyle AspectRatio={\frac {tan({\frac {hFoV}{2}})}{tan({\frac {vFoV}{2}})}}}"/></span>
+</p><p>For fisheye images (approximation):
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle AspectRatio={\frac {hFoV}{vFoV}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>A</mi>
+        <mi>s</mi>
+        <mi>p</mi>
+        <mi>e</mi>
+        <mi>c</mi>
+        <mi>t</mi>
+        <mi>R</mi>
+        <mi>a</mi>
+        <mi>t</mi>
+        <mi>i</mi>
+        <mi>o</mi>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mrow>
+              <mi>h</mi>
+              <mi>F</mi>
+              <mi>o</mi>
+              <mi>V</mi>
+            </mrow>
+            <mrow>
+              <mi>v</mi>
+              <mi>F</mi>
+              <mi>o</mi>
+              <mi>V</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle AspectRatio={\frac {hFoV}{vFoV}}}</annotation>
+  </semantics>
+</math></span><img src="b52d9f5b1cbad5408a6d13c40055d28513b7d515.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.005ex; width:22.626ex; height:5.509ex;" alt="{\displaystyle AspectRatio={\frac {hFoV}{vFoV}}}"/></span>
+</p>
+<h2><a name="Conversion_from_focal_length"><span class="mw-headline">Conversion from focal length</span></a></h2>
+<p>The other standard measure of the <i>width</i> or <i>narrowness</i> of a lens is <a href="Focal_Length.html" title="Focal Length">Focal Length</a>.
+</p><p>Assuming a <a href="Rectilinear_Projection.html" title="Rectilinear Projection">rectilinear</a> lens, the field of view can be calculated like this (<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle size}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>s</mi>
+        <mi>i</mi>
+        <mi>z</mi>
+        <mi>e</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle size}</annotation>
+  </semantics>
+</math></span><img src="39178db26b94bc87f737b575c304974110ba292b.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:4.065ex; height:2.176ex;" alt="{\displaystyle size}"/></span> being either width or height for the respective FoV):
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle FoV=2*atan\left({\frac {size}{2*FocalLength}}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>=</mo>
+        <mn>2</mn>
+        <mo>&#x2217;<!-- ∗ --></mo>
+        <mi>a</mi>
+        <mi>t</mi>
+        <mi>a</mi>
+        <mi>n</mi>
+        <mrow>
+          <mo>(</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mfrac>
+              <mrow>
+                <mi>s</mi>
+                <mi>i</mi>
+                <mi>z</mi>
+                <mi>e</mi>
+              </mrow>
+              <mrow>
+                <mn>2</mn>
+                <mo>&#x2217;<!-- ∗ --></mo>
+                <mi>F</mi>
+                <mi>o</mi>
+                <mi>c</mi>
+                <mi>a</mi>
+                <mi>l</mi>
+                <mi>L</mi>
+                <mi>e</mi>
+                <mi>n</mi>
+                <mi>g</mi>
+                <mi>t</mi>
+                <mi>h</mi>
+              </mrow>
+            </mfrac>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle FoV=2*atan\left({\frac {size}{2*FocalLength}}\right)}</annotation>
+  </semantics>
+</math></span><img src="0881f567a2579a682ece721d6d93816eecbcff0d.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:36.961ex; height:6.176ex;" alt="{\displaystyle FoV=2*atan\left({\frac {size}{2*FocalLength}}\right)}"/></span>
+</p><p>Please note that this is an approximation. The exact values depend on the location of the <a href="Entrance_pupil.html" class="mw-redirect" title="Entrance pupil">entrance pupil</a>. More information on that in <a rel="nofollow" class="external text" href="http://www.janrik.net/PanoPostings/NoParallaxPoint/TheoryOfTheNoParallaxPoint.pdf">Rik Littlefield's paper</a>.
+See <a href="Fisheye_Projection.html" title="Fisheye Projection">Fisheye Projection</a> for formulas for Fisheyes<a class="external" href="https://wiki.panotools.org/Fisheyes">[*]</a>.
+</p><p>Please also note that some software may modify somewhat the above relationship between FoV and focal length. For example, <a href="Hugin.html" title="Hugin">Hugin</a> takes into account ratio of input image (see beginning of function <a rel="nofollow" class="external text" href="http://hugin.sourceforge.net/docs/html/SrcPanoImage_8cpp-source.html">SrcPanoImage::calcFocalLength()</a> for details).
+</p>
+<h2><a name="Conversion_from_horizontal_to_vertical_and_vice_versa"><span class="mw-headline">Conversion from horizontal to vertical and vice versa</span></a></h2>
+<p>For fisheye (approximation) and equirectangular images:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle vFoV=hFoV*{\frac {height}{width}}\ }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>v</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>=</mo>
+        <mi>h</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>&#x2217;<!-- ∗ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mrow>
+              <mi>h</mi>
+              <mi>e</mi>
+              <mi>i</mi>
+              <mi>g</mi>
+              <mi>h</mi>
+              <mi>t</mi>
+            </mrow>
+            <mrow>
+              <mi>w</mi>
+              <mi>i</mi>
+              <mi>d</mi>
+              <mi>t</mi>
+              <mi>h</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+        <mtext>&#xA0;</mtext>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle vFoV=hFoV*{\frac {height}{width}}\ }</annotation>
+  </semantics>
+</math></span><img src="6e5a86d56d252eb4d556c47ef65cbb3e9f5a9d2e.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.005ex; width:25.007ex; height:5.509ex;" alt="{\displaystyle vFoV=hFoV*{\frac {height}{width}}\ }"/></span>
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle hFoV=vFoV*{\frac {width}{height}}\ }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>h</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>=</mo>
+        <mi>v</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>&#x2217;<!-- ∗ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mfrac>
+            <mrow>
+              <mi>w</mi>
+              <mi>i</mi>
+              <mi>d</mi>
+              <mi>t</mi>
+              <mi>h</mi>
+            </mrow>
+            <mrow>
+              <mi>h</mi>
+              <mi>e</mi>
+              <mi>i</mi>
+              <mi>g</mi>
+              <mi>h</mi>
+              <mi>t</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+        <mtext>&#xA0;</mtext>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle hFoV=vFoV*{\frac {width}{height}}\ }</annotation>
+  </semantics>
+</math></span><img src="6969c411977839d7af14df4000f56edfba759aed.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.338ex; width:25.007ex; height:5.843ex;" alt="{\displaystyle hFoV=vFoV*{\frac {width}{height}}\ }"/></span>
+</p><p>For rectilinear images:
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle vFoV=2*atan\left(tan\left({\frac {hFoV}{2}}\right)*{\frac {height}{width}}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>v</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>=</mo>
+        <mn>2</mn>
+        <mo>&#x2217;<!-- ∗ --></mo>
+        <mi>a</mi>
+        <mi>t</mi>
+        <mi>a</mi>
+        <mi>n</mi>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mi>t</mi>
+            <mi>a</mi>
+            <mi>n</mi>
+            <mrow>
+              <mo>(</mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>h</mi>
+                    <mi>F</mi>
+                    <mi>o</mi>
+                    <mi>V</mi>
+                  </mrow>
+                  <mn>2</mn>
+                </mfrac>
+              </mrow>
+              <mo>)</mo>
+            </mrow>
+            <mo>&#x2217;<!-- ∗ --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mfrac>
+                <mrow>
+                  <mi>h</mi>
+                  <mi>e</mi>
+                  <mi>i</mi>
+                  <mi>g</mi>
+                  <mi>h</mi>
+                  <mi>t</mi>
+                </mrow>
+                <mrow>
+                  <mi>w</mi>
+                  <mi>i</mi>
+                  <mi>d</mi>
+                  <mi>t</mi>
+                  <mi>h</mi>
+                </mrow>
+              </mfrac>
+            </mrow>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle vFoV=2*atan\left(tan\left({\frac {hFoV}{2}}\right)*{\frac {height}{width}}\right)}</annotation>
+  </semantics>
+</math></span><img src="468496ffa63b733cefc74a49e3eb869acb771abe.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:44.395ex; height:6.176ex;" alt="{\displaystyle vFoV=2*atan\left(tan\left({\frac {hFoV}{2}}\right)*{\frac {height}{width}}\right)}"/></span>
+</p><p><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle hFoV=2*atan\left(tan\left({\frac {vFoV}{2}}\right)*{\frac {width}{height}}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>h</mi>
+        <mi>F</mi>
+        <mi>o</mi>
+        <mi>V</mi>
+        <mo>=</mo>
+        <mn>2</mn>
+        <mo>&#x2217;<!-- ∗ --></mo>
+        <mi>a</mi>
+        <mi>t</mi>
+        <mi>a</mi>
+        <mi>n</mi>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mi>t</mi>
+            <mi>a</mi>
+            <mi>n</mi>
+            <mrow>
+              <mo>(</mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mfrac>
+                  <mrow>
+                    <mi>v</mi>
+                    <mi>F</mi>
+                    <mi>o</mi>
+                    <mi>V</mi>
+                  </mrow>
+                  <mn>2</mn>
+                </mfrac>
+              </mrow>
+              <mo>)</mo>
+            </mrow>
+            <mo>&#x2217;<!-- ∗ --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mfrac>
+                <mrow>
+                  <mi>w</mi>
+                  <mi>i</mi>
+                  <mi>d</mi>
+                  <mi>t</mi>
+                  <mi>h</mi>
+                </mrow>
+                <mrow>
+                  <mi>h</mi>
+                  <mi>e</mi>
+                  <mi>i</mi>
+                  <mi>g</mi>
+                  <mi>h</mi>
+                  <mi>t</mi>
+                </mrow>
+              </mfrac>
+            </mrow>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle hFoV=2*atan\left(tan\left({\frac {vFoV}{2}}\right)*{\frac {width}{height}}\right)}</annotation>
+  </semantics>
+</math></span><img src="ba75cc7aa1514d3d82cf1cf2860b99a986f977c0.png" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:44.395ex; height:6.176ex;" alt="{\displaystyle hFoV=2*atan\left(tan\left({\frac {vFoV}{2}}\right)*{\frac {width}{height}}\right)}"/></span>
+</p>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   11.198      1 Template:Glossary
+100.00%   11.198      1 -total
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Field_of_View&amp;oldid=16031">https://wiki.panotools.org/index.php?title=Field_of_View&amp;oldid=16031</a>"</div>
+		</div></div></body></html>

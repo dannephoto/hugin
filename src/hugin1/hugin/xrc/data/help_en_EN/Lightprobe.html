@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>Lightprobe - PanoTools.org Wiki</title>
+
+
+
+
+<style media="screen" type="text/css" title="Screen style sheet"> @import url(manual.css); </style>
+
+<meta name="generator" content="MediaWiki 1.35.3"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+
+
+<!--[if lt IE 9]><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Lightprobe rootpage-Lightprobe skin-vector action-view skin-vector-legacy">
+
+
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	
+	
+	<h1 id="firstHeading" class="firstHeading" lang="en">Lightprobe</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From PanoTools.org Wiki</div>
+		
+		
+		
+		
+		
+		
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><div class="usermessage" id="stub">
+<table cellpadding="0" cellspacing="0" style="background-color:inherit">
+<tbody><tr>
+<td><i>This article is out of date.  You can help Panotools Wiki by <a rel="nofollow" class="external text" href="https://wiki.panotools.org/index.php?title=Lightprobe&amp;action=edit">expanding it</a>.</i>
+</td></tr></tbody></table>
+<p><span style="font-weight:normal;">
+<small>Once the article is ok feel free to remove the {{Outdated}} template</small>
+</span></p><p class="mw-empty-elt">
+</p>
+</div>
+<p>Lightprobe image is a spherical panorama made of several blended exposures containing high dynamic range.
+The panorama itself is usually made with the well-known methods:
+</p>
+<ul><li>photographing and stitching</li>
+<li>photographing a mirrored ball once or optionally photographing a mirrored ball more times and stitching</li></ul>
+<p>The image is usually saved in Radiance .hdr image format as
+</p>
+<ul><li>angular map (reflection mapping?)</li>
+<li>vertical cross cube</li></ul>
+<p>The main purpose consists in simulating environmental light and reflections in rendering software using the radiosity method. Usually a sphere is created around the main scene, the sphere gets as texture/material the lightprobe image. Besides that the sphere´s material gets a "luminocity" property which allows to simulate light sources depending on the lightprobe´s color information. As the lightprobe contains high dynamic range it allows rather realistic but time consuming renderings.
+The method with photographing a mirrored ball (usually delivering quite poor overall image quality as you need a nearly perfect sphere) is nevertheless popular for especially shooting light probes, as light information here is more important than the image or its resolution, the lightprobe usually is not seen in the final rendering.
+</p><p>More Information:
+</p>
+<ul><li><a rel="nofollow" class="external text" href="http://gl.ict.usc.edu/HDRShop/tutorial/tutorial5.html">Creating light probe</a></li>
+<li><a rel="nofollow" class="external text" href="http://www.dma.ufg.ac.at/app/link/Grundlagen%3A3D-Grafik/module/9933?step=0#chapter">Creating light probe (german)</a></li>
+<li><a rel="nofollow" class="external text" href="http://www.debevec.org/probes/">General Information and downloadable light probes by Paul Debevec</a></li>
+<li><a rel="nofollow" class="external text" href="http://www.debevec.org/IBL2003/">HDRI and Image-Based Lighting SIGGRAPH 2003 Course</a></li>
+<li><a rel="nofollow" class="external text" href="http://www.debevec.org/Research/IBL/">Demonstration of lighting</a></li>
+<li><a rel="nofollow" class="external text" href="http://gl.ict.usc.edu/HDRShop/tutorial/tutorial4.html">Converting lightporbe with HDRShop</a></li></ul>
+
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%   23.105      1 -total
+ 58.81%   13.587      1 Template:Outdated
+ 41.02%    9.478      1 Template:Glossary
+ 28.80%    6.655      1 Template:Enhance
+-->
+
+
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Lightprobe&amp;oldid=16311">https://wiki.panotools.org/index.php?title=Lightprobe&amp;oldid=16311</a>"</div>
+		</div></div></body></html>
