@@ -108,28 +108,5 @@ class IMPEX CalculateOptimalROI : public TimeConsumingPanoramaAlgorithm
         void CleanUp();
 };
 
-class IMPEX CalculateOptimalROIOutside :public TimeConsumingPanoramaAlgorithm
-{
-public:
-    /** constructor */
-    CalculateOptimalROIOutside(PanoramaData& panorama, AppBase::ProgressDisplay* progress) : TimeConsumingPanoramaAlgorithm(panorama, progress) {};
-    virtual bool modifiesPanoramaData() const
-    {
-        return false;
-    };
-    /** runs the outside crop finding algorithm */
-    virtual bool runAlgorithm()
-    {
-        return CalcOutsideCrop(o_panorama, getProgressDisplay());
-    };
-
-    /** returns the found crop rect */
-    virtual vigra::Rect2D getResultOptimalROI();
-private:
-    /** the main crop finding algorithm */
-    bool CalcOutsideCrop(PanoramaData& pano, AppBase::ProgressDisplay* progress);
-    vigra::Rect2D m_bestRect;
-};
-
 } //namespace
 #endif

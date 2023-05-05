@@ -34,7 +34,7 @@ GreatCircles.cpp AboutDialog.cpp LayoutRemapper.cpp PreviewLayoutLinesTool.cpp P
 MaskEditorPanel.cpp MaskImageCtrl.cpp MaskLoadDialog.cpp HtmlWindow.cpp 
 PanoOperation.cpp treelistctrl.cpp ImagesTree.cpp PanoOutputDialog.cpp SplitButton.cpp
 GuiLevel.cpp ImageVariableDialog.cpp PreviewEditCPTool.cpp PapywizardImport.cpp ChangeImageVariableDialog.cpp
-RawImport.cpp EditOutputIniDialog.cpp SelectCropAspectRatioDialog.cpp)
+RawImport.cpp EditOutputIniDialog.cpp)
 
 set(hugin_HEADERS
 huginApp.h ImagesList.h MainFrame.h CPImageCtrl.h CPImagesComboBox.h CPEditorPanel.h CPDetectorDialog.h 
@@ -51,7 +51,7 @@ GreatCircles.h AboutDialog.h LayoutRemapper.h PreviewLayoutLinesTool.h PreviewCo
 MaskEditorPanel.h MaskImageCtrl.h MaskLoadDialog.h HtmlWindow.h 
 PanoOperation.h treelistctrl.h ImagesTree.h PanoOutputDialog.h SplitButton.h
 GuiLevel.h ImageVariableDialog.h PreviewEditCPTool.h PapywizardImport.h ChangeImageVariableDialog.h
-RawImport.h EditOutputIniDialog.h SelectCropAspectRatioDialog.h)
+RawImport.h EditOutputIniDialog.h)
 
 IF(BUILD_HSI)
 LIST(APPEND hugin_SOURCES PluginItems.cpp)
