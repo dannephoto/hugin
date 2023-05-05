@@ -1,29 +1,20 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Hugin source changes arm64
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Documenting progress around hugin arm64 build. Thanks to Erkan Özgür Yılmaz
+     for initial changes to mac scripts
+* Arm_64 version of Hugin
+* [Discussion](https://mail.google.com/mail/u/0/#search/eoyilmaz%40gmail.com/FMfcgzGrcrwqCXvwlmSZcXnwLnnXqrxL)
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Download the app or sources from the downloads section or clone repo to start working the sources
 
-### Contribution guidelines ###
+### Hugin project###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* https://sourceforge.net/projects/hugin/
+* https://en.wikipedia.org/wiki/Hugin_(software)
+* https://en.wikipedia.org/wiki/GNU_General_Public_License
