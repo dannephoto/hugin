@@ -5,6 +5,7 @@ Hugin 2023.0
 * Assistant: Added option to select different output options like projection, FOV or
   canvas size depending on different variables (e.g. image count, field of view, lens type).
 * Allow building with epoxy instead of GLEW for OpenGL pointer management.
+* Several improvements to crop tool (outside crop, aspect ratio, ...).
 
 ============================================================================================
 Hugin 2022.0

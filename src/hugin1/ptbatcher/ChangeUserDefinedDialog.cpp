@@ -24,13 +24,14 @@
  *
  */
 
-#include <CoreFoundation/CoreFoundation.h>
 #include "ChangeUserDefinedDialog.h"
-#include "base_wx/platform.h"
 #include <wx/dir.h>
 #include <wx/stdpaths.h>
 #include <wx/wfstream.h>
 #include "base_wx/Executor.h"
+#if defined __WXMAC__ && defined MAC_SELF_CONTAINED_BUNDLE
+#include "base_wx/platform.h"
+#endif
 
 BEGIN_EVENT_TABLE(ChangeUserDefinedSequenceDialog,wxDialog)
     EVT_RADIOBUTTON(XRCID("radio_default_sequence"), ChangeUserDefinedSequenceDialog::UpdateStatus)
@@ -237,7 +238,7 @@ wxString GetDataPath()
         if (thePath.IsEmpty())
         {
             wxMessageBox(_("xrc directory not found in bundle"), _("Fatal Error"));
-            return "";
+            return wxEmptyString;
         }
         return thePath + "/";
     }

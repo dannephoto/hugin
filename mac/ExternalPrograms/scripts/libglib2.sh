@@ -12,15 +12,14 @@
 # 20121010.0 hvdw remove openmp stuff
 # -------------------------------
 
-export PATH="$PATH:$REPOSITORYDIR/bin/"
 export MSGFMT="$REPOSITORYDIR/bin/msgfmt"
 
-meson _build
+[ ! -f ./configure ] && ./autogen.sh
 
 env \
  CC="$CC" CXX="$CXX" \
- CFLAGS="-isysroot $MACSDKDIR $ARGS   -O3 -Wno-implicit-function-declaration -Wno-compound-token-split-by-macro -Wno-incompatible-pointer-types -Wno-unused-command-line-argument -Wno-int-conversion -Wno-declaration-after-statement" \
- CXXFLAGS="-isysroot $MACSDKDIR $ARGS -O3 -Wno-implicit-function-declaration -Wno-compound-token-split-by-macro -Wno-incompatible-pointer-types -Wno-unused-command-line-argument -Wno-int-conversion -Wno-declaration-after-statement" \
+ CFLAGS="-isysroot $MACSDKDIR $ARGS   -O3" \
+ CXXFLAGS="-isysroot $MACSDKDIR $ARGS -O3" \
  CPPFLAGS="-I$REPOSITORYDIR/include" \
  LDFLAGS="-L$REPOSITORYDIR/lib $LDARGS" \
  ZLIB_CFLAGS="-I$MACSDKDIR/usr/include" ZLIB_LIBS="-L$MACSDKDIR/usr/lib" \

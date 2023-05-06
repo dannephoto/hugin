@@ -276,6 +276,7 @@ protected:
     void OnIdentify(wxCommandEvent &e);
     void OnAutocrop(wxCommandEvent &e);
     void OnStackAutocrop(wxCommandEvent &e);
+    void OnAutocropOutside(wxCommandEvent& e);
     void OnControlPoint(wxCommandEvent &e);
     void OnNumTransform(wxCommandEvent & e);
     void OnChangeFOV(wxScrollEvent & e);
@@ -309,6 +310,8 @@ protected:
     void OnROIChanged(wxCommandEvent & e);
     /** event handler to reset crop area */
     void OnResetCrop(wxCommandEvent & e);
+    /** event handler to set fixed aspect ratio of crop */
+    void OnSetCropAspect(wxCommandEvent& e);
     void OnHFOVChanged(wxCommandEvent & e);
     void OnVFOVChanged(wxCommandEvent & e);
     /** event handler when user hides the infobar */

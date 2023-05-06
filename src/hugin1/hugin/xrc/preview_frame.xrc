@@ -776,6 +776,18 @@
                   <border>5</border>
                 </object>
                 <object class="sizeritem">
+                  <object class="wxButton" name="preview_autocrop_outside_tool">
+                    <label>Autocrop outside</label>
+                    <bitmap>data/autocrop_tool.png</bitmap>
+                    <bitmapposition>wxTOP</bitmapposition>
+                    <direction>wxTOP</direction>
+                    <style>wxBU_EXACTFIT</style>
+                    <tooltip>Set the crop region that the largest rectangle containing all images</tooltip>
+                  </object>
+                  <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                  <border>5</border>
+                </object>
+                <object class="sizeritem">
                   <object class="wxButton" name="preview_stack_autocrop_tool">
                     <label>HDR Autocrop</label>
                     <bitmap>data/autocrop_tool.png</bitmap>
@@ -895,6 +907,25 @@
                       </object>
                       <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE_VERTICAL</flag>
                       <border>5</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxBoxSizer">
+                        <orient>wxVERTICAL</orient>
+                        <object class="sizeritem">
+                          <object class="wxButton" name="crop_aspect_button">
+                            <label>Aspect ratio...</label>
+                            <tooltip>Sets the aspect ratio of the crop to a fix value</tooltip>
+                          </object>
+                          <flag>wxLEFT|wxRIGHT</flag>
+                          <border>5</border>
+                        </object>
+                        <object class="sizeritem">
+                          <object class="wxStaticText" name="crop_aspect_label"/>
+                          <flag>wxALL|wxALIGN_CENTRE_HORIZONTAL</flag>
+                          <border>5</border>
+                        </object>
+                      
+                      </object>
                     </object>
                   </object>
                   <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
@@ -1171,5 +1202,146 @@ Do you want to go to the mask/crop tab, where you can perform this operation?</l
     </object>
     <title>Hugin</title>
     <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSTAY_ON_TOP</style>
+  </object>
+  <object class="wxDialog" name="choice_aspect_dlg">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>Select which aspect ratio should be set</label>
+            </object>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxListBox" name="aspect_listbox"/>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>6</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="spacer">
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="add_aspect_button">
+                      <label>Add</label>
+                    </object>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="remove_aspect_button">
+                      <label>Remove</label>
+                    </object>
+                    <flag>wxALL|wxEXPAND</flag>
+                    <border>3</border>
+                  </object>
+                  <object class="spacer">
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                  <orient>wxVERTICAL</orient>
+                </object>
+                <flag>wxALL|wxEXPAND|</flag>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <orient>wxVERTICAL</orient>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>12</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticLine"/>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>3</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <default>1</default>
+            </object>
+          </object>
+          <object class="button">
+            <object class="wxButton" name="wxID_CANCEL"/>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Crop aspect ratio</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU|wxRESIZE_BORDER|wxCLOSE_BOX</style>
+  </object>
+  <object class="wxDialog" name="add_aspect_dlg">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxFlexGridSizer">
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>Label:</label>
+            </object>
+            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="aspect_label_textctrl"/>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>Aspect ratio:</label>
+            </object>
+            <flag>wxALIGN_RIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="aspect_ratio_textctrl"/>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>3</border>
+          </object>
+          <cols>2</cols>
+          <rows>2</rows>
+          <growablecols>1</growablecols>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>12</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticLine"/>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>3</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <default>1</default>
+            </object>
+          </object>
+          <object class="button">
+            <object class="wxButton" name="wxID_CANCEL"/>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <title>Add new aspect ratio</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX</style>
   </object>
 </resource>
