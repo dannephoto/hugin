@@ -211,9 +211,9 @@ void GenerateSequenceDialog::ReadPTOFile()
         };
         for (size_t i = 0; i < m_pano.getNrOfImages(); ++i)
         {
-            const wxString imageFilename(wxString(m_pano.getImage(i).getFilename().c_str(), HUGIN_CONV_FILENAME));
-            m_orignalFilenames.Add(imageFilename);
-            m_mappedFilenames.Add(imageFilename);
+            const wxFileName imageFilename(wxString(m_pano.getImage(i).getFilename().c_str(), HUGIN_CONV_FILENAME));
+            m_orignalFilenames.Add(imageFilename.GetFullName());
+            m_mappedFilenames.Add(imageFilename.GetFullName());
         };
     };
 }

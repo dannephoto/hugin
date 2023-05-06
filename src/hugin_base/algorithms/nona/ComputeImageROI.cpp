@@ -40,13 +40,29 @@ namespace HuginBase {
  *  @param imgRect   output: position of image in panorama.
  */
 template <class TRANSFORM>
+void estimateImageRect(const SrcPanoImage & src,
+                       const PanoramaOptions & dest,
+                       TRANSFORM & transf,
+                       vigra::Rect2D & imgRect);
+    
+///
+template <class TRANSFORM>
+void estimateImageAlpha(const SrcPanoImage & src,
+                        const PanoramaOptions & dest,
+                        TRANSFORM & transf,
+                        vigra::Rect2D & imgRect,
+                         vigra::BImage & alpha,
+                         double & scale);
+                         
+        
+    
+template <class TRANSFORM>
 void estimateImageAlpha(const SrcPanoImage & src,
                         const PanoramaOptions & dest,
                        TRANSFORM & transf,
                        vigra::Rect2D & imgRect,
                        vigra::BImage & alpha,
-                       double & scale,
-                       double maxLength = 180.0)
+                       double & scale)
 {
     hugin_utils::FDiff2D ul, lr;
     ul.x = DBL_MAX;
@@ -60,6 +76,7 @@ void estimateImageAlpha(const SrcPanoImage & src,
     // of the images using the inverse transform, which could be fooled
     // easily by fisheye images.
 
+    double maxLength = 180;
     scale = std::min(maxLength/dest.getSize().x, maxLength/dest.getSize().y);
 
     // take dest roi into account...
@@ -205,20 +222,20 @@ void estimateImageAlpha(const SrcPanoImage & src,
  */
 template <class TRANSFORM>
 void estimateImageRect(const SrcPanoImage & src, const PanoramaOptions & dest,
-                       TRANSFORM & transf, vigra::Rect2D & imgRect, double maxLength = 180.0)
+                       TRANSFORM & transf, vigra::Rect2D & imgRect)
 {
     vigra::BImage img;
     double scale;
-    estimateImageAlpha(src, dest, transf, imgRect, img, scale, maxLength);
+    estimateImageAlpha(src, dest, transf, imgRect, img, scale);
 }
 
-    vigra::Rect2D estimateOutputROI(const PanoramaData & pano, const PanoramaOptions & opts, unsigned i, const double maxLength)
+    vigra::Rect2D estimateOutputROI(const PanoramaData & pano, const PanoramaOptions & opts, unsigned i)
     {
         vigra::Rect2D imageRect;
         SrcPanoImage srcImg = pano.getSrcImage(i);
         PTools::Transform transf;
         transf.createTransform(srcImg, opts);
-        estimateImageRect(srcImg, opts, transf, imageRect, maxLength);
+        estimateImageRect(srcImg, opts, transf, imageRect);
         return imageRect;
     }
 
@@ -230,7 +247,7 @@ void estimateImageRect(const SrcPanoImage & src, const PanoramaOptions & dest,
         for (UIntSet::const_iterator it = images.begin(); 
              it != images.end(); ++it)
         {
-            res.push_back(estimateOutputROI(panorama, opts, *it));
+            res.push_back(estimateOutputROI(panorama, panorama.getOptions(), *it));
         }
         return res;
     }

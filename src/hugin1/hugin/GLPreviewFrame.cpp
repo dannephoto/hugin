@@ -60,7 +60,6 @@
 #include "hugin/TextKillFocusHandler.h"
 #include "hugin/PanoOperation.h"
 #include "hugin/PanoOutputDialog.h"
-#include "hugin/SelectCropAspectRatioDialog.h"
 #include "base_wx/PTWXDlg.h"
 #include "vigra_ext/InterestPoints.h"
 #include "vigra_ext/Correlation.h"
@@ -152,7 +151,6 @@ BEGIN_EVENT_TABLE(GLPreviewFrame, wxFrame)
     EVT_CHECKBOX(XRCID("preview_control_point_tool"), GLPreviewFrame::OnControlPoint)
     EVT_BUTTON(XRCID("preview_autocrop_tool"), GLPreviewFrame::OnAutocrop)
     EVT_BUTTON(XRCID("preview_stack_autocrop_tool"), GLPreviewFrame::OnStackAutocrop)
-    EVT_BUTTON(XRCID("preview_autocrop_outside_tool"), GLPreviewFrame::OnAutocropOutside)
     EVT_NOTEBOOK_PAGE_CHANGED(XRCID("mode_toolbar_notebook"), GLPreviewFrame::OnSelectMode)
     EVT_NOTEBOOK_PAGE_CHANGING(XRCID("mode_toolbar_notebook"), GLPreviewFrame::OnToolModeChanging)
     EVT_BUTTON(ID_HIDE_HINTS, GLPreviewFrame::OnHideProjectionHints)
@@ -192,7 +190,6 @@ BEGIN_EVENT_TABLE(GLPreviewFrame, wxFrame)
     EVT_TEXT_ENTER(XRCID("pano_val_roi_right"), GLPreviewFrame::OnROIChanged)
     EVT_TEXT_ENTER(XRCID("pano_val_roi_bottom"), GLPreviewFrame::OnROIChanged)
     EVT_BUTTON(XRCID("reset_crop_button"), GLPreviewFrame::OnResetCrop)
-    EVT_BUTTON(XRCID("crop_aspect_button"), GLPreviewFrame::OnSetCropAspect)
     EVT_TEXT_ENTER(XRCID("exposure_text"), GLPreviewFrame::OnExposureChanged)
     EVT_COMMAND_RANGE(PROJ_PARAM_VAL_ID,PROJ_PARAM_VAL_ID+PANO_PROJECTION_MAX_PARMS,wxEVT_COMMAND_TEXT_ENTER,GLPreviewFrame::OnProjParameterChanged)
     EVT_BUTTON(PROJ_PARAM_RESET_ID, GLPreviewFrame::OnProjParameterReset)
@@ -315,7 +312,6 @@ GLPreviewFrame::GLPreviewFrame(wxFrame * frame, HuginBase::Panorama &pano)
     XRCCTRL(*this,"preview_fit_pano_tool2",wxButton)->SetBitmapMargins(0,5);
     XRCCTRL(*this,"preview_autocrop_tool",wxButton)->SetBitmapMargins(0,5);
     XRCCTRL(*this,"preview_stack_autocrop_tool",wxButton)->SetBitmapMargins(0,5);
-    XRCCTRL(*this, "preview_autocrop_outside_tool", wxButton)->SetBitmapMargins(0, 5);
 
     m_tool_notebook = XRCCTRL(*this, "mode_toolbar_notebook", wxNotebook);
     m_identify_togglebutton = XRCCTRL(*this, "preview_identify_toggle_button", wxToggleButton);
@@ -1003,31 +999,6 @@ void GLPreviewFrame::UpdateRoiDisplay(const HuginBase::PanoramaOptions opts)
     m_ROIRightTxt->ChangeValue(wxString::Format(wxT("%d"), opts.getROI().right() ));
     m_ROITopTxt->ChangeValue(wxString::Format(wxT("%d"), opts.getROI().top() ));
     m_ROIBottomTxt->ChangeValue(wxString::Format(wxT("%d"), opts.getROI().bottom() ));
-
-    // display the current aspect ratio
-    if (opts.getROI().area() > 0)
-    {
-        const int commonDivisor = hugin_utils::gcd(opts.getROI().width(), opts.getROI().height());
-        wxString labelAspectRatio;
-        if (commonDivisor > std::pow(10, hugin_utils::floori(log10f(std::max(opts.getROI().width(), opts.getROI().height()))) - 2))
-        {
-            labelAspectRatio = wxString::Format("%d:%d", opts.getROI().width() / commonDivisor, opts.getROI().height() / commonDivisor);
-        }
-        else
-        {
-            const float ratio = 1.0f * opts.getROI().width() / opts.getROI().height();
-            if (ratio > 1.0f)
-            {
-                labelAspectRatio=wxString::Format("%.2f:1", ratio);
-            }
-            else
-            {
-                labelAspectRatio=wxString::Format("1:%.2f", 1.0f / ratio);
-            };
-        };
-        XRCCTRL(*this, "crop_aspect_label", wxStaticText)->SetLabel(labelAspectRatio);
-    };
-
 };
 
 void GLPreviewFrame::panoramaChanged(HuginBase::Panorama &pano)
@@ -2698,36 +2669,6 @@ void GLPreviewFrame::OnStackAutocrop(wxCommandEvent &e)
     }
 }
 
-void GLPreviewFrame::OnAutocropOutside(wxCommandEvent& e)
-{
-    DEBUG_INFO("Dirty ROI Calc\n");
-    if (m_pano.getActiveImages().empty())
-    {
-        return;
-    };
-
-    vigra::Rect2D newROI;
-    {
-        ProgressReporterDialog progress(0, _("Autocrop"), _("Calculating optimal crop"), this);
-        HuginBase::CalculateOptimalROIOutside cropPano(m_pano, &progress);
-        cropPano.run();
-        if (cropPano.hasRunSuccessfully())
-        {
-            newROI = cropPano.getResultOptimalROI();
-        };
-    };
-
-    //set the ROI - fail if the right/bottom is zero, meaning all zero
-    if (!newROI.isEmpty())
-    {
-        HuginBase::PanoramaOptions opt = m_pano.getOptions();
-        opt.setROI(newROI);
-        PanoCommand::GlobalCmdHist::getInstance().addCommand(
-            new PanoCommand::SetPanoOptionsCmd(m_pano, opt)
-        );
-    }
-}
-
 void GLPreviewFrame::OnFullScreen(wxCommandEvent & e)
 {
     ShowFullScreen(!IsFullScreen(), wxFULLSCREEN_NOBORDER | wxFULLSCREEN_NOCAPTION);
@@ -2796,7 +2737,6 @@ void GLPreviewFrame::SetMode(int newMode)
         case mode_crop:
             preview_helper->DeactivateTool(preview_guide_tool);
             preview_helper->DeactivateTool(crop_tool);
-            preview_helper->ActivateTool(identify_tool);
             break;
     };
     m_mode=newMode;
@@ -2844,7 +2784,6 @@ void GLPreviewFrame::SetMode(int newMode)
             }
             break;
         case mode_crop:
-            preview_helper->DeactivateTool(identify_tool);
             TurnOffTools(preview_helper->ActivateTool(crop_tool));
             preview_helper->ActivateTool(preview_guide_tool);
             break;
@@ -2914,37 +2853,6 @@ void GLPreviewFrame::OnResetCrop(wxCommandEvent &e)
     opt.setROI(vigra::Rect2D(0,0,opt.getWidth(),opt.getHeight()));
     PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::SetPanoOptionsCmd(m_pano, opt));
 };
-
-void GLPreviewFrame::OnSetCropAspect(wxCommandEvent& e)
-{
-    // ask user for a setting
-    SelectAspectRatioDialog dlg(this);
-    if (dlg.ShowModal() == wxID_OK)
-    {
-        HuginBase::PanoramaOptions opt = m_pano.getOptions();
-        const double aspectRatio = dlg.GetSelectedAspectRatio();
-        // calculate the new ROI, move crop if necessary
-        int left = opt.getROI().left();
-        int top = opt.getROI().top();
-        int width = opt.getROI().width();
-        int height = opt.getROI().height();
-        const int newHeight = 1.0 * width / aspectRatio;
-        if (newHeight > height)
-        {
-            const int newWidth = 1.0 * height * aspectRatio;
-            left = left + (width - newWidth) / 2.0;
-            width = newWidth;
-        }
-        else
-        {
-            top = top + (height - newHeight) / 2.0;
-            height = newHeight;
-        };
-        // finally set new crop
-        opt.setROI(vigra::Rect2D(left, top, left + width, top + height));
-        PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::SetPanoOptionsCmd(m_pano, opt));
-    };
-}
 
 void GLPreviewFrame::OnHFOVChanged ( wxCommandEvent & e )
 {

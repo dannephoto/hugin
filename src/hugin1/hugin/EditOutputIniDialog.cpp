@@ -201,7 +201,7 @@ void EditOutputIniDialog::AddKey(wxPGProperty* section, const wxString& key, con
     if (key.CmpNoCase("Crop") == 0)
     {
         wxPGProperty* p = m_grid->AppendIn(section, new wxStringProperty(key, wxPG_LABEL, value));
-        p->SetHelpString(_("Select which crop should be used.\nFor automatic detection use Auto, AutoOutside or AutoHDR.\nOr give 4 numbers as left, right, top and bottom. You can use absolute pixel values (e.g. 100,7900,1000,3900) or relative values by appending a percentage sign (e.g. 10,90,10,90%)."));
+        p->SetHelpString(_("Select which crop should be used.\nFor automatic detection use Auto or AutoHDR.\nOr give 4 numbers as left, right, top and bottom. You can use absolute pixel values (e.g. 100,7900,1000,3900) or relative values by appending a percentage sign (e.g. 10,90,10,90%)."));
         return;
     };
     if (key.CmpNoCase("OutputExposure") == 0)

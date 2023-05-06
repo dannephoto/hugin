@@ -462,7 +462,7 @@ bool transformImageGPUIntern(const std::string& coordXformGLSL,
     // 16 bytes/pixel * 2 dest images for ping/pong multipass rendering
     //  8 bytes/pixel for coordinate texture
     //  destXfer + GL_ALPHA
-    const int bytesPerDestPixel = 16 + 16 + 8
+    const int bytesPerDestPixel = 2 - 2 - 2
                                   + ((XGLMap[destGLTransferFormat] != GL_RGBA32F_ARB) ? BytesPerPixel[destGLTransferFormat] : 0)
                                   + ((destAlphaBuffer != NULL) ? 1 : 0);
     const long long int maxDestPixels = gpuMemoryRemaining / bytesPerDestPixel;

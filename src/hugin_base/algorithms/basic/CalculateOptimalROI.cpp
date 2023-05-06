@@ -25,7 +25,6 @@
 #include "CalculateOptimalROI.h"
 #include <algorithm>
 #include "LayerStacks.h"
-#include "algorithms/nona/ComputeImageROI.h"
 
 namespace HuginBase {
 // uncomment the follow line to print more progress
@@ -377,45 +376,5 @@ void CalculateOptimalROI::setStacks(std::vector<UIntSet> hdr_stacks)
     stacks=hdr_stacks;
     intersection=true;
 };
-
-// implementation of outside crop finding
-vigra::Rect2D CalculateOptimalROIOutside::getResultOptimalROI()
-{
-    if (hasRunSuccessfully())
-    {
-        return m_bestRect;
-    }
-    else
-    {
-        return vigra::Rect2D();
-    }
-}
-
-bool CalculateOptimalROIOutside::CalcOutsideCrop(PanoramaData& pano, AppBase::ProgressDisplay* progress)
-{
-    HuginBase::UIntSet activeImgs = pano.getActiveImages();
-    if (activeImgs.empty())
-    {
-        // no image, return false
-        return false;
-    };
-    HuginBase::PanoramaOptions opts = pano.getOptions();
-    // reset roi for calculation
-    opts.setROI(vigra::Rect2D(vigra::Point2D(0, 0), opts.getSize()));
-    m_bestRect = vigra::Rect2D();
-    progress->setMaximum(activeImgs.size());
-    for (auto& img : activeImgs)
-    {
-        // calculate boundary of all images, use a miniatur scale of 800 px for speed reasons
-        m_bestRect |= HuginBase::estimateOutputROI(pano, opts, img, 800);
-        progress->updateDisplayValue();
-        if (progress->wasCancelled())
-        {
-            m_bestRect = vigra::Rect2D();
-            return false;
-        };
-    };
-    return !m_bestRect.isEmpty();
-}
 
 } //namespace

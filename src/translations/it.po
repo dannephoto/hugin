@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: hugin 0.8\n"
 "Report-Msgid-Bugs-To: https://bugs.launchpad.net/hugin/\n"
 "POT-Creation-Date: 2023-04-09 10:10+0200\n"
-"PO-Revision-Date: 2023-04-14 17:32+0200\n"
+"PO-Revision-Date: 2022-12-04 11:45+0100\n"
 "Last-Translator: Cristian Marchi <cri.penta@gmail.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,478,-1,-1,-1,-1\n"
 
 #: hugin1/base_wx/AssistantExecutor.cpp:75
@@ -322,12 +322,12 @@ msgstr "Impossibile mettere in pausa il processo %ld, codice 2"
 #: hugin1/base_wx/MyExternalCmdExecDialog.cpp:477
 #, c-format
 msgid "Process took %ld:%2ld min"
-msgstr "Il processo è durato %ld:%2ld minuti"
+msgstr ""
 
 #: hugin1/base_wx/MyExternalCmdExecDialog.cpp:481
 #, c-format
 msgid "Process took %ld s"
-msgstr "Il processo è durato %ld secondi"
+msgstr ""
 
 #: hugin1/base_wx/MyExternalCmdExecDialog.cpp:564
 #: hugin1/hugin/RawImport.cpp:486 hugin1/ptbatcher/RunStitchFrame.cpp:43
@@ -1705,8 +1705,9 @@ msgid "Drag to move"
 msgstr "Trascinare per spostare"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:130
+#, fuzzy
 msgid "Edit assistant output settings"
-msgstr "Modifica impostazioni output assistente"
+msgstr "L'assistente sta utilizzando l'impostazione predefinita."
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:172
 msgid ""
@@ -1719,8 +1720,11 @@ msgid ""
 msgstr ""
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:186
+#, fuzzy
 msgid "Select which projection should be selected."
-msgstr "Selezionare la proiezione"
+msgstr ""
+"Selezionare i parametri da salvare nel\n"
+"database"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:192
 msgid ""
@@ -1752,8 +1756,11 @@ msgid ""
 msgstr ""
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:223
+#, fuzzy
 msgid "Select which output types should be activated."
-msgstr "Selezionare il tipo di output"
+msgstr ""
+"Selezionare i parametri da salvare nel\n"
+"database"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:237
 msgid "Select which blender should be used (can be enblend or internal)."
@@ -1788,43 +1795,45 @@ msgid ""
 msgstr ""
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:398
-#, c-format
+#, fuzzy, c-format
 msgid "Could not save ini file \"%s\"."
-msgstr "Impossibile salvare il file ini «%s»."
+msgstr "Impossibile salvare il file «%s»."
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:412
+#, fuzzy
 msgid "Add condition"
-msgstr "Aggiungi condizione"
+msgstr "&Aggiunti punto di controllo"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:418
-#, c-format
+#, fuzzy, c-format
 msgid "Add %s"
-msgstr "Aggiungi %s"
+msgstr "Aggiunto %s"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:445
 #: hugin1/hugin/EditOutputIniDialog.cpp:516
 #: hugin1/hugin/EditOutputIniDialog.cpp:546
+#, fuzzy
 msgid "Create new section"
-msgstr "Crea nuova sezione"
+msgstr "Elaborazione parallela"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:455
-#, c-format
+#, fuzzy, c-format
 msgid "Rename section %s"
-msgstr "Rinomina sezione %s"
+msgstr "&Ripristina selezione"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:465
-#, c-format
+#, fuzzy, c-format
 msgid "Remove section %s"
-msgstr "Rimuovi sezione %s"
+msgstr "Progetto rimosso dalla cartella «%s»"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:469
-#, c-format
+#, fuzzy, c-format
 msgid "Remove item %s"
-msgstr "Rimuovi elemento %s"
+msgstr "Rimuovi punti"
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:516
 msgid "Name of new section:"
-msgstr "Nome della nuova sezione:"
+msgstr ""
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:523
 #: hugin1/hugin/EditOutputIniDialog.cpp:553
@@ -1833,17 +1842,15 @@ msgid ""
 "Section \"%s\" is already defined.\n"
 "Please use another name."
 msgstr ""
-"La sezione \"%s\" è già definita.\n"
-"Usare un nome diverso."
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:523
 #: hugin1/hugin/EditOutputIniDialog.cpp:553
 msgid "Duplicate value."
-msgstr "Valore duplicato."
+msgstr ""
 
 #: hugin1/hugin/EditOutputIniDialog.cpp:546
 msgid "New name of section:"
-msgstr "Nome della nuova sezione:"
+msgstr ""
 
 # tooltip
 #: hugin1/hugin/GLPreviewFrame.cpp:268 hugin1/hugin/GLPreviewFrame.cpp:3133
@@ -4776,9 +4783,9 @@ msgid "Specify project source file(s)"
 msgstr "Specifica dei file sorgenti del progetto"
 
 #: hugin1/ptbatcher/BatchFrame.cpp:400
-#, c-format
+#, fuzzy, c-format
 msgid "Could not read file %s as valid Hugin pto file."
-msgstr "Impossibile leggere «%s» come file pto di Hugin."
+msgstr "Impossibile riconoscere il file «%s» come XML Papywizard."
 
 #: hugin1/ptbatcher/BatchFrame.cpp:486
 #, c-format
@@ -4989,13 +4996,13 @@ msgid "Please provide a filename to the user defined sequence."
 msgstr ""
 
 #: hugin1/ptbatcher/ChangeUserDefinedDialog.cpp:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The file \"%s\" does not exists.\n"
 "Please provide an existing file to the user defined sequence."
 msgstr ""
-"Il file «%s» non esiste.\n"
-"Fornire una file esistente."
+"La cartella «%s» non esiste.\n"
+"Fornire una cartella esistente."
 
 #: hugin1/ptbatcher/FindPanoDialog.cpp:239
 msgid ""
@@ -5099,8 +5106,9 @@ msgid "Generating sequence from %s"
 msgstr "Sequenza definita dall'utente: %s"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:107
+#, fuzzy
 msgid "Template image name"
-msgstr "Nome del modello di immagine"
+msgstr "Modifica variabili immagine"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:108
 #, fuzzy
@@ -5109,35 +5117,37 @@ msgstr "Seleziona immagine «%s»"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:447
 msgid "Generating preview list. Please wait..."
-msgstr "Generazione dell'elenco di anteprima. Attendere...."
+msgstr ""
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:467
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:626
+#, fuzzy
 msgid "No matching sub-directories found."
-msgstr "Non è stata trovata alcuna sottocartella corrispondente."
+msgstr "Non è stata trovata alcuna immagine corrispondente."
 
 # tooltip
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:474
-#, c-format
+#, fuzzy, c-format
 msgid "Panorama %d"
-msgstr "Panorama %d"
+msgstr "Editor panorama"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:478
-#, c-format
+#, fuzzy, c-format
 msgid "Sub-directory: %s"
-msgstr "Sottocartella: %s"
+msgstr "cartella"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:491
+#, fuzzy
 msgid "File not found"
-msgstr "File non trovato"
+msgstr "Immagine non trovata"
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:498
 msgid "This panorama will be skipped becaused of missing files."
-msgstr "Questo panorama verrà saltato perché mancano dei file."
+msgstr ""
 
 #: hugin1/ptbatcher/GenerateSequenceDialog.cpp:615
 msgid "Generating panorama files. Please wait..."
-msgstr "Generazione dei file del panorama. Attendere..."
+msgstr ""
 
 #: hugin1/ptbatcher/PTBatcherGUI.cpp:179
 #: hugin1/stitch_project/hugin_stitch_project.cpp:331
@@ -5207,8 +5217,9 @@ msgstr "Dimensione"
 
 #: hugin1/ptbatcher/ProjectListBox.cpp:76 hugin1/hugin/xrc/batch_frame.xrc:579
 #: hugin1/hugin/xrc/batch_frame.xrc:656
+#, fuzzy
 msgid "User defined sequence"
-msgstr "Sequenza definita dall'utente"
+msgstr "Sequenza definita dall'utente: %s"
 
 #: hugin1/ptbatcher/ProjectListBox.cpp:171
 #, c-format
@@ -5230,8 +5241,9 @@ msgstr "Cambia prefisso"
 
 #: hugin1/ptbatcher/ProjectListBox.cpp:416
 #: hugin1/ptbatcher/ProjectListBox.cpp:440 hugin1/hugin/xrc/batch_frame.xrc:681
+#, fuzzy
 msgid "Change user defined sequence"
-msgstr "Modifica sequenza definita dall'utente"
+msgstr "Sequenza definita dall'utente: %s"
 
 #: hugin1/ptbatcher/ProjectListBox.cpp:417
 #: hugin1/ptbatcher/ProjectListBox.cpp:442 hugin1/hugin/xrc/batch_frame.xrc:50
@@ -5367,8 +5379,9 @@ msgid "Change prefix..."
 msgstr "Cambia prefisso..."
 
 #: hugin1/hugin/xrc/batch_frame.xrc:44
+#, fuzzy
 msgid "Change user defined sequence..."
-msgstr "Modifica della sequenza definita dall'utente..."
+msgstr "Sequenza definita dall'utente: %s"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:56
 msgid "Reset all"
@@ -5593,12 +5606,13 @@ msgid "Status report"
 msgstr "Resoconto sullo stato"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:563
+#, fuzzy
 msgid "Default sequence"
-msgstr "Sequenza predefinita"
+msgstr "Programma predefinito per l'unione:"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:622
 msgid "External sequence"
-msgstr "Sequenza esterna"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:667 hugin1/hugin/xrc/main_frame.xrc:171
 #: hugin1/hugin/xrc/pano_panel.xrc:1129
@@ -5606,16 +5620,19 @@ msgid "Ok"
 msgstr "Ok"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:692
+#, fuzzy
 msgid "Base directory:"
-msgstr "Cartella base:"
+msgstr "cartella"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:714
+#, fuzzy
 msgid "Subdirectories:"
-msgstr "Sottocartella:"
+msgstr "Cartelle"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:724
+#, fuzzy
 msgid "No sub-directories"
-msgstr "Nessuna sottocartella"
+msgstr "Includi le sottocartelle"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:725
 #, fuzzy
@@ -5624,9 +5641,10 @@ msgstr "Includi le sottocartelle"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:726
 msgid "Use name template"
-msgstr "Usa nome mdoello"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:775
+#, fuzzy
 msgid "Directory"
 msgstr "Cartella"
 
@@ -5636,24 +5654,25 @@ msgid "Counter"
 msgstr "Centra"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:790
-#, c-format
+#, fuzzy, c-format
 msgid "Panorama %p:"
-msgstr "Panorama %p:"
+msgstr "Formati di panorama:"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:798 hugin1/hugin/xrc/batch_frame.xrc:895
 #: hugin1/hugin/xrc/batch_frame.xrc:992
 msgid "Offset:"
-msgstr "Offset:"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:821 hugin1/hugin/xrc/batch_frame.xrc:918
 #: hugin1/hugin/xrc/batch_frame.xrc:1015
+#, fuzzy
 msgid "Step:"
-msgstr "Passo:"
+msgstr "Passi:"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:844 hugin1/hugin/xrc/batch_frame.xrc:941
 #: hugin1/hugin/xrc/batch_frame.xrc:1038
 msgid "End:"
-msgstr "Fine:"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:867 hugin1/hugin/xrc/batch_frame.xrc:964
 #: hugin1/hugin/xrc/batch_frame.xrc:1061
@@ -5672,12 +5691,14 @@ msgid "Consecutive counter %x:"
 msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1107
+#, fuzzy
 msgid "Template image name:"
-msgstr "Nome del modello di immagine:"
+msgstr "Modifica variabili immagine"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1114
+#, fuzzy
 msgid "Image0.png"
-msgstr "Image0.png"
+msgstr "Immagini"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1122
 #, fuzzy
@@ -5685,13 +5706,15 @@ msgid "Sequence image name:"
 msgstr "Seleziona immagine «%s»"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1139
+#, fuzzy
 msgid "Change selected image"
-msgstr "Cambia immagine selezionata"
+msgstr "Rimuovi immagini selezionate"
 
 # tooltip
 #: hugin1/hugin/xrc/batch_frame.xrc:1149
+#, fuzzy
 msgid "Change all images"
-msgstr "Cambia tutte le immagini"
+msgstr "Mostra tutte le immagini"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1171
 #, c-format
@@ -5707,8 +5730,9 @@ msgstr "Immagini"
 
 # tooltip
 #: hugin1/hugin/xrc/batch_frame.xrc:1207
+#, fuzzy
 msgid "Generate preview"
-msgstr "Genera anteprima"
+msgstr "Aggiorna l'anteprima"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1229
 #, fuzzy
@@ -5717,12 +5741,12 @@ msgstr "In&via alla coda dell'assistente"
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1236
 msgid "Generate stitching sequence"
-msgstr "Genera sequenza di unione"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_frame.xrc:1254
 #, c-format
 msgid "Generate panorama sequence from %s"
-msgstr "Genera sequenza panorama da %s"
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_menu.xrc:7
 msgid "Add project to stitching &queue..."
@@ -5774,7 +5798,7 @@ msgstr "Cerca nelle cartelle i progetti esistenti o le immagini"
 
 #: hugin1/hugin/xrc/batch_menu.xrc:31
 msgid "Generate sequence from template..."
-msgstr "Genera sequenza da modello...."
+msgstr ""
 
 #: hugin1/hugin/xrc/batch_menu.xrc:35
 msgid "&Open batch"
@@ -7959,12 +7983,13 @@ msgid "Remove cloud-like control points (Celeste)"
 msgstr "Rimuovi i punti di controllo su nuvole (Celeste)"
 
 #: hugin1/hugin/xrc/pref_dialog.xrc:416
+#, fuzzy
 msgid "User-defined output options"
-msgstr "Opzioni di output definite dall'utente"
+msgstr "Sequenze di output definite dall'utente"
 
 #: hugin1/hugin/xrc/pref_dialog.xrc:423
 msgid "Configure"
-msgstr "Configura"
+msgstr ""
 
 #: hugin1/hugin/xrc/pref_dialog.xrc:431
 msgid "Optional assistant steps"

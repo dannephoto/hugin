@@ -321,30 +321,20 @@ void SetCanvas(const std::string& canvas, HuginBase::Panorama& pano, HuginBase::
 
 void SetCrop(const std::string& cropString, HuginBase::Panorama& pano, HuginBase::PanoramaOptions& options)
 {
-    if (cropString == "auto" || cropString == "autohdr" || cropString == "autooutside")
+    if (cropString == "auto" || cropString == "autohdr")
     {
         std::cout << "Searching for best crop rectangle" << std::endl;
         AppBase::DummyProgressDisplay dummy;
         // we need to apply the current options before calculation of crop
         pano.setOptions(options);
-        vigra::Rect2D roi;
-
-        if (cropString == "autooutside")
+        HuginBase::CalculateOptimalROI cropPano(pano, &dummy);
+        if (cropString == "autohdr")
         {
-            HuginBase::CalculateOptimalROIOutside cropPano(pano, &dummy);
-            cropPano.run();
-            roi = cropPano.getResultOptimalROI();
+            cropPano.setStacks(getHDRStacks(pano, pano.getActiveImages(), options));
         }
-        else
-        {
-            HuginBase::CalculateOptimalROI cropPano(pano, &dummy);
-            if (cropString == "autohdr")
-            {
-                cropPano.setStacks(getHDRStacks(pano, pano.getActiveImages(), options));
-            }
-            cropPano.run();
-            roi = cropPano.getResultOptimalROI();
-        };
+        cropPano.run();
+
+        vigra::Rect2D roi = cropPano.getResultOptimalROI();
         //set the ROI - fail if the right/bottom is zero, meaning all zero
         if (!roi.isEmpty())
         {
