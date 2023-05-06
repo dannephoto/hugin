@@ -50,7 +50,7 @@ build "libomp"    openmp*       ../../scripts/libomp.sh
 build "boost"     boost*        ../../scripts/boost.sh
 build "gettext"   gettext*      ../../scripts/gettext.sh
 build "libffi"    libffi*       ../../scripts/libffi.sh
-build "glib2"     glib*         ../../scripts/libglib2.sh
+#build "glib2"     glib*         ../../scripts/libglib2.sh
 build "fftw"      fftw*         ../../scripts/fftw.sh
 build "libglew"   glew*         ../../scripts/libglew.sh
 build "gsl"       gsl*          ../../scripts/gsl.sh
