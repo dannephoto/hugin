@@ -34,9 +34,9 @@
 
 echo "## First compiling b2 ##"
 cd "./tools/build/"
-sh "bootstrap.sh"
+sh -c './bootstrap.sh --with-toolset=clang --target-os=darwin --architecture=arm --address-model=64 --cxxflags="-arch arm64" --cflags="-arch arm64" --linkflags="-arch arm64"';
 mkdir -p bin
-./b2 install --prefix=./bin toolset=darwin
+./b2 install --prefix=./bin toolset=clang target-os=darwin architecture=arm cxxflags="-arch arm64" cflags="-arch arm64" linkflags="-arch arm64"
 cd "../../"
 B2=$(ls ./tools/build/bin/bin/b2)
 
@@ -46,17 +46,31 @@ echo "## Done compiling b2 ##"
 
 echo "using darwin : : $CXX :  ;" > ./user-conf.jam
 $B2 -a --prefix="$REPOSITORYDIR" --user-config=./user-conf.jam install \
-  --with-filesystem --with-system \
+  --with-filesystem --with-system --with-atomic \
   variant=release \
   cxxflags="$ARGS -std=c++11 -stdlib=libc++" \
+  target-os=darwin \
+  architecture=arm \
+  address-model=64 \
   linkflags="-stdlib=libc++ -lc++ $LDARGS" || fail "building"
 
+
+if [ -f "$REPOSITORYDIR/lib/libboost_atomic.dylib" ]; then
+ install_name_tool -id "$REPOSITORYDIR/lib/libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_atomic.dylib";
+ install_name_tool -change "libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_atomic.dylib";
+fi
 
 if [ -f "$REPOSITORYDIR/lib/libboost_filesystem.dylib" ]; then
  install_name_tool -id "$REPOSITORYDIR/lib/libboost_filesystem.dylib" "$REPOSITORYDIR/lib/libboost_filesystem.dylib";
  install_name_tool -change "libboost_system.dylib" "$REPOSITORYDIR/lib/libboost_system.dylib" "$REPOSITORYDIR/lib/libboost_filesystem.dylib";
+ install_name_tool -change "libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_filesystem.dylib"
 fi
 
 if [ -f "$REPOSITORYDIR/lib/libboost_system.dylib" ]; then
  install_name_tool -id "$REPOSITORYDIR/lib/libboost_system.dylib" "$REPOSITORYDIR/lib/libboost_system.dylib";
+fi
+
+
+if [ -f "$REPOSITORYDIR/lib/libboost_atomic.dylib" ]; then
+ install_name_tool -id "$REPOSITORYDIR/lib/libboost_atomic.dylib" "$REPOSITORYDIR/lib/libboost_atomic.dylib";
 fi

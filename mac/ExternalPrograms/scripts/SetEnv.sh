@@ -9,13 +9,16 @@
 
 
 # The compiler(s) to use
-CC="/usr/local/opt/llvm/bin/clang"
-CXX="/usr/local/opt/llvm/bin/clang++"
+# CC="/usr/local/opt/llvm/bin/clang"
+# CXX="/usr/local/opt/llvm/bin/clang++"
+CC="/opt/homebrew/Cellar/llvm/16.0.3/bin/clang"
+CXX="/opt/homebrew/Cellar/llvm/16.0.3/bin/clang++"
 
 
 # The minimum macOS version required to run the compiled files
 # USE AT LEAST VERSION 10.9
 DEPLOY_TARGET="10.10"
+# DEPLOY_TARGET="13.3"
 
 
 # The version of your Xcode macOS-SDK.
@@ -33,10 +36,11 @@ REPOSITORYDIR="$(realpath "$DIR/..")/repository" # "..../mac/ExternalPrograms/re
 mkdir -p "$REPOSITORYDIR"
 
 export \
+ ARCH=arm \
  REPOSITORYDIR SDKVERSION DEPLOY_TARGET CC CXX \
  MACSDKDIR=$(xcrun --show-sdk-path) \
  MAKEARGS="--jobs=$PROCESSNUM" \
- OPTIMIZE="-march=core2" \
+ OPTIMIZE="-mcpu=apple-m1" \
  ARGS="$OPTIMIZE -mmacosx-version-min=$DEPLOY_TARGET" \
  LDARGS="-mmacosx-version-min=$DEPLOY_TARGET" \
  PKG_CONFIG_PATH="$REPOSITORYDIR/lib/pkgconfig" \

@@ -1,0 +1,32 @@
+20230508
+
+Build modified to work with apple silicon arm64. Tested mainly on M1, should work om M2.
+
+Run th scripts from the scripts folder:
+download-all.shbuild-all.sh
+and finally 
+configure-bundle.sh
+
+Compiling on mac is very much like a messy discussion with three parties. Homebrew, Macports and the actual repository folder created with the included mac scripts. If for instance using brew llvm in SetEnv.sh it will automatically also install openexr and imath which is also included in repository folder. If you encounter issues compiling and packaging try uninstalling:
+brew uninstall openexr
+brew uninstall imath
+Another route is actually downloading llvm from its original location and compile from scratch.
+
+Even though I let download-all.sh install glib2 I commented it out of the sources when configuring as I still can´t make in work. Good news it still compiles without it. If missing I guess one could try:
+brew install glib
+or
+sudo port install glib
+
+Hm, what else. Yeah. Vigra issues on this machine. Even when vigra-1.11.1 is installed and compiling/packaging is successfull you will get memory crashes when opening up jpeg files in Hugin. Hacky solution is to use both port installed vigra, sudo port install vigra, and keeping two libs inside repsitory/lib folder. Simply diable this dylib in lib folder: libvigraimpex.dylib_DISABLE. When compiling it will use macports vigra but also grab two other dylibs when creating the package dmg from lib folder. Seems to work so why not use it. Suggestion is to compile without the hack first and see if it works better on your computer and if it doesn´t you know where to look.
+
+Since I started out getting this to copmile I had numerous libraries installed and uninstalled and I therefore expect vanilla macs to work cleaner. Goal should be to leave out homebrew and macports entirely imo.
+
+Openmp is version 13. Couldn´t make newer ones to work as it complains about extended_path. Erkan a user seems to have fixed it for newer versions by modifying makefile scripts but since version 13 works I choose to work with that instead.
+
+Thanks to Erkan Özgür Yılmaz for updating depency shell scripts.
+
+Useful info in this thread:
+https://groups.google.com/g/hugin-ptx/c/cAzcl7HaQs4/m/71NHSgyMAwAJ
+
+
+Steps described are my personal experience. Another user, or computer will encounter other things so take all with a grain of salt.
