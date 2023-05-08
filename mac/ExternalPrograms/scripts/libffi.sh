@@ -33,5 +33,4 @@ make clean || fail "make clean step"
 make $MAKEARGS || fail "make step"
 make install || fail "make install"
 
-# cp -rv "$REPOSITORYDIR/lib/$VERSION_NAME/" "$REPOSITORYDIR"
-# cp -rv "$REPOSITORYDIR/lib/libffi*" "$REPOSITORYDIR"
+cp -rv "$REPOSITORYDIR/lib/$VERSION_NAME/" "$REPOSITORYDIR"

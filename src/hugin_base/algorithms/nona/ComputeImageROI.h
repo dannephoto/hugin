@@ -36,7 +36,7 @@
 
 namespace HuginBase {
 
-IMPEX vigra::Rect2D estimateOutputROI(const PanoramaData & pano, const PanoramaOptions & opts, unsigned i);
+IMPEX vigra::Rect2D estimateOutputROI(const PanoramaData & pano, const PanoramaOptions & opts, unsigned i, const double maxLength = 180.0);
 
 class IMPEX ComputeImageROI : public PanoramaAlgorithm
 {

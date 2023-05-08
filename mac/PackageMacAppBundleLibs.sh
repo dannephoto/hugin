@@ -46,9 +46,6 @@ resolve_symlink(){
 
 update_library() {
   local lib="$1"
-  if [ $lib == "libboost_atomic.dylib" ]; then
-    lib="${CMAKE_SOURCE_DIR}/mac/ExternalPrograms/repository/lib/libboost_atomic.dylib"
-  fi
   local bin="$2"
   
   local real_lib=$(resolve_symlink ${lib})

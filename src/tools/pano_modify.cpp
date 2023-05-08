@@ -65,10 +65,11 @@ static void usage(const char* name)
          << "                                AUTO: calculate optimal canvas size" << std::endl
          << "                                num%: scales the optimal size by given percent" << std::endl
          << "                                WIDTHxHEIGHT: set to given size" << std::endl
-         << "    --crop=AUTO|AUTOHDR|left,right,top,bottom|left,right,top,bottom%" << std::endl
+         << "    --crop=AUTO|AUTOHDR|AUTOOUTSIDE|left,right,top,bottom|left,right,top,bottom%" << std::endl
          << "                                Sets the crop rectangle" << std::endl
          << "                                AUTO: autocrop panorama" << std::endl
          << "                                AUTOHDR: autocrop HDR panorama" << std::endl
+         << "                                AUTOOUTSIDE: autocrop outside of all images" << std::endl
          << "                                left,right,top,bottom: to given size" << std::endl
          << "                                left,right,top,bottom%: to size relative to canvas" << std::endl
          << "    --output-exposure=AUTO|num  Sets the output exposure value to mean" << std::endl
@@ -193,8 +194,9 @@ int main(int argc, char* argv[])
     bool doStraighten=false;
     bool doCenter=false;
     bool doOptimalSize=false;
-    bool doAutocrop=false;
-    bool autocropHDR=false;
+    enum AutoCropMode
+    { NONE, AUTO, AUTOHDR, AUTOOUTSIDE};
+    AutoCropMode doAutocrop=AutoCropMode::NONE;
     int c;
     double yaw = 0;
     double pitch = 0;
@@ -369,64 +371,74 @@ int main(int argc, char* argv[])
                 //crop
                 param=optarg;
                 param=hugin_utils::toupper(param);
-                if(param=="AUTO" || param=="AUTOHDR")
+                if (param == "AUTO")
                 {
-                    doAutocrop=true;
-                    if(param=="AUTOHDR")
-                    {
-                        autocropHDR=true;
-                    };
+                    doAutocrop = AutoCropMode::AUTO;
                 }
                 else
                 {
-                    const int pos = param.find("%");
-                    if (pos != std::string::npos)
+                    if (param == "AUTOHDR")
                     {
-                        // parse relative values
-                        param = param.substr(0, pos);
-                        double left, right, top, bottom;
-                        const int n = sscanf(param.c_str(), "%lf,%lf,%lf,%lf", &left, &right, &top, &bottom);
-                        if(n==4)
-                        { 
-                            if (right > left && bottom > top && left >= 0.0 && top >= 0.0 && right<=100.0 && bottom<=100.0)
-                            {
-                                // check values, 0..100 %
-                                newRoiRelativeLeftTop = hugin_utils::FDiff2D(left, top);
-                                newRoiRelativeRightBottom = hugin_utils::FDiff2D(right, bottom);
-                            }
-                            else
-                            {
-                                std::cerr << hugin_utils::stripPath(argv[0]) << ": Invalid crop area" << std::endl;
-                                return 1;
-                            };
-                        }
-                        else
-                        {
-                            std::cerr << hugin_utils::stripPath(argv[0]) << ": Could not parse crop values" << std::endl;
-                            return 1;
-                        };
+                        doAutocrop = AutoCropMode::AUTOHDR;
                     }
                     else
                     {
-                        int left, right, top, bottom;
-                        int n = sscanf(optarg, "%d,%d,%d,%d", &left, &right, &top, &bottom);
-                        if (n == 4)
+                        if (param == "AUTOOUTSIDE")
                         {
-                            if (right > left && bottom > top && left >= 0 && top >= 0)
-                            {
-                                newROI.setUpperLeft(vigra::Point2D(left, top));
-                                newROI.setLowerRight(vigra::Point2D(right, bottom));
-                            }
-                            else
-                            {
-                                std::cerr << hugin_utils::stripPath(argv[0]) << ": Invalid crop area" << std::endl;
-                                return 1;
-                            };
+                            doAutocrop = AutoCropMode::AUTOOUTSIDE;
                         }
                         else
                         {
-                            std::cerr << hugin_utils::stripPath(argv[0]) << ": Could not parse crop values" << std::endl;
-                            return 1;
+                            const int pos = param.find("%");
+                            if (pos != std::string::npos)
+                            {
+                                // parse relative values
+                                param = param.substr(0, pos);
+                                double left, right, top, bottom;
+                                const int n = sscanf(param.c_str(), "%lf,%lf,%lf,%lf", &left, &right, &top, &bottom);
+                                if (n == 4)
+                                {
+                                    if (right > left && bottom > top && left >= 0.0 && top >= 0.0 && right <= 100.0 && bottom <= 100.0)
+                                    {
+                                        // check values, 0..100 %
+                                        newRoiRelativeLeftTop = hugin_utils::FDiff2D(left, top);
+                                        newRoiRelativeRightBottom = hugin_utils::FDiff2D(right, bottom);
+                                    }
+                                    else
+                                    {
+                                        std::cerr << hugin_utils::stripPath(argv[0]) << ": Invalid crop area" << std::endl;
+                                        return 1;
+                                    };
+                                }
+                                else
+                                {
+                                    std::cerr << hugin_utils::stripPath(argv[0]) << ": Could not parse crop values" << std::endl;
+                                    return 1;
+                                };
+                            }
+                            else
+                            {
+                                int left, right, top, bottom;
+                                int n = sscanf(optarg, "%d,%d,%d,%d", &left, &right, &top, &bottom);
+                                if (n == 4)
+                                {
+                                    if (right > left && bottom > top && left >= 0 && top >= 0)
+                                    {
+                                        newROI.setUpperLeft(vigra::Point2D(left, top));
+                                        newROI.setLowerRight(vigra::Point2D(right, bottom));
+                                    }
+                                    else
+                                    {
+                                        std::cerr << hugin_utils::stripPath(argv[0]) << ": Invalid crop area" << std::endl;
+                                        return 1;
+                                    };
+                                }
+                                else
+                                {
+                                    std::cerr << hugin_utils::stripPath(argv[0]) << ": Could not parse crop values" << std::endl;
+                                    return 1;
+                                };
+                            };
                         };
                     };
                 };
@@ -1056,18 +1068,27 @@ int main(int argc, char* argv[])
         pano.setOptions(opt);
     };
     // auto crop
-    if(doAutocrop)
+    if (doAutocrop != AutoCropMode::NONE)
     {
         std::cout << "Searching for best crop rectangle" << std::endl;
         AppBase::DummyProgressDisplay dummy;
-        HuginBase::CalculateOptimalROI cropPano(pano, &dummy);
-        if(autocropHDR)
+        vigra::Rect2D roi;
+        if (doAutocrop == AutoCropMode::AUTOOUTSIDE)
         {
-            cropPano.setStacks(getHDRStacks(pano,pano.getActiveImages(), pano.getOptions()));
+            HuginBase::CalculateOptimalROIOutside cropPano(pano, &dummy);
+            cropPano.run();
+            roi = cropPano.getResultOptimalROI();
         }
-        cropPano.run();
-
-        vigra::Rect2D roi=cropPano.getResultOptimalROI();
+        else
+        {
+            HuginBase::CalculateOptimalROI cropPano(pano, &dummy);
+            if (doAutocrop == AutoCropMode::AUTOHDR)
+            {
+                cropPano.setStacks(getHDRStacks(pano, pano.getActiveImages(), pano.getOptions()));
+            }
+            cropPano.run();
+            roi = cropPano.getResultOptimalROI();
+        };
         HuginBase::PanoramaOptions opt = pano.getOptions();
         //set the ROI - fail if the right/bottom is zero, meaning all zero
         if(!roi.isEmpty())

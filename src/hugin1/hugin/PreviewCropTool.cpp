@@ -35,6 +35,8 @@
 #else
 #include <GL/gl.h>
 #endif
+#include "GLPreviewFrame.h"
+#include "GLViewer.h"
 
 PreviewCropTool::PreviewCropTool(PreviewToolHelper *helper)
     : PreviewTool(helper)
@@ -134,44 +136,93 @@ void PreviewCropTool::MouseMoveEvent(double x, double y, wxMouseEvent & e)
     if (mouse_down)
     {
         vigra::Rect2D roi = start_drag_options.getROI();
+        int left_d = 0;
+        int top_d = 0;
+        int right_d = 0;
+        int bottom_d = 0;
         if (moving_left)
         {
-            if (roi.left()<roi.right())
-            {
-                // apply the movement only if it does not bring about a negative crop
-                unsigned int left_d = (int) (start_drag_x - x);
-                roi.setUpperLeft(vigra::Point2D(roi.left() - left_d, roi.top()));
-            }
-        }
+            left_d = (start_drag_x - x);
+        };
         if (moving_top)
         {
-            if (roi.top()<roi.bottom())
-            {
-                // apply the movement only if it does not bring about a negative crop
-                unsigned int top_d = (int) (start_drag_y - y);
-                roi.setUpperLeft(vigra::Point2D(roi.left(), roi.top() - top_d));
-            }
-        }
+            top_d = (start_drag_y - y);
+        };
         if (moving_right)
         {
-            if (roi.left()<roi.right())
-            {
-                // apply the movement only if it does not bring about a negative crop
-                unsigned int right_d = (int) (start_drag_x - x);
-                roi.setLowerRight(vigra::Point2D(roi.right() - right_d, 
-                                                 roi.bottom()));
-            }
-        }
+            right_d = (start_drag_x - x);
+        };
         if (moving_bottom)
         {
-            // apply the movement only if it does not bring about a negative crop
-            if (roi.top()<roi.bottom())
+            bottom_d = (start_drag_y - y);
+        };
+        const unsigned int movingCounter = moving_left + moving_right + moving_top + moving_bottom;
+        double ratio = 0.0;
+        if (movingCounter == 4 && wxGetKeyState(WXK_SHIFT))
+        {
+            // moving crop with pressed SHIFT button
+            // restrict to horizontal or vertical movement
+            if (std::abs(left_d) < std::abs(top_d))
             {
-                unsigned int bottom_d = (int) (start_drag_y - y);
-                roi.setLowerRight(vigra::Point2D(roi.right(),
-                                                 roi.bottom() - bottom_d));
+                left_d = 0;
+                right_d = 0;
             }
+            else
+            {
+                top_d = 0;
+                bottom_d = 0;
+            };
         }
+        else
+        {
+            if (movingCounter == 2 && wxGetKeyState(WXK_COMMAND))
+            {
+                // keep aspect ratio when move edges with control key
+                ratio = 1.0f * roi.width() / roi.height();
+            }
+            else
+            {
+                if ((movingCounter == 1 || movingCounter == 2) && wxGetKeyState(WXK_SHIFT))
+                {
+                    // symmetric movement of crop with shift key
+                    if (left_d == 0)
+                    {
+                        left_d = -right_d;
+                    };
+                    if (right_d == 0)
+                    {
+                        right_d = -left_d;
+                    };
+                    if (top_d == 0)
+                    {
+                        top_d = -bottom_d;
+                    };
+                    if (bottom_d == 0)
+                    {
+                        bottom_d = -top_d;
+                    };
+                };
+            };
+        };
+        roi.setUpperLeft(vigra::Point2D(roi.left() - left_d, roi.top() - top_d));
+        roi.setLowerRight(vigra::Point2D(roi.right() - right_d, roi.bottom() - bottom_d));
+        if (ratio > 0.0)
+        {
+            const vigra::Size2D oldSize = roi.size();
+            if (ratio > 1)
+            {
+                roi.setSize(roi.width(), roi.width() / ratio);
+            }
+            else
+            {
+                roi.setSize(roi.height() * ratio, roi.height());
+            };
+            if (moving_top)
+            {
+                // moving the top one requires to update the offset position of the rect
+                roi.moveBy(oldSize.width() - roi.width(), oldSize.height() - roi.height());
+            };
+        };
         // apply the movement only if it does not bring about a negative crop
 		if((roi.top()<roi.bottom())&&(roi.left()<roi.right()))
         {
@@ -256,9 +307,17 @@ void PreviewCropTool::MouseButtonEvent(wxMouseEvent &e)
                 moving_top = true;
                 moving_bottom = true;
             }
+            if (!helper->GetPreviewFrame()->getPreview()->HasCapture())
+            {
+                helper->GetPreviewFrame()->getPreview()->CaptureMouse();
+            };
         } else {
             if (mouse_down)
             {
+                if (helper->GetPreviewFrame()->getPreview()->HasCapture())
+                {
+                    helper->GetPreviewFrame()->getPreview()->ReleaseMouse();
+                };
                 mouse_down = false;
                 moving_left = false;
                 moving_right = false;

@@ -508,7 +508,7 @@ protected:
         {
             if (!m_converter->ProcessReferenceOutput(m_progressPanel->GetLogAsArrayString()))
             {
-                wxMessageBox(_("Could not process of output of reference image.\nCan't process further images."),
+                wxMessageBox(_("Could not process the output of reference image.\nFurther processed images will not have a consistent white balance."),
 #ifdef _WIN32
                     _("Hugin"),
 #else
