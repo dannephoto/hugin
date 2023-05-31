@@ -161,7 +161,8 @@ namespace vigra_ext
         vigra::ArrayOfRegionStatistics<vigra::FindBoundingRectangle> roi(3);
         vigra::inspectTwoImages(vigra::srcIterRange<vigra::Diff2D>(vigra::Diff2D(0, 0), labels.size()), vigra::srcImage(labels), roi);
         // handle some special cases
-        if (roi.regions[3].size().area() == 0 && hardSeam)
+        const bool haveOverlap = roi.regions[3].size().area() > 0;
+        if (!haveOverlap && hardSeam)
         {
             // images do not overlap, simply copy image2 into image1
             vigra::copyImageIf(vigra::srcImageRange(image2), vigra::srcImage(mask2), vigra::destImage(image1, offsetPoint, image1.accessor()));
@@ -191,71 +192,74 @@ namespace vigra_ext
             );
         // build seed map
         vigra::omp::transformImage(vigra::srcImageRange(labels), vigra::destImage(labels), vigra::functor::Arg1() % vigra::functor::Param(3));
-        // build difference, only consider overlapping area
-        // increase size by 1 pixel in each direction if possible
-        vigra::Point2D p1(roi.regions[3].upperLeft);
-        if (p1.x > 0)
+        if (haveOverlap)
         {
-            --(p1.x);
-        };
-        if (p1.y > 0)
-        {
-            --(p1.y);
-        };
-        vigra::Point2D p2(roi.regions[3].lowerRight);
-        if (p2.x + 1 < image2.width())
-        {
-            ++(p2.x);
-        };
-        if (p2.y + 1 < image2.height())
-        {
-            ++(p2.y);
-        };
-        vigra::DImage diff(p2 - p1);
-        const vigra::Rect2D rect1(offsetPoint + p1, diff.size());
-        // build difference map
-        vigra::omp::combineTwoImages(vigra::srcImageRange(image1, rect1), vigra::srcImage(image2, p1), vigra::destImage(diff), detail::BuildDiff());
-        // scale to 0..255 to faster watershed
-        vigra::FindMinMax<double> diffMinMax;
-        vigra::inspectImage(vigra::srcImageRange(diff), diffMinMax);
-        diffMinMax.max = std::min<double>(diffMinMax.max, 0.25f * vigra::NumericTraits<typename vigra::NumericTraits<typename ImageType::PixelType>::ValueType>::max());
-        vigra::BImage diffByte(diff.size());
-        vigra::omp::transformImage(vigra::srcImageRange(diff), vigra::destImage(diffByte), vigra::functor::Param(255) - vigra::functor::Param(255.0f / diffMinMax.max)*vigra::functor::Arg1());
-        diff.resize(0, 0);
-        // run watershed algorithm
-        vigra::ArrayOfRegionStatistics<vigra::SeedRgDirectValueFunctor<vigra::UInt8> > stats(3);
-        if (doWrap)
-        {
-            // handle wrapping
-            const int oldWidth = labels.width();
-            const int oldHeight = labels.height();
-            vigra::BImage labelsWrapped(oldWidth * 2, oldHeight);
-            vigra::omp::copyImage(vigra::srcImageRange(labels), vigra::destImage(labelsWrapped));
-            vigra::omp::copyImage(labels.upperLeft(), labels.lowerRight(), labels.accessor(), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), labelsWrapped.accessor());
-            vigra::BImage diffWrapped(oldWidth * 2, diffByte.height());
-            vigra::omp::copyImage(vigra::srcImageRange(diffByte), vigra::destImage(diffWrapped));
-            vigra::omp::copyImage(diffByte.upperLeft(), diffByte.lowerRight(), diffByte.accessor(), diffWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), diffWrapped.accessor());
-            // apply gaussian smoothing with size depending radius
-            // we need a minimum size of window to apply gaussianSmoothing
-            if (diffWrapped.width() > 3 * smoothRadius && diffWrapped.height() > 3 * smoothRadius)
+            // build difference, only consider overlapping area
+            // increase size by 1 pixel in each direction if possible
+            vigra::Point2D p1(roi.regions[3].upperLeft);
+            if (p1.x > 0)
             {
-                vigra::gaussianSmoothing(vigra::srcImageRange(diffWrapped), vigra::destImage(diffWrapped), smoothRadius);
+                --(p1.x);
             };
-            vigra::fastSeededRegionGrowing(vigra::srcImageRange(diffWrapped), vigra::destImage(labelsWrapped, p1), stats, vigra::CompleteGrow, vigra::FourNeighborCode(), 255);
-            vigra::omp::copyImage(labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth / 2, 0), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, oldHeight), labelsWrapped.accessor(),
-                labels.upperLeft() + vigra::Diff2D(oldWidth / 2, 0), labels.accessor());
-            vigra::omp::copyImage(labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth + oldWidth / 2, oldHeight), labelsWrapped.accessor(),
-                labels.upperLeft(), labels.accessor());
-        }
-        else
-        {
-            // apply gaussian smoothing with size depending radius
-            // we need a minimum size of window to apply gaussianSmoothing
-            if (diffByte.width() > 3 * smoothRadius && diffByte.height() > 3 * smoothRadius)
+            if (p1.y > 0)
             {
-                vigra::gaussianSmoothing(vigra::srcImageRange(diffByte), vigra::destImage(diffByte), smoothRadius);
+                --(p1.y);
             };
-            vigra::fastSeededRegionGrowing(vigra::srcImageRange(diffByte), vigra::destImage(labels, p1), stats, vigra::CompleteGrow, vigra::FourNeighborCode(), 255);
+            vigra::Point2D p2(roi.regions[3].lowerRight);
+            if (p2.x + 1 < image2.width())
+            {
+                ++(p2.x);
+            };
+            if (p2.y + 1 < image2.height())
+            {
+                ++(p2.y);
+            };
+            vigra::DImage diff(p2 - p1);
+            const vigra::Rect2D rect1(offsetPoint + p1, diff.size());
+            // build difference map
+            vigra::omp::combineTwoImages(vigra::srcImageRange(image1, rect1), vigra::srcImage(image2, p1), vigra::destImage(diff), detail::BuildDiff());
+            // scale to 0..255 to faster watershed
+            vigra::FindMinMax<double> diffMinMax;
+            vigra::inspectImage(vigra::srcImageRange(diff), diffMinMax);
+            diffMinMax.max = std::min<double>(diffMinMax.max, 0.25f * vigra::NumericTraits<typename vigra::NumericTraits<typename ImageType::PixelType>::ValueType>::max());
+            vigra::BImage diffByte(diff.size());
+            vigra::omp::transformImage(vigra::srcImageRange(diff), vigra::destImage(diffByte), vigra::functor::Param(255) - vigra::functor::Param(255.0f / diffMinMax.max) * vigra::functor::Arg1());
+            diff.resize(0, 0);
+            // run watershed algorithm
+            vigra::ArrayOfRegionStatistics<vigra::SeedRgDirectValueFunctor<vigra::UInt8> > stats(3);
+            if (doWrap)
+            {
+                // handle wrapping
+                const int oldWidth = labels.width();
+                const int oldHeight = labels.height();
+                vigra::BImage labelsWrapped(oldWidth * 2, oldHeight);
+                vigra::omp::copyImage(vigra::srcImageRange(labels), vigra::destImage(labelsWrapped));
+                vigra::omp::copyImage(labels.upperLeft(), labels.lowerRight(), labels.accessor(), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), labelsWrapped.accessor());
+                vigra::BImage diffWrapped(oldWidth * 2, diffByte.height());
+                vigra::omp::copyImage(vigra::srcImageRange(diffByte), vigra::destImage(diffWrapped));
+                vigra::omp::copyImage(diffByte.upperLeft(), diffByte.lowerRight(), diffByte.accessor(), diffWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), diffWrapped.accessor());
+                // apply gaussian smoothing with size depending radius
+                // we need a minimum size of window to apply gaussianSmoothing
+                if (diffWrapped.width() > 3 * smoothRadius && diffWrapped.height() > 3 * smoothRadius)
+                {
+                    vigra::gaussianSmoothing(vigra::srcImageRange(diffWrapped), vigra::destImage(diffWrapped), smoothRadius);
+                };
+                vigra::fastSeededRegionGrowing(vigra::srcImageRange(diffWrapped), vigra::destImage(labelsWrapped, p1), stats, vigra::CompleteGrow, vigra::FourNeighborCode(), 255);
+                vigra::omp::copyImage(labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth / 2, 0), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, oldHeight), labelsWrapped.accessor(),
+                    labels.upperLeft() + vigra::Diff2D(oldWidth / 2, 0), labels.accessor());
+                vigra::omp::copyImage(labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth, 0), labelsWrapped.upperLeft() + vigra::Diff2D(oldWidth + oldWidth / 2, oldHeight), labelsWrapped.accessor(),
+                    labels.upperLeft(), labels.accessor());
+            }
+            else
+            {
+                // apply gaussian smoothing with size depending radius
+                // we need a minimum size of window to apply gaussianSmoothing
+                if (diffByte.width() > 3 * smoothRadius && diffByte.height() > 3 * smoothRadius)
+                {
+                    vigra::gaussianSmoothing(vigra::srcImageRange(diffByte), vigra::destImage(diffByte), smoothRadius);
+                };
+                vigra::fastSeededRegionGrowing(vigra::srcImageRange(diffByte), vigra::destImage(labels, p1), stats, vigra::CompleteGrow, vigra::FourNeighborCode(), 255);
+            };
         };
         // now we can merge the images
         // merging the mask is straightforward
