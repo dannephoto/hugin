@@ -460,10 +460,8 @@ bool ImportPapywizardFile(const wxString& filename, HuginBase::Panorama& pano)
             }
         };
         wxFileName scriptFileName(wxFileName::CreateTempFileName(tempDir + wxT("hp")));
-        std::ofstream script(scriptFileName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-        script.exceptions(std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit);
-        pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), images, false);
-        script.close();
+        const std::string scriptString(scriptFileName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+        pano.WritePTOFile(scriptString, hugin_utils::getPathPrefix(scriptString));
         // build command queue
         const wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
         HuginQueue::CommandQueue* commands=new HuginQueue::CommandQueue();

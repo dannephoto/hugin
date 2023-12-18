@@ -52,7 +52,7 @@ void CalculateCPStatisticsError::calcCtrlPntsErrorStats(const PanoramaData& pano
     int n=0;
     CPVector::const_iterator it;
     for (it = cps.begin() ; it != cps.end(); ++it) {
-        if (imgNr >= 0 && ((int)(*it).image1Nr != imgNr || (int)(*it).image2Nr != imgNr))
+        if (imgNr >= 0 && ((int)(*it).image1Nr != imgNr && (int)(*it).image2Nr != imgNr))
         {
             continue;
         }
@@ -97,7 +97,7 @@ void CalculateCPStatisticsRadial::calcCtrlPntsRadiStats(const PanoramaData& pano
     const CPVector & cps = pano.getCtrlPoints();
     std::vector<double> radi;
     for (it = cps.begin() ; it != cps.end(); ++it) {
-        if (imgNr >= 0 && ((int)(*it).image1Nr != imgNr || (int)(*it).image2Nr != imgNr))
+        if (imgNr >= 0 && ((int)(*it).image1Nr != imgNr && (int)(*it).image2Nr != imgNr))
         {
             continue;
         }

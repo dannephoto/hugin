@@ -1052,6 +1052,12 @@ void GLPreviewFrame::panoramaChanged(HuginBase::Panorama &pano)
                 break;
             };
         };
+        // disable create button after loading images
+        const std::string lastCmd = PanoCommand::GlobalCmdHist::getInstance().getLastCommandName();
+        if (lastCmd == "add images" || lastCmd == "add and distribute images")
+        {
+            enableCreate = false;
+        };
         if (!enableCreate && pano.getNrOfImages() == 1)
         {
             // some more checks for single image projects
@@ -1063,13 +1069,11 @@ void GLPreviewFrame::panoramaChanged(HuginBase::Panorama &pano)
             {
                 enableCreate = true;
             };
+            if (pano.getImage(0).getProjection() == HuginBase::SrcPanoImage::EQUIRECTANGULAR)
+            {
+                enableCreate = true;
+            };
         };
-        // disable create button after loading images
-        const std::string lastCmd=PanoCommand::GlobalCmdHist::getInstance().getLastCommandName();
-        if (lastCmd == "add images" || lastCmd== "add and distribute images")
-        {
-            enableCreate = false;
-        }
         m_createButton->Enable(enableCreate);
     }
 

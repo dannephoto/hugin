@@ -61,8 +61,8 @@ include(CheckIncludeFiles)
 project(hugin)
 
 # version
-set(V_MAJOR 2022)
-set(V_MINOR 1)
+set(V_MAJOR 2023)
+set(V_MINOR 0)
 set(V_PATCH 0)
 
 #
@@ -676,6 +676,8 @@ ELSE()
       STRING(REPLACE " /INCREMENTAL" "" NEW_FLAGS "${NEW_FLAGS}")
       SET(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "${NEW_FLAGS} /INCREMENTAL:NO" CACHE STRING "overwritten" FORCE)
     ENDIF()
+    # use several threads for compilation
+    add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
   ENDIF()
 ENDIF ()
 
@@ -918,7 +920,6 @@ ELSE()
   SET(CPACK_WIX_UPGRADE_GUID "F33AD91A-C09A-4C6E-A027-D56611228094")
 ENDIF()
 # installing to start menu requires at least CMake 3.3
-cmake_minimum_required(VERSION 3.3.0 FATAL_ERROR )
 SET(CPACK_WIX_PROGRAM_MENU_FOLDER Hugin)
 SET(CPACK_WIX_UI_DIALOG "${CMAKE_SOURCE_DIR}/platforms/windows/wix/big_banner.bmp")
 SET(CPACK_WIX_UI_BANNER "${CMAKE_SOURCE_DIR}/platforms/windows/wix/top_banner.bmp")

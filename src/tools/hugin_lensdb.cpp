@@ -78,23 +78,11 @@ bool CheckProjectFile(const fs::path filename)
 {
     // open project file
     HuginBase::Panorama pano;
-    std::string input = filename.string();
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    const std::string input = filename.string();
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "ERROR: Could not open script: " << filename.string() << endl;
-        return false;
-    }
-    std::string inputPathPrefix = hugin_utils::getPathPrefix(input);
-    pano.setFilePrefix(inputPathPrefix);
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "ERROR: error while parsing panos tool script: " << input << std::endl
-                  << "DocumentData::ReadWriteError code: " << err << std::endl;
-        return false;
+        return 1;
     };
-    prjfile.close();
     if (pano.getNrOfImages() == 0)
     {
         return false;

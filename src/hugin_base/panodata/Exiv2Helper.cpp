@@ -40,7 +40,11 @@ namespace HuginBase
             Exiv2::ExifData::iterator itr = exifData.findKey(Exiv2::ExifKey(keyName));
             if (itr != exifData.end() && itr->count())
             {
+#if defined EXIV2_VERSION && EXIV2_TEST_VERSION(0,28,0)
+                value = itr->toInt64();
+#else
                 value = itr->toLong();
+#endif
                 return true;
             }
             else
@@ -165,7 +169,11 @@ namespace HuginBase
         {
             if(it!=exifData.end() && it->count())
             {
+#if defined EXIV2_VERSION && EXIV2_TEST_VERSION(0,28,0)
+                return it->toInt64();
+#else
                 return it->toLong();
+#endif
             }
             return 0;
         };

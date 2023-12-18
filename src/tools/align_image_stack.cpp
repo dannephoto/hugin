@@ -945,8 +945,7 @@ int main2(std::vector<std::string> files, Parameters param)
         {
             if (!param.ptoFile.empty())
             {
-                std::ofstream script(param.ptoFile.c_str());
-                pano.printPanoramaScript(script, optvars, pano.getOptions(), imgs, false, "");
+                pano.WritePTOFile(param.ptoFile);
             }
             std::cerr << "An error occurred during optimization." << std::endl;
             if (param.ptoFile.empty())
@@ -1021,9 +1020,10 @@ int main2(std::vector<std::string> files, Parameters param)
         // At this point we have panorama options set according to the output
         if (!param.ptoFile.empty())
         {
-            std::ofstream script(param.ptoFile.c_str());
-            pano.printPanoramaScript(script, optvars, pano.getOptions(), imgs, false, "");
-            std::cout << "Written project file " << param.ptoFile << std::endl;
+            if (pano.WritePTOFile(param.ptoFile))
+            {
+                std::cout << "Written output to " << param.ptoFile << std::endl;
+            };
         }
 
 

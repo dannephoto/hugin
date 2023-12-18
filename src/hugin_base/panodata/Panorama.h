@@ -491,21 +491,6 @@ class IMPEX Panorama : public ManagedPanoramaData, public AppBase::DocumentData
         
     // -- script interface --
             
-       /** read after optimization, fills in control point errors.
-        *
-        *  @param set of image numbers that where used during by
-        *         printPanoramaScript().
-        *  @param vars will be set the the optimzied variables
-        *  @param ctrlPoints will contain the controlpoints, with distance
-        *         information
-        *
-        *  @return false on error (could not read optimizer output, parse error)
-        */
-        void parseOptimizerScript(std::istream & i,
-                                  const UIntSet & imgs,
-                                  VariableMapVector & imgVars,
-                                  CPVector & ctrlPoints) const;
-            
         /// create an optimizer script
         void printPanoramaScript(std::ostream & o,
                                  const OptimizeVector & optvars,
@@ -638,14 +623,14 @@ class IMPEX Panorama : public ManagedPanoramaData, public AppBase::DocumentData
     //=========== Document Data ====================================================
 
     public:
-        /** Reads data. You have to check with refered images after data is
-         *  loaded as the file path is likely to be relative, and the image
-         *  property might have been changed since the project is saved.
-         */
-        ReadWriteError readData(std::istream& dataInput, std::string documentType = "");
-        
-        ///
-        ReadWriteError writeData(std::ostream& dataOutput, std::string documentType = "");
+        /** read pto file from the given filename into Panorama object 
+        * it does some checks on the file and issues warnings to std::cerr
+        * @param filename the filename from which is pto file is read
+        * @param prefix path prefix to use for filepath mangling
+        * @return true, if file could be successful read */
+        bool ReadPTOFile(const std::string& filename, const std::string& prefix = "");
+        /** write data to given pto file */
+        bool WritePTOFile(const std::string& filename, const std::string& prefix = "");
 
         /** true if there are unsaved changes */
         bool isDirty() const

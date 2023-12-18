@@ -75,7 +75,7 @@ class WXIMPEX PanoCommand
         /** sets the name for the command */
         virtual void setName(const std::string& newName);
         ///
-        virtual bool wasSuccessful();
+        virtual bool wasSuccessful() const;
         /** Called by execute(). The default implementation does nothing and
         *   returns true.
         *  Should return false when the processing was unsuccessful.

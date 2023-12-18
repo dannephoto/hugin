@@ -51,7 +51,7 @@ namespace HuginBase
                 if (hdc)
                 {
                     wxChar filename[MAX_PATH];
-                    DWORD len;
+                    DWORD len = MAX_PATH - 1;
                     if (GetICMProfile(hdc, &len, filename))
                     {
                         profileName = filename;

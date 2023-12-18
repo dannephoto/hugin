@@ -1367,10 +1367,14 @@ void MaskImageCtrl::OnDraw(wxDC & dc)
 
 void MaskImageCtrl::ClearOverlay()
 {
-    wxClientDC dc(this);
-    PrepareDC(dc);
-    wxDCOverlay overlaydc(m_overlay, &dc);
-    overlaydc.Clear();
+    {
+        wxClientDC dc(this);
+        PrepareDC(dc);
+        wxDCOverlay overlaydc(m_overlay, &dc);
+        overlaydc.Clear();
+    };
+    // before reseting the wxOverlay we need to disconnet it from wxDCOverlay
+    // so destruct wxDCOverlay before calling Reset()
     m_overlay.Reset();
 }
 

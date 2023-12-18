@@ -375,14 +375,10 @@ namespace PanoCommand
 
     bool LoadPTProjectCmd::processPanorama(HuginBase::Panorama& pano)
     {
-        std::ifstream in(filename.c_str());
-        AppBase::DocumentData::ReadWriteError err = pano.readData(in);
-        if (err != AppBase::DocumentData::SUCCESSFUL)
+        if (!pano.ReadPTOFile(filename))
         {
-            DEBUG_ERROR("could not load panotools script");
             return false;
         }
-        in.close();
         return true;
     }
 

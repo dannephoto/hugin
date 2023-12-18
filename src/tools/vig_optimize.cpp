@@ -215,20 +215,10 @@ int main(int argc, char* argv[])
 
     const char* scriptFile = argv[optind];
     HuginBase::Panorama pano;
-    std::ifstream prjfile(scriptFile);
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(scriptFile, hugin_utils::getPathPrefix(scriptFile)))
     {
-        std::cerr << "could not open script : " << scriptFile << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(scriptFile));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << scriptFile << std::endl;
-        std::cerr << "AppBase::DocumentData::ReadWriteError code: " << err << std::endl;
-        return 1;
-    }
+    };
 
     // Ensure photometric parameters are selected for optimizaion
     if (!hasphotometricParams(pano))
@@ -300,18 +290,9 @@ int main(int argc, char* argv[])
 
         progressDisplay.taskFinished();
 
-        HuginBase::UIntSet allImgs;
-        fill_set(allImgs,0, pano.getNrOfImages()-1);
         // save project
-        if (outputFile == "" || outputFile == "-")
-        {
-            pano.printPanoramaScript(std::cout, pano.getOptimizeVector(), pano.getOptions(), allImgs, false, hugin_utils::getPathPrefix(scriptFile));
-        }
-        else
-        {
-            std::ofstream of(outputFile.c_str());
-            pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), allImgs, false, hugin_utils::getPathPrefix(scriptFile));
-        }
+        outputFile = hugin_utils::GetOutputFilename(outputFile, scriptFile, "vig");
+        pano.WritePTOFile(outputFile, hugin_utils::getPathPrefix(outputFile));
 
     }
     catch (std::exception& e)

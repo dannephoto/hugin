@@ -128,7 +128,7 @@ namespace HuginQueue
                 // add composite image tags from EXIF 2.32
                 // these are supported by exiftool 11.53 and later
                 outputFile << wxT("-CompositeImage=General Composite Image") << endl;
-                outputFile << wxString::Format(wxT("-CompositeImageCount=%d %d"), pano.getNrOfImages(), pano.getActiveImages().size()) << endl;
+                outputFile << wxString::Format(wxT("-CompositeImageCount=%lu %lu"), (unsigned long)pano.getNrOfImages(), (unsigned long)pano.getActiveImages().size()) << endl;
             };
             if (generateGPanoTags)
             {

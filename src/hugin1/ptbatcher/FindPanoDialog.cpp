@@ -890,25 +890,15 @@ wxString PossiblePano::GeneratePanorama(NamingConvention nc, bool createLinks, H
     pano.setOptimizerSwitch(HuginBase::OPT_POSITION);
     pano.setPhotometricOptimizerSwitch(HuginBase::OPT_EXPOSURE | HuginBase::OPT_VIGNETTING | HuginBase::OPT_RESPONSE);
 
-    std::ofstream script(projectFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-    script.exceptions ( std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit );
-    if(!script.good())
+    if (pano.WritePTOFile(std::string(projectFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME)),
+        std::string(projectFile.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR).mb_str(HUGIN_CONV_FILENAME))))
     {
-        return wxEmptyString;
-    };
-    HuginBase::UIntSet all;
-    fill_set(all, 0, pano.getNrOfImages()-1);
-    try
-    {
-        std::string Pathprefix(projectFile.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR).mb_str(HUGIN_CONV_FILENAME));
-        pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), all, false, Pathprefix);
+        return projectFile.GetFullPath();
     }
-    catch (...)
+    else
     {
         return wxEmptyString;
     };
-    script.close();
-    return projectFile.GetFullPath();
 };
 
 wxString PossiblePano::GetCameraName()

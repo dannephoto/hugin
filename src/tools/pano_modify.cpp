@@ -610,20 +610,10 @@ int main(int argc, char* argv[])
     std::string input=argv[optind];
     // read panorama
     HuginBase::Panorama pano;
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "could not open script : " << input << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(input));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << input << std::endl;
-        std::cerr << "DocumentData::ReadWriteError code: " << err << std::endl;
-        return 1;
-    }
+    };
 
     // sets the projection
     if(projection!=-1)
@@ -1142,36 +1132,20 @@ int main(int argc, char* argv[])
     {
         // read template panorama
         HuginBase::Panorama templatePano;
-        std::ifstream templateStream(templateFile.c_str());
-        if (!templateStream.good())
+        if (!pano.ReadPTOFile(templateFile, hugin_utils::getPathPrefix(templateFile)))
         {
-            std::cerr << "could not open script : " << templateFile << std::endl;
-            return 1;
-        }
-        std::cout << "Reading template file " << templateFile << std::endl;
-        templatePano.setFilePrefix(hugin_utils::getPathPrefix(templateFile));
-        AppBase::DocumentData::ReadWriteError err = templatePano.readData(templateStream);
-        if (err != AppBase::DocumentData::SUCCESSFUL)
-        {
-            std::cerr << "error while parsing panos tool script: " << templateFile << std::endl;
-            std::cerr << "DocumentData::ReadWriteError code: " << err << std::endl;
             return 1;
         };
         std::cout << "Applying settings from " << templateFile << std::endl;
         pano.setOptions(templatePano.getOptions());
     };
     //write output
-    HuginBase::OptimizeVector optvec = pano.getOptimizeVector();
-    HuginBase::UIntSet imgs;
-    fill_set(imgs,0, pano.getNrOfImages()-1);
     // Set output .pto filename if not given
-    if (output=="")
+    output = hugin_utils::GetOutputFilename(output, input, "mod");
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
     {
-        output=input.substr(0,input.length()-4).append("_mod.pto");
-    }
-    std::ofstream of(output.c_str());
-    pano.printPanoramaScript(of, optvec, pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(input));
+        std::cout << std::endl << "Written output to " << output << std::endl;
+    };
 
-    std::cout << std::endl << "Written output to " << output << std::endl;
     return 0;
 }

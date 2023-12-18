@@ -149,6 +149,51 @@
               <object class="wxBoxSizer">
                 <orient>wxHORIZONTAL</orient>
                 <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <label>Project</label>
+                        <style>wxALIGN_CENTRE</style>
+                      </object>
+                      <option>1</option>
+                      <flag>wxEXPAND</flag>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxToolBar">
+                        <object class="tool" name="action_new_project">
+                          <bitmap>data\filenew.png</bitmap>
+                          <tooltip>New project</tooltip>
+                          <longhelp>Start a new project</longhelp>
+                        </object>
+                        <object class="tool" name="action_load_project">
+                          <bitmap>data\fileopen.png</bitmap>
+                          <tooltip>Open project...</tooltip>
+                          <longhelp>Open a project file</longhelp>
+                        </object>
+                        <object class="tool" name="action_save_project">
+                          <bitmap>data\filesave.png</bitmap>
+                          <tooltip>Save project</tooltip>
+                          <longhelp>Save current project file</longhelp>
+                        </object>
+                        <style>wxTB_FLAT|wxTB_NODIVIDER</style>
+                      </object>
+                    </object>
+                    <orient>wxVERTICAL</orient>
+                  </object>
+                  <flag>wxALIGN_CENTRE_VERTICAL</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxStaticLine">
+                    <size>2,-1</size>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxStaticLine">
+                    <size>2,-1</size>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
                   <object class="SplitButton" name="ass_load_images_button">
                     <label>1. Load images...</label>
                     <tooltip>Load a series of images</tooltip>

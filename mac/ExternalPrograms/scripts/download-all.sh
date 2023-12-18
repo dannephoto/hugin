@@ -43,7 +43,7 @@ download "lcms2"     "https://sourceforge.net/projects/lcms/files/lcms/2.9/lcms2
 download "libffi"    "ftp://sourceware.org/pub/libffi/libffi-3.4.3.tar.gz"
 download "libomp"    "https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/openmp-13.0.1.src.tar.xz"
 download "libpano13" "https://sourceforge.net/projects/panotools/files/libpano13/libpano13-2.9.19/libpano13-2.9.19.tar.gz/download" "libpano13-2.9.19.tar.gz"
-download "libpng"    "https://download.sourceforge.net/libpng/libpng-1.6.37.tar.gz"                                          "libpng-1.6.37.tar.gz"
+download "libpng"    "https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz"                                          "libpng-1.6.39.tar.gz"
 download "tiff"      "http://download.osgeo.org/libtiff/tiff-4.1.0.tar.gz"
 download "vigra"     "https://github.com/ukoethe/vigra/releases/download/Version-1-11-1/vigra-1.11.1-src.tar.gz"
 download "wxWidgets" "https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1.tar.bz2"

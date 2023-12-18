@@ -186,10 +186,6 @@ namespace vigra_ext
             return;
         }
         const double smoothRadius = std::max(1.0, std::max(roi.regions[3].size().width(), roi.regions[3].size().height()) / 1000.0);
-        const bool doWrap = wrap && (
-            (roi.regions[3].size().width() == image1.width()) ||
-            (!hardSeam && (roi.regions[2].size().width() == image1.width()))
-            );
         // build seed map
         vigra::omp::transformImage(vigra::srcImageRange(labels), vigra::destImage(labels), vigra::functor::Arg1() % vigra::functor::Param(3));
         if (haveOverlap)
@@ -227,9 +223,10 @@ namespace vigra_ext
             diff.resize(0, 0);
             // run watershed algorithm
             vigra::ArrayOfRegionStatistics<vigra::SeedRgDirectValueFunctor<vigra::UInt8> > stats(3);
-            if (doWrap)
+            if (wrap && (roi.regions[3].size().width() == image1.width()))
             {
                 // handle wrapping
+                // only if requested and if overlap extends above 360 deg boundary
                 const int oldWidth = labels.width();
                 const int oldHeight = labels.height();
                 vigra::BImage labelsWrapped(oldWidth * 2, oldHeight);
@@ -276,11 +273,17 @@ namespace vigra_ext
             // find all boundaries in new mask
             // first filter out unused pixel the watershed algorithm has also processed
             vigra::omp::combineTwoImages(vigra::srcImageRange(mask1, offsetRect), vigra::srcImage(labels), vigra::destImage(labels), detail::CombineMasksForPoisson());
+            const bool doWrapBlending = wrap && (
+                // overlap regions wrap around 360 deg border
+                (roi.regions[3].size().width() == image1.width()) ||
+                // touching region wrap around 360 deg border
+                (roi.regions[2].size().width() == image1.width())
+                );
             // labels has now the following values:
             // 0: no image here
             // 1: use information from image 1
             // 5: use information from image 2
-            PoissonBlend(image1, image2, mask2, labels, offsetPoint, doWrap);
+            PoissonBlend(image1, image2, mask2, labels, offsetPoint, doWrapBlending);
         };
     };
 

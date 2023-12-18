@@ -528,12 +528,11 @@ int main(int argc, char* argv[])
     };
     output = hugin_utils::GetAbsoluteFilename(output);
     //write output
-    HuginBase::UIntSet imgs;
-    fill_set(imgs,0, pano.getNrOfImages()-1);
-    std::ofstream of(output.c_str());
-    pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(output));
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
+    {
+        std::cout << std::endl << "Written output to " << output << std::endl;
+    };
 
-    std::cout << std::endl << "Written output to " << output << std::endl;
     HuginBase::LensDB::LensDB::Clean();
     return 0;
 }

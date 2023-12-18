@@ -347,22 +347,7 @@ public:
 
     
 // -- script interface --
-        
-   /** read after optimization, fills in control point errors.
-    *
-    *  @param set of image numbers that where used during by
-    *         printPanoramaScript().
-    *  @param vars will be set the the optimzied variables
-    *  @param ctrlPoints will contain the controlpoints, with distance
-    *         information
-    *
-    *  @return false on error (could not read optimizer output, parse error)
-    */
-    virtual void parseOptimizerScript(std::istream & i,
-                              const UIntSet & imgs,
-                              VariableMapVector & imgVars,
-                              CPVector & ctrlPoints) const =0;
-    
+
     /// create an optimizer script
     virtual void printPanoramaScript(std::ostream & o,
                              const OptimizeVector & optvars,

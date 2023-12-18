@@ -109,24 +109,13 @@ bool PTOCopyMove(bool movingFile, fs::path src, fs::path dest, bool overwriteAll
               << "  to " << destFile.parent_path() << std::endl;
     // open project file
     HuginBase::Panorama pano;
-    std::string input=src.string();
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    const std::string input=src.string();
+    const std::string inputPathPrefix = hugin_utils::getPathPrefix(input);
+    const std::string outputPathPrefix = hugin_utils::getPathPrefix(destFile.string());
+    if (!pano.ReadPTOFile(input, inputPathPrefix))
     {
-        std::cerr << "ERROR: Could not open script: " << src.string() << std::endl;
-        return false;
-    }
-    std::string inputPathPrefix=hugin_utils::getPathPrefix(input);
-    std::string outputPathPrefix=hugin_utils::getPathPrefix(destFile.string());
-    pano.setFilePrefix(inputPathPrefix);
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "ERROR: error while parsing panos tool script: " << input << std::endl
-                  << "AppBase::DocumentData::ReadWriteError code: " << err << std::endl;
         return false;
     };
-    prjfile.close();
     pathVec imagesFrom;
     std::map<fs::path,fs::path> imagesTo;
     // check if all images exists
@@ -236,11 +225,10 @@ bool PTOCopyMove(bool movingFile, fs::path src, fs::path dest, bool overwriteAll
             }; // for loop for all images
             // now create pano file in new destination
             // write output
-            HuginBase::UIntSet imgs;
-            fill_set(imgs, 0, pano.getNrOfImages()-1);
-            std::ofstream of(destFile.string().c_str());
-            pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, outputPathPrefix);
-            of.close();
+            if (!pano.WritePTOFile(destFile.string(), outputPathPrefix))
+            {
+                return false;
+            };
             if(movingFile)
             {
                 try
@@ -268,11 +256,10 @@ bool PTOCopyMove(bool movingFile, fs::path src, fs::path dest, bool overwriteAll
         // now create pano file in new destination, project contains images in paths
         // not relative to base directory
         // so create only the new project file without copying/moving image files
-        HuginBase::UIntSet imgs;
-        fill_set(imgs, 0, pano.getNrOfImages()-1);
-        std::ofstream of(destFile.string().c_str());
-        pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, outputPathPrefix);
-        of.close();
+        if (!pano.WritePTOFile(destFile.string(), outputPathPrefix))
+        {
+            return false;
+        };
         if(movingFile)
         {
             try

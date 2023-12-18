@@ -11,8 +11,8 @@
 # The compiler(s) to use
 # CC="/usr/local/opt/llvm/bin/clang"
 # CXX="/usr/local/opt/llvm/bin/clang++"
-CC="/opt/homebrew/Cellar/llvm/16.0.3/bin/clang"
-CXX="/opt/homebrew/Cellar/llvm/16.0.3/bin/clang++"
+CC="/opt/homebrew/Cellar/llvm/17.0.5/bin/clang"
+CXX="/opt/homebrew/Cellar/llvm/17.0.5/bin/clang++"
 
 
 # The minimum macOS version required to run the compiled files

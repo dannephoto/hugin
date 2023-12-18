@@ -183,11 +183,8 @@ bool RunStitchPanel::StitchProject(const wxString& scriptFile, const wxString& o
         }
         DEBUG_DEBUG("tmpPTOfn file: " << (const char *)m_currentPTOfn.mb_str(wxConvLocal));
         // copy is not enough, need to adjust image path names...
-        std::ofstream script(m_currentPTOfn.mb_str(HUGIN_CONV_FILENAME));
-        HuginBase::UIntSet all;
-        fill_set(all, 0, pano.getNrOfImages()-1);
-        pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), all, false, "");
-        script.close();
+        const std::string script(m_currentPTOfn.mb_str(HUGIN_CONV_FILENAME));
+        pano.WritePTOFile(script);
 
         // cd to output directory, if one is given.
         m_oldCwd = wxFileName::GetCwd();

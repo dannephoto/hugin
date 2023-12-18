@@ -45,15 +45,7 @@ class IMPEX DocumentData
     public:
         ///
         virtual ~DocumentData() {};
-        
 
-    public:
-        enum ReadWriteError { SUCCESSFUL=-1, UNKNOWN_ERROR, INCOMPATIBLE_TYPE, INVALID_DATA, PARSER_ERROR };
-            
-        virtual ReadWriteError readData(std::istream& dataInput, std::string documentType = "") =0;
-        virtual ReadWriteError writeData(std::ostream& dataOutput, std::string documentType = "") =0;
-        
-        
     public:
         virtual bool isDirty() const
             { return m_dirty; }

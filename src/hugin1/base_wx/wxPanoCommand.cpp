@@ -687,7 +687,9 @@ bool wxLoadPTProjectCmd::processPanorama(HuginBase::Panorama& pano)
         };
     } else {
         DEBUG_ERROR("could not load panotools script");
-    }
+        in.close();
+        return false;
+    };
     in.close();
 
     // Verify control points are valid

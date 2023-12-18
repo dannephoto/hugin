@@ -272,11 +272,10 @@ void CreateMissingImages(HuginBase::Panorama& pano, const std::string& output)
     if (requiresPTOrewrite)
     {
         // resave pto file in case path to some images has changed
-        std::cout << std::endl << "Writing " << output << std::endl;
-        std::ofstream of(output.c_str());
-        HuginBase::UIntSet imgs;
-        fill_set(imgs, 0, pano.getNrOfImages() - 1);
-        pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, ptoPath);
+        if (pano.WritePTOFile(output, ptoPath))
+        {
+            std::cout << "Written output to " << output << std::endl;
+        };
     };
 }
 
@@ -362,24 +361,14 @@ int main(int argc, char* argv[])
     std::string output;
     if (createDummyImages)
     {
-        output = input.substr(0, input.length() - 4).append("_dummy.pto");
+        output = hugin_utils::GetOutputFilename(output, input, "dummy");
     };
 
     HuginBase::Panorama pano;
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "could not open script : " << input << std::endl;
         return -1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(input));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << input << std::endl
-            << "DocumentData::ReadWriteError code: " << err << std::endl;
-        return -1;
-    }
+    };
 
     HuginBase::ConstStandardImageVariableGroups variable_groups(pano);
     std::cout << std::endl

@@ -54,6 +54,9 @@ namespace PanoCommand
          */
         void clear();
 
+        /** clear all commands in the redo queue */
+        void clearRedoQueue();
+
         /**
          * Adds a command to the history. Call this for each @p command you create.
          * Unless you set @p execute to false, this will also execute the command.
@@ -84,6 +87,9 @@ namespace PanoCommand
 
         /** returns the name of the last command */
         std::string getLastCommandName() const;
+
+        /** return the last PanoCommand */
+        const PanoCommand* getLastCommand() const;
     private:
         // our commands
         std::vector<PanoCommand*> commands;

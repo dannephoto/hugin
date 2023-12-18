@@ -208,12 +208,12 @@ void GenerateSequenceDialog::ReadPTOFile()
         {
             m_pano.setMemento(newPano);
             m_validPTO = true;
-        };
-        for (size_t i = 0; i < m_pano.getNrOfImages(); ++i)
-        {
-            const wxString imageFilename(wxString(m_pano.getImage(i).getFilename().c_str(), HUGIN_CONV_FILENAME));
-            m_orignalFilenames.Add(imageFilename);
-            m_mappedFilenames.Add(imageFilename);
+            for (size_t i = 0; i < m_pano.getNrOfImages(); ++i)
+            {
+                const wxString imageFilename(wxString(m_pano.getImage(i).getFilename().c_str(), HUGIN_CONV_FILENAME));
+                m_orignalFilenames.Add(imageFilename);
+                m_mappedFilenames.Add(imageFilename);
+            };
         };
     };
 }
@@ -674,24 +674,8 @@ void GenerateSequenceDialog::DoGeneratePanorama(const Project::Target target)
                     {
                         break;
                     };
-                    std::ofstream script(projectFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-                    script.exceptions(std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit);
-                    if (!script.good())
-                    {
-                        break;
-                    };
-                    HuginBase::UIntSet all;
-                    fill_set(all, 0, newGeneratedPano.getNrOfImages() - 1);
-                    try
-                    {
-                        newGeneratedPano.printPanoramaScript(script, newGeneratedPano.getOptimizeVector(), newGeneratedPano.getOptions(), all, false, 
-                            hugin_utils::getPathPrefix(std::string(projectFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME))));
-                    }
-                    catch (...)
-                    {
-                        break;
-                    };
-                    script.close();
+                    const std::string scriptString(projectFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+                    newGeneratedPano.WritePTOFile(scriptString, hugin_utils::getPathPrefix(scriptString));
                     // all done, remember pto file name
                     ptoFileList.Add(projectFile.GetFullPath());
                 };

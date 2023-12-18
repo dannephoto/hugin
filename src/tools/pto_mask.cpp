@@ -262,20 +262,10 @@ int main(int argc, char* argv[])
     std::string input=argv[optind];
     // read panorama
     HuginBase::Panorama pano;
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "Error: could not open script " << input << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(input));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "Error while parsing panos tool script: " << input << std::endl;
-        std::cerr << "AppBase::DocumentData::ReadWriteError code: " << err << std::endl;
-        return 1;
-    }
+    };
 
     //delete masks
     if (deleteAllMasks)
@@ -415,16 +405,11 @@ int main(int argc, char* argv[])
     };
 
     //write output
-    HuginBase::UIntSet imgs;
-    fill_set(imgs, 0, pano.getNrOfImages()-1);
     // Set output .pto filename if not given
-    if (output=="")
+    output = hugin_utils::GetOutputFilename(output, input, "mask");
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
     {
-        output=input.substr(0,input.length()-4).append("_mask.pto");
-    }
-    std::ofstream of(output.c_str());
-    pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(input));
-
-    std::cout << std::endl << "Written output to " << output << std::endl;
+        std::cout << std::endl << "Written project file " << output << std::endl;
+    };
     return 0;
 }

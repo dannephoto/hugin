@@ -169,21 +169,7 @@ void SplitButton::OnPaint(wxPaintEvent& WXUNUSED(event))
     r1.height = size.GetHeight();
 
     wxRendererNative::Get().DrawPushButton(this, dc, r1, m_stateButton);
-
-    // Determine text color based on dark mode
-    wxColour textColor;
-#ifdef __WXMAC__
-    bool darkModeEnabled = wxSystemSettings::GetAppearance().IsDark();
-    if (darkModeEnabled)
-        textColor = m_IsEnabled ? wxColour(0, 0, 0) : wxColour(192, 192, 192); // Black color for dark mode, if not enabled use gray
-    else
-        textColor = wxSystemSettings::GetColour(m_IsEnabled ? wxSYS_COLOUR_BTNTEXT : wxSYS_COLOUR_GRAYTEXT);
-#else
-    textColor = wxSystemSettings::GetColour(m_IsEnabled ? wxSYS_COLOUR_BTNTEXT : wxSYS_COLOUR_GRAYTEXT);
-#endif
-
-    dc.SetTextForeground(textColor);
-
+    dc.SetTextForeground(wxSystemSettings::GetColour(m_IsEnabled ? wxSYS_COLOUR_BTNTEXT : wxSYS_COLOUR_GRAYTEXT));
     // draw label and bitmap
     if (HasBitmap())
     {

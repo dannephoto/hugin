@@ -174,20 +174,10 @@ int main(int argc, char* argv[])
     std::string input=argv[optind];
 
     HuginBase::Panorama pano;
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "could not open script : " << input << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(input));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << input << std::endl;
-        std::cerr << "DocumentData::ReadWriteError code: " << err << std::endl;
-        return 1;
-    }
+    };
 
     const size_t nrImg=pano.getNrOfImages();
     if (nrImg < 2)
@@ -269,17 +259,11 @@ int main(int argc, char* argv[])
     };
 
     //write output
-    HuginBase::OptimizeVector optvec = pano.getOptimizeVector();
-    HuginBase::UIntSet imgs;
-    fill_set(imgs,0, pano.getNrOfImages()-1);
     // Set output .pto filename if not given
-    if (output=="")
+    output = hugin_utils::GetOutputFilename(output, input, "clean");
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
     {
-        output=input.substr(0,input.length()-4).append("_clean.pto");
-    }
-    std::ofstream of(output.c_str());
-    pano.printPanoramaScript(of, optvec, pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(input));
-
-    std::cout << std::endl << "Written output to " << output << std::endl;
+        std::cout << std::endl << "Written output to " << output << std::endl;
+    };
     return 0;
 }

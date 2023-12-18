@@ -171,33 +171,10 @@ int main(int argc, char* argv[])
     const char* scriptFile = argv[optind];
 
     HuginBase::Panorama pano;
-    if (scriptFile[0] == '-')
+    if (!pano.ReadPTOFile(scriptFile, hugin_utils::getPathPrefix(scriptFile)))
     {
-        AppBase::DocumentData::ReadWriteError err = pano.readData(std::cin);
-        if (err != AppBase::DocumentData::SUCCESSFUL)
-        {
-            std::cerr << "error while reading script file from stdin." << std::endl
-                << "DocumentData::ReadWriteError code: " << err << std::endl;
-            return 1;
-        }
-    }
-    else
-    {
-        std::ifstream prjfile(scriptFile);
-        if (!prjfile.good())
-        {
-            std::cerr << "could not open script : " << scriptFile << std::endl;
-            return 1;
-        }
-        pano.setFilePrefix(hugin_utils::getPathPrefix(scriptFile));
-        AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-        if (err != AppBase::DocumentData::SUCCESSFUL)
-        {
-            std::cerr << "error while parsing panos tool script: " << scriptFile << std::endl
-                << "DocumentData::ReadWriteError code: " << err << std::endl;
-            return 1;
-        }
-    }
+        return 1;
+    };
 
     if (pano.getNrOfImages() == 0)
     {
@@ -508,17 +485,10 @@ int main(int argc, char* argv[])
     };
 
     // write result
-    HuginBase::OptimizeVector optvec = pano.getOptimizeVector();
-    HuginBase::UIntSet imgs;
-    fill_set(imgs,0, pano.getNrOfImages()-1);
-    if (output != "")
+    output = hugin_utils::GetOutputFilename(output, scriptFile, "opt");
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
     {
-        std::ofstream of(output.c_str());
-        pano.printPanoramaScript(of, optvec, pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(scriptFile));
-    }
-    else
-    {
-        pano.printPanoramaScript(std::cout, optvec, pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(scriptFile));
-    }
+        std::cout << "Written output to " << output << std::endl;
+    };
     return 0;
 }

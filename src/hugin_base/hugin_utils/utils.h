@@ -214,6 +214,10 @@ namespace hugin_utils
     /** check if filename contains extension, if not add default extension */
     IMPEX void EnforceExtension(std::string& filename, const std::string& defaultExtension);
 
+    /** construct output filename, if ouput is known return this value
+     *    otherwise use the input filename and append the suffix before the extension */
+    IMPEX std::string GetOutputFilename(const std::string& out, const std::string& in, const std::string& suffix);
+
     /** returns the full path to the data directory */
     IMPEX std::string GetDataDir();
 

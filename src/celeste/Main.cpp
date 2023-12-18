@@ -370,22 +370,11 @@ int main(int argc, char* argv[])
   		std::cout << "Parsing Hugin project file " << pto_file << std::endl << std::endl;
 
         HuginBase::Panorama pano;
-        std::ifstream prjfile(pto_file.c_str());
-        if (!prjfile.good())
+        if (!pano.ReadPTOFile(pto_file, hugin_utils::getPathPrefix(pto_file)))
         {
-            std::cerr << "could not open script : " << pto_file << std::endl;
             celeste::destroySVMmodel(model);
             return 1;
-        }
-        pano.setFilePrefix(hugin_utils::getPathPrefix(pto_file));
-        AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-        if (err != AppBase::DocumentData::SUCCESSFUL)
-        {
-            std::cerr << "error while parsing panos tool script: " << pto_file << std::endl;
-            std::cerr << "DocumentData::ReadWriteError code: " << err << std::endl;
-            celeste::destroySVMmodel(model);
-            return 1;
-        }
+        };
 
         for(unsigned int i=0;i<pano.getNrOfImages();i++)
         {
@@ -429,14 +418,12 @@ int main(int argc, char* argv[])
             };
         };
 
-		// write new pto file
-        std::ofstream of(output_pto.c_str());
-        HuginBase::UIntSet imgs;
-        fill_set(imgs,0, pano.getNrOfImages()-1);
-        pano.printPanoramaScript(of, pano.getOptimizeVector(), pano.getOptions(), imgs, false, hugin_utils::getPathPrefix(pto_file));
-    
-        std::cout << std::endl << "Written file " << output_pto << std::endl << std::endl;
-	}
+        // write new pto file
+        if (pano.WritePTOFile(output_pto, hugin_utils::getPathPrefix(output_pto)))
+        {
+            std::cout << std::endl << "Written output to " << output_pto << std::endl;
+        };
+    }
     celeste::destroySVMmodel(model);
 	return(0);
 	

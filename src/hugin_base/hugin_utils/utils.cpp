@@ -408,7 +408,28 @@ void EnforceExtension(std::string& filename, const std::string& defaultExtension
     {
         filename = stripExtension(filename) + "." + defaultExtension;
     };
-};
+}
+
+std::string GetOutputFilename(const std::string& out, const std::string& in, const std::string& suffix)
+{
+    if (out.empty())
+    {
+        const std::string extension = getExtension(in);
+        if (extension.empty())
+        {
+            return in + "_" + suffix;
+        }
+        else
+        {
+            return in.substr(0, in.length() - extension.length() - 1).append("_" + suffix + "." + extension);
+        };
+    }
+    else
+    {
+        return out;
+    };
+}
+
 
 std::string GetDataDir()
 {

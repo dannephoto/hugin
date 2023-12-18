@@ -257,7 +257,9 @@ void SetFOV(const std::string& fov, HuginBase::Panorama& pano, HuginBase::Panora
     if (fov == "auto")
     {
         std::cout << "Fit panorama field of view to best size" << std::endl;
-        HuginBase::CalculateFitPanorama fitPano(pano);
+        HuginBase::Panorama tempPano = pano.duplicate();
+        tempPano.setOptions(options);
+        HuginBase::CalculateFitPanorama fitPano(tempPano);
         fitPano.run();
         options.setHFOV(fitPano.getResultHorizontalFOV());
         options.setHeight(hugin_utils::roundi(fitPano.getResultHeight()));
@@ -296,7 +298,9 @@ void SetCanvas(const std::string& canvas, HuginBase::Panorama& pano, HuginBase::
         if (scale > 0)
         {
             std::cout << "Calculate optimal size of panorama" << std::endl;
-            double s = HuginBase::CalculateOptimalScale::calcOptimalScale(pano);
+            HuginBase::Panorama tempPano = pano.duplicate();
+            tempPano.setOptions(options);
+            double s = HuginBase::CalculateOptimalScale::calcOptimalScale(tempPano);
             options.setWidth(hugin_utils::roundi(options.getWidth() * s * scale / 100), true);
             std::cout << "Setting canvas size to " << options.getWidth() << " x " << options.getHeight() << std::endl;
         };
@@ -326,18 +330,19 @@ void SetCrop(const std::string& cropString, HuginBase::Panorama& pano, HuginBase
         std::cout << "Searching for best crop rectangle" << std::endl;
         AppBase::DummyProgressDisplay dummy;
         // we need to apply the current options before calculation of crop
-        pano.setOptions(options);
+        HuginBase::Panorama tempPano = pano.duplicate();
+        tempPano.setOptions(options);
         vigra::Rect2D roi;
 
         if (cropString == "autooutside")
         {
-            HuginBase::CalculateOptimalROIOutside cropPano(pano, &dummy);
+            HuginBase::CalculateOptimalROIOutside cropPano(tempPano, &dummy);
             cropPano.run();
             roi = cropPano.getResultOptimalROI();
         }
         else
         {
-            HuginBase::CalculateOptimalROI cropPano(pano, &dummy);
+            HuginBase::CalculateOptimalROI cropPano(tempPano, &dummy);
             if (cropString == "autohdr")
             {
                 cropPano.setStacks(getHDRStacks(pano, pano.getActiveImages(), options));

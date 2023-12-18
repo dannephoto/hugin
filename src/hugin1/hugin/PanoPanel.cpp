@@ -1112,13 +1112,7 @@ void PanoPanel::DoStitch(const wxString& userDefinedSetting)
     }
     DEBUG_DEBUG("tmp PTO file: " << (const char *)currentPTOfn.mb_str(wxConvLocal));
     // copy is not enough, need to adjust image path names...
-    std::ofstream script(currentPTOfn.mb_str(HUGIN_CONV_FILENAME));
-    HuginBase::UIntSet all;
-    if (pano->getNrOfImages() > 0) {
-        fill_set(all, 0, pano->getNrOfImages()-1);
-    }
-    pano->printPanoramaScript(script, pano->getOptimizeVector(), pano->getOptions(), all, false, "");
-    script.close();
+    pano->WritePTOFile(std::string(currentPTOfn.mb_str(HUGIN_CONV_FILENAME)));
 
 //    wxCommandEvent dummy;
 //    MainFrame::Get()->OnSaveProject(dummy);

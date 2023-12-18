@@ -146,14 +146,13 @@ int iCPApp::OnRun()
     };
 
     //write output
-    HuginBase::OptimizeVector optvec = pano.getOptimizeVector();
-    std::ofstream of((const char *)m_output.mb_str(HUGIN_CONV_FILENAME));
     wxFileName outputFile(m_output);
     outputFile.MakeAbsolute();
-    std::string prefix(outputFile.GetPath(wxPATH_GET_SEPARATOR | wxPATH_GET_VOLUME).char_str());
-    pano.printPanoramaScript(of, optvec, pano.getOptions(), imgs, false, prefix);
-    
-    std::cout << std::endl << "Written output to " << m_output.char_str() << std::endl;
+    const std::string output(outputFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+    if (pano.WritePTOFile(output, hugin_utils::getPathPrefix(output)))
+    {
+        std::cout << std::endl << "Written output to " << output << std::endl;
+    };
 
     return 0;
 };

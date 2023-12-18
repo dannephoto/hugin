@@ -152,20 +152,10 @@ int main(int argc, char* argv[])
     std::string input=argv[optind];
 
     HuginBase::Panorama pano;
-    std::ifstream prjfile(input.c_str());
-    if (!prjfile.good())
+    if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
     {
-        std::cerr << "could not open script : " << input << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(input));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << input << std::endl;
-        std::cerr << "AppBase::DocumentData::ReadWriteError code: " << err << std::endl;
-        return 1;
-    }
+    };
 
     // set up output format
     std::cout.setf ( std::ios::fixed ) ;

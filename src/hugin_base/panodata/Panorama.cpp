@@ -828,148 +828,6 @@ void Panorama::printStitcherScript(std::ostream & o,
 
 }
 
-void Panorama::parseOptimizerScript(std::istream & i, const UIntSet & imgs,
-                                    VariableMapVector & imgVars, CPVector & CPs) const
-{
-    DEBUG_TRACE("");
-    // set numeric locale to C, for correct number output
-    char * old_locale = strdup(setlocale(LC_NUMERIC, ""));
-    setlocale(LC_NUMERIC,"C");
-
-    unsigned int ic=0;
-    std::map<unsigned int, unsigned int> script2ImgMap;
-    for (UIntSet::const_iterator imgNrIt = imgs.begin(); imgNrIt != imgs.end();
-         ++imgNrIt)
-    {
-        unsigned int imgNr = *imgNrIt;
-        script2ImgMap[ic] = imgNr;
-        ic++;
-    }
-    ic = 0;
-    unsigned int sc = 0;
-    std::map<unsigned int, unsigned int> script2CPMap;
-    for (CPVector::const_iterator it = state.ctrlPoints.begin(); it != state.ctrlPoints.end(); ++it) {
-        if (set_contains(imgs, it->image1Nr) && set_contains(imgs, it->image2Nr)) {
-            script2CPMap[sc] = ic;
-            sc++;
-        }
-        ic++;
-    }
-
-
-
-    // 0 = read output (image lines), 1 = read control point distances
-    int state = 0;
-    std::string line;
-    unsigned int lineNr = 0;
-    unsigned int scriptImgCounter = 0;
-    unsigned int scriptCPCounter = 0;
-//    VariableMapVector::iterator varIt = imgVars.begin();
-//    CPVector::iterator pointIt = CPs.begin();
-
-// DGSW FIXME - Unreferenced
-//	int pnr=0;
-
-    while (!i.eof()) {
-        std::getline(i, line);
-        lineNr++;
-        switch (state) {
-        case 0:
-        {
-            // we are reading the output lines:
-            // o f3 r0 p0 y0 v89.2582 a-0.027803 b0.059851 c-0.073115 d10.542470 e16.121145 u10 -buf
-            if ((line.compare("# Control Points: Distance between desired and fitted Position") == 0 )
-             || (line.compare("# Control Points: Distance between desired and fitted Position (in Pixels)") == 0 )
-             || (line.compare("# Control Points: Distance between desired and fitted Position (in \"Pixels\")") == 0 )) {
-		
-                // switch to reading the control point distance
-                if (scriptImgCounter != imgs.size()) {
-                    DEBUG_ERROR("Read only " << scriptImgCounter << " images from PTOptimizer file");
-                }
-                DEBUG_DEBUG("Changing state to read control point distances");
-                state = 1;
-                break;
-            }
-            if (line[0] != 'o') continue;
-            // select variables of the image
-            VariableMap & var = imgVars[script2ImgMap[scriptImgCounter]];
-            DEBUG_DEBUG("reading image variables for image:" << scriptImgCounter);
-            // read position variables
-            int link;
-            PTScriptParsing::readVar(map_get(var, "r"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "p"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "y"), link, line);
-            DEBUG_ASSERT(link == -1);
-
-            DEBUG_DEBUG("yaw: " << map_get(var, "y").getValue()
-                        << " pitch " << map_get(var, "p").getValue()
-                        << " roll " << map_get(var, "r").getValue());
-            // read lens variables
-
-            PTScriptParsing::readVar(map_get(var, "TrX"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "TrY"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "TrZ"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "Tpy"), link, line);
-            DEBUG_ASSERT(link == -1);
-            PTScriptParsing::readVar(map_get(var, "Tpp"), link, line);
-            DEBUG_ASSERT(link == -1);
-
-            DEBUG_DEBUG("X: " << map_get(var, "TrX").getValue()
-                        << " Y " << map_get(var, "TrY").getValue()
-                        << " Z " << map_get(var, "TrZ").getValue());
-            // read lens variables
-
-
-            for (const char **c = Lens::variableNames; *c != 0; ++c) {
-                Variable & curVar = map_get(var, *c);
-                if (!PTScriptParsing::readVar(curVar, link, line)) {
-                    DEBUG_ERROR("Could not read "<< *c << " at script line " << lineNr);
-                }
-                // linking in output forbidden
-                DEBUG_ASSERT(link == -1);
-            }
-            scriptImgCounter++;
-            break;
-        }
-        case 1:
-        {
-            // read ctrl point distances:
-            // # Control Point No 0:  0.428994
-            if (line[0] == 'C') {
-//                DEBUG_DEBUG(CPs.size() << " points, read: " << pnr);
-                state = 2;
-                break;
-            }
-            if (line.find("# Control Point No") != 0) continue;
-            DEBUG_DEBUG("reading cp dist line: " << line);
-            std::string::size_type p;
-            if ((p=line.find(':')) == std::string::npos) assert(0);
-            p++;
-            DEBUG_DEBUG("parsing point " << scriptCPCounter << " (idx:" << p << "): " << line.substr(p));
-            double err = -1;
-
-            hugin_utils::stringToDouble(line.substr(p), err);
-            CPs[script2CPMap[scriptCPCounter]].error = err;
-            DEBUG_DEBUG("read CP distance " << err);
-            scriptCPCounter++;
-            break;
-        }
-        default:
-            // ignore line..
-            break;
-        }
-    }
-
-    // reset locale
-    setlocale(LC_NUMERIC,old_locale);
-    free(old_locale);
-}
-
 void Panorama::changeFinished(bool keepDirty)
 {
     if (state.images.empty()) {
@@ -2162,41 +2020,71 @@ int Panorama::getNextCPTypeLineNumber() const
     return t+1;
 }
 
-
-Panorama::ReadWriteError Panorama::readData(std::istream& dataInput, std::string documentType)
+bool Panorama::ReadPTOFile(const std::string& filename, const std::string& prefix)
 {
-    // [TODO] check the document type, return INCOMPATIBLE_TYPE
-    
-    if(!dataInput.good() || dataInput.eof())
+    // check if filename is an image file
+    if (vigra::isImage(filename.c_str()))
     {
-        DEBUG_WARN("Failed to read from dataInput.");
-        return INVALID_DATA;
-    }
-    
+        std::cerr << "file \"" << filename << "\" seems to be an image file and not a PTO file." << std::endl;
+        return false;
+    };
+    // open stream and check
+    std::ifstream dataInput(filename.c_str());
+    if (!dataInput.good() || dataInput.eof())
+    {
+        std::cerr << "could not open script : " << filename << std::endl;
+        return false;
+    };
+    // finally read pto file
     PanoramaMemento newPano;
     int ptoVersion;
-    if (newPano.loadPTScript(dataInput, ptoVersion, getFilePrefix())) {
-        
+    const bool result = newPano.loadPTScript(dataInput, ptoVersion, prefix);
+    // close stream
+    dataInput.close();
+    if (result)
+    {
+        // reading was sucessful, update current object
+        this->setFilePrefix(prefix);
         this->setMemento(newPano);
-        return SUCCESSFUL;
-        
-    } else {
-        DEBUG_FATAL("Could not parse the data input successfully.");
-        return PARSER_ERROR;
+        return true;
     }
+    else
+    {
+        // failed to parse pto file
+        std::cerr << "error while parsing panos tool script: " << filename << std::endl;
+        return false;
+    };
 }
 
-///
-Panorama::ReadWriteError Panorama::writeData(std::ostream& dataOutput, std::string documentType)
+bool Panorama::WritePTOFile(const std::string& filename, const std::string& prefix)
 {
-    UIntSet all;
-    
-    if (getNrOfImages() > 0)
-        fill_set(all, 0, getNrOfImages()-1);
-    
-    printPanoramaScript(dataOutput, getOptimizeVector(), getOptions(), all, false, getFilePrefix());
-    
-    return SUCCESSFUL;
+    std::ofstream outputStream(filename, std::ofstream::out | std::ofstream::trunc);
+    if (outputStream.good())
+    {
+        UIntSet allImages;
+        if (getNrOfImages() > 0)
+        {
+            fill_set(allImages, 0, getNrOfImages() - 1);
+        };
+        try
+        {
+            printPanoramaScript(outputStream, getOptimizeVector(), getOptions(), allImages, false, prefix);
+        }
+        catch (std::exception& e)
+        {
+            // error occured, return false
+            outputStream.close();
+            std::cerr << "Failed to write project file " << filename << " (error: " << e.what() << ")" << std::endl;
+            return false;
+        };
+        outputStream.close();
+        return true;
+    }
+    else
+    {
+        std::cerr << "Failed to write project file " << filename << " (Can not create file.)" << std::endl;
+        return false;
+    };
 }
 
 void Panorama::updateWhiteBalance(double redFactor, double blueFactor)
@@ -2278,15 +2166,15 @@ const bool Panorama::hasPossibleStacks() const
     {
         return false;
     }
-    //check if exposure value is repeated with step size of bracket size
-    if (set_contains(evValues[0], evValues.size()))
+    //check that all exposure layer have the same size indicating that all stacks are of the same size
+    for (size_t layerNr = 1; layerNr < evValues.size(); ++layerNr)
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        if (evValues[0].size() != evValues[layerNr].size())
+        {
+            return false;
+        };
     };
+    return true;
 };
 
 /** create automatically stacks as indicated by metadata */
@@ -2439,6 +2327,8 @@ bool PanoramaMemento::loadPTScript(std::istream &i, int & ptoVersion, const std:
     char * old_locale = strdup(p);
     setlocale(LC_NUMERIC,"C");
     std::string line;
+    // list of all control characters (char 0 .. 31), except tab stop 0x09 and carriage return 0x0d, otherwise pto files from Windows will be rejected
+    const std::string controlCharacters { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
 
     // vector with the different information lines about images
     std::vector<PTScriptParsing::ImgInfo> oImgInfo;
@@ -2473,6 +2363,16 @@ bool PanoramaMemento::loadPTScript(std::istream &i, int & ptoVersion, const std:
     unsigned int lineNr = 0;    
     while (i.good()) {
         std::getline(i, line);
+        if (line.find_first_of(controlCharacters, 0) != std::string::npos)
+        {
+            // we found a binary character /control sequence in the text
+            // this is not allowed in a pto file
+            // reset locale
+            setlocale(LC_NUMERIC, old_locale);
+            free(old_locale);
+            // stop processing
+            return false;
+        };
         lineNr++;
         DEBUG_DEBUG(lineNr << ": " << line);
         if (skipNextLine) {

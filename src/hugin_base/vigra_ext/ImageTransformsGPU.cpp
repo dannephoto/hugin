@@ -465,7 +465,12 @@ bool transformImageGPUIntern(const std::string& coordXformGLSL,
     const int bytesPerDestPixel = 16 + 16 + 8
                                   + ((XGLMap[destGLTransferFormat] != GL_RGBA32F_ARB) ? BytesPerPixel[destGLTransferFormat] : 0)
                                   + ((destAlphaBuffer != NULL) ? 1 : 0);
+//Run this to fix apple silicon issues which corrupts images otherwise
+    //#ifdef __aarch64__  // Check for ARM 64-bit architecture
+    //const long long int maxDestPixels = gpuMemoryRemaining / 2 / bytesPerDestPixel / 2;
+    //#else
     const long long int maxDestPixels = gpuMemoryRemaining / bytesPerDestPixel;
+    //#endif
 
     vector<Rect2D> destChunks;
     makeChunks(destSize.x, destSize.y, maxTextureSize, maxDestPixels, destChunks);

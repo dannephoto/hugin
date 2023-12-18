@@ -692,19 +692,11 @@ int processPTO(const char* filename)
 {
     HuginBase::Panorama pano;
 
-    std::ifstream ptofile(filename);
-    if (ptofile.bad())
+    const std::string filenameString(filename);
+    if (!pano.ReadPTOFile(filenameString, hugin_utils::getPathPrefix(filenameString)))
     {
-        std::cerr << "could not open script : " << filename << std::endl;
         return 1;
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(filename));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(ptofile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing script: " << filename << std::endl;
-        return 1;
-    }
+    };
 
     return main2(pano);
 }

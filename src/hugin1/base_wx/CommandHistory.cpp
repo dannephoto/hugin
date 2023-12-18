@@ -60,6 +60,16 @@ namespace PanoCommand
         nextCmd = 0;
     }
 
+    void CommandHistory::clearRedoQueue()
+    {
+        size_t nrDelete = commands.size() - nextCmd;
+        for (size_t i = 0; i < nrDelete; i++)
+        {
+            delete commands.back();
+            commands.pop_back();
+        }
+    }
+
     void CommandHistory::addCommand(PanoCommand *command, bool execute)
     {
         assert(command);
@@ -74,12 +84,7 @@ namespace PanoCommand
             {
                 // case: there were redoable commands, remove them now, the
                 // current command has invalidated them.
-                size_t nrDelete = commands.size() - nextCmd;
-                for (size_t i = 0; i < nrDelete; i++)
-                {
-                    delete commands.back();
-                    commands.pop_back();
-                }
+                clearRedoQueue();
             };
         };
         commands.push_back(command);
@@ -163,6 +168,15 @@ namespace PanoCommand
             return commands[nextCmd-1]->getName();
         }
         return std::string();
+    }
+
+    const PanoCommand* CommandHistory::getLastCommand() const
+    {
+        if (canUndo())
+        {
+            return commands[nextCmd - 1];
+        };
+        return nullptr;
     }
 
     // ======================================================================

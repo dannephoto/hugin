@@ -90,7 +90,7 @@ void PanoCommand::setName(const std::string& newName)
     m_name = newName;
 }
 
-bool PanoCommand::wasSuccessful()
+bool PanoCommand::wasSuccessful() const
 {
     return m_successful;
 }

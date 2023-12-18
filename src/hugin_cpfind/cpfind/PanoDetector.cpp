@@ -742,12 +742,6 @@ bool PanoDetector::match(std::vector<HuginBase::UIntSet> &checkedPairs)
 
 bool PanoDetector::loadProject()
 {
-    std::ifstream ptoFile(_inputFile.c_str());
-    if (ptoFile.bad())
-    {
-        std::cerr << "ERROR: could not open file: '" << _inputFile << "'!" << std::endl;
-        return false;
-    }
     _prefix=hugin_utils::getPathPrefix(_inputFile);
     if(_prefix.empty())
     {
@@ -763,11 +757,8 @@ bool PanoDetector::loadProject()
             _prefix=includeTrailingPathSep(_prefix);
         }
     };
-    _panoramaInfo->setFilePrefix(_prefix);
-    AppBase::DocumentData::ReadWriteError err = _panoramaInfo->readData(ptoFile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
+    if (!_panoramaInfo->ReadPTOFile(_inputFile, _prefix))
     {
-        std::cerr << "ERROR: couldn't parse panos tool script: '" << _inputFile << "'!" << std::endl;
         return false;
     }
 

@@ -354,19 +354,10 @@ int main(int argc, char* argv[])
     TIFFSetWarningHandler(0);
 
     HuginBase::Panorama pano;
-    std::ifstream prjfile(scriptFile);
-    if (prjfile.bad())
+    if (!pano.ReadPTOFile(scriptFile, hugin_utils::getPathPrefix(scriptFile)))
     {
-        std::cerr << "could not open script : " << scriptFile << std::endl;
         exit(1);
-    }
-    pano.setFilePrefix(hugin_utils::getPathPrefix(scriptFile));
-    AppBase::DocumentData::ReadWriteError err = pano.readData(prjfile);
-    if (err != AppBase::DocumentData::SUCCESSFUL)
-    {
-        std::cerr << "error while parsing panos tool script: " << scriptFile << std::endl;
-        exit(1);
-    }
+    };
 
     if ( nCmdLineImgs > 0)
     {

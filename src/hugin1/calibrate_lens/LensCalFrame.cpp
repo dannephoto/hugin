@@ -805,13 +805,8 @@ void LensCalFrame::OnSaveProject(wxCommandEvent &e)
             }
         }
         HuginBase::Panorama pano = GetPanorama();
-        std::string path = hugin_utils::getPathPrefix(std::string(filename.GetFullPath().mb_str(HUGIN_CONV_FILENAME)));
-        std::ofstream script(filename.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-        script.exceptions ( std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit );
-        HuginBase::UIntSet all;
-        fill_set(all, 0, pano.getNrOfImages()-1);
-        pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), all, false, path);
-        script.close();
+        const std::string output(filename.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+        pano.WritePTOFile(output, hugin_utils::getPathPrefix(output));
     };
 };
 

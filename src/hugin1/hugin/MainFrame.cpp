@@ -1001,16 +1001,9 @@ void MainFrame::OnSaveProject(wxCommandEvent & e)
         scriptName = m_filename;
     } else {
         // the project file is just a PTOptimizer script...
-        std::string path = hugin_utils::getPathPrefix(std::string(scriptName.GetFullPath().mb_str(HUGIN_CONV_FILENAME)));
         DEBUG_DEBUG("stripping " << path << " from image filenames");
-        std::ofstream script(scriptName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-        script.exceptions ( std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit );
-        HuginBase::UIntSet all;
-        if (pano.getNrOfImages() > 0) {
-           fill_set(all, 0, pano.getNrOfImages()-1);
-        }
-        pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), all, false, path);
-        script.close();
+        const std::string script(scriptName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+        pano.WritePTOFile(script, hugin_utils::getPathPrefix(script));
 
         SetStatusText(wxString::Format(_("saved project %s"), m_filename.c_str()),0);
         if(m_guiLevel==GUI_SIMPLE)
@@ -1121,6 +1114,14 @@ void MainFrame::LoadProjectFile(const wxString & filename)
         PanoCommand::GlobalCmdHist::getInstance().addCommand(
             new PanoCommand::wxLoadPTProjectCmd(pano, (const char *)filename.mb_str(HUGIN_CONV_FILENAME), (const char *)path.mb_str(HUGIN_CONV_FILENAME), true)
            );
+        if (!PanoCommand::GlobalCmdHist::getInstance().getLastCommand()->wasSuccessful())
+        {
+            wxMessageBox(wxString::Format(_("Could not load project file \"%s\".\nIt is not a valid pto file."), filename), _("Error"), wxOK | wxICON_ERROR);
+            PanoCommand::GlobalCmdHist::getInstance().undo();
+            PanoCommand::GlobalCmdHist::getInstance().clearRedoQueue();
+            panoramaChanged(pano);
+            return;
+        };
         PanoCommand::GlobalCmdHist::getInstance().clear();
         registerPTWXDlgFcn();
         DEBUG_DEBUG("project contains " << pano.getNrOfImages() << " after load");
@@ -2428,12 +2429,8 @@ void MainFrame::RunAssistant(wxWindow* mainWin, const wxString& userdefinedAssis
         }
     };
     wxFileName scriptFileName(wxFileName::CreateTempFileName(tempDir+wxT("ha")));
-    std::ofstream script(scriptFileName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-    script.exceptions ( std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit );
-    HuginBase::UIntSet all;
-    fill_set(all, 0, pano.getNrOfImages()-1);
-    pano.printPanoramaScript(script, pano.getOptimizeVector(), pano.getOptions(), all, false);
-    script.close();
+    const std::string script(scriptFileName.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+    pano.WritePTOFile(script, hugin_utils::getPathPrefix(script));
 
     // get assistant queue
     const wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
