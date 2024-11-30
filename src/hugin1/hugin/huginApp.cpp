@@ -80,50 +80,50 @@
 
 bool checkVersion(wxString v1, wxString v2)
 {
-    return doj::alphanum_comp(std::string(v1.mb_str(wxConvLocal)),std::string(v2.mb_str(wxConvLocal))) < 0;
+	return doj::alphanum_comp(std::string(v1.mb_str(wxConvLocal)),std::string(v2.mb_str(wxConvLocal))) < 0;
 };
 
 wxString Components2Str(const HuginGraph::ImageGraph::Components & comp)
 {
-    wxString ret;
-    for (unsigned i=0; i < comp.size(); i++) {
-        ret.Append(wxT("["));
-        HuginGraph::ImageGraph::Components::value_type::const_iterator it = comp[i].begin();
-        while (it != comp[i].end())
-        {
-            unsigned int imgNr = *it;
-            ret << imgNr;
-            it++;
-            if (it != comp[i].end() && *it == imgNr + 1)
-            {
-                ret.Append(wxT("-"));
-                while (it != comp[i].end() && *it == imgNr + 1)
-                {
-                    ++it;
-                    ++imgNr;
-                };
-                ret << imgNr;
-                if (it != comp[i].end())
-                {
-                    ret.Append(wxT(", "));
-                };
-            }
-            else
-            {
-                if (it != comp[i].end())
-                {
-                    ret.Append(wxT(", "));
-                };
-            };
-        };
+	wxString ret;
+	for (unsigned i=0; i < comp.size(); i++) {
+		ret.Append(wxT("["));
+		HuginGraph::ImageGraph::Components::value_type::const_iterator it = comp[i].begin();
+		while (it != comp[i].end())
+		{
+			unsigned int imgNr = *it;
+			ret << imgNr;
+			it++;
+			if (it != comp[i].end() && *it == imgNr + 1)
+			{
+				ret.Append(wxT("-"));
+				while (it != comp[i].end() && *it == imgNr + 1)
+				{
+					++it;
+					++imgNr;
+				};
+				ret << imgNr;
+				if (it != comp[i].end())
+				{
+					ret.Append(wxT(", "));
+				};
+			}
+			else
+			{
+				if (it != comp[i].end())
+				{
+					ret.Append(wxT(", "));
+				};
+			};
+		};
 
-        ret.Append(wxT("]"));
-        if (i + 1 != comp.size())
-        {
-            ret.Append(wxT(", "));
-        };
-    }
-    return ret;
+		ret.Append(wxT("]"));
+		if (i + 1 != comp.size())
+		{
+			ret.Append(wxT(", "));
+		};
+	}
+	return ret;
 }
 
 #if defined _WIN32 && defined Hugin_shared
@@ -133,7 +133,7 @@ DEFINE_EVENT_TYPE( EVT_IMAGE_READY )
 #endif
 
 BEGIN_EVENT_TABLE(huginApp, wxApp)
-    EVT_IMAGE_READY2(-1, huginApp::relayImageLoaded)
+	EVT_IMAGE_READY2(-1, huginApp::relayImageLoaded)
 END_EVENT_TABLE()
 
 // make wxwindows use this class as the main application
@@ -147,10 +147,10 @@ wxIMPLEMENT_APP_NO_MAIN(huginApp);
 #include <stdlib.h>
 int main(int argc, char **argv)
 {   
-    wxDISABLE_DEBUG_SUPPORT();
-    char backend[]="GDK_BACKEND=x11";
-    putenv(backend);
-    return wxEntry(argc, argv);
+	wxDISABLE_DEBUG_SUPPORT();
+	char backend[]="GDK_BACKEND=x11";
+	putenv(backend);
+	return wxEntry(argc, argv);
 };
 #else
 wxIMPLEMENT_APP(huginApp);
@@ -158,18 +158,18 @@ wxIMPLEMENT_APP(huginApp);
 
 huginApp::huginApp()
 {
-    DEBUG_TRACE("ctor");
-    m_this=this;
-    m_monitorProfile = NULL;
+	DEBUG_TRACE("ctor");
+	m_this=this;
+	m_monitorProfile = NULL;
 #if wxUSE_ON_FATAL_EXCEPTION
-    wxHandleFatalExceptions();
+	wxHandleFatalExceptions();
 #endif
 }
 
 huginApp::~huginApp()
 {
-    DEBUG_TRACE("dtor");
-    // delete temporary dir
+	DEBUG_TRACE("dtor");
+	// delete temporary dir
 //    if (!wxRmdir(m_workDir)) {
 //        DEBUG_ERROR("Could not remove temporary directory");
 //    }
@@ -177,447 +177,458 @@ huginApp::~huginApp()
 	// todo: remove all listeners from the panorama object
 
 //    delete frame;
-    HuginBase::LensDB::LensDB::Clean();
-    // delete monitor profile
-    if (m_monitorProfile)
-    {
-        cmsCloseProfile(m_monitorProfile);
-    };
-    DEBUG_TRACE("dtor end");
+	HuginBase::LensDB::LensDB::Clean();
+	// delete monitor profile
+	if (m_monitorProfile)
+	{
+		cmsCloseProfile(m_monitorProfile);
+	};
+	DEBUG_TRACE("dtor end");
 }
 
 bool huginApp::OnInit()
 {
-    DEBUG_TRACE("=========================== huginApp::OnInit() begin ===================");
-    SetAppName(wxT("hugin"));
+	DEBUG_TRACE("=========================== huginApp::OnInit() begin ===================");
+	SetAppName(wxT("hugin"));
 #if defined __WXGTK__ && wxCHECK_VERSION(3,1,1)
-    CheckConfigFilename();
+	CheckConfigFilename();
 #endif
 
-    // Connect to ImageCache: we need to tell it when it is safe to handle UI events.
-    ImageCache::getInstance().asyncLoadCompleteSignal = &huginApp::imageLoadedAsync;
+	// Connect to ImageCache: we need to tell it when it is safe to handle UI events.
+	ImageCache::getInstance().asyncLoadCompleteSignal = &huginApp::imageLoadedAsync;
 
 #ifdef __WXMAC__
-    // do not use the native list control on OSX (it is very slow with the control point list window)
-    wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
-    // On OS X the file open does by default not show the file type list
-    // Apple means this is not necessary
-    // but the the add images dialog needs this selection, so force to 
-    // display always the file type list
-    wxSystemOptions::SetOption(wxOSX_FILEDIALOG_ALWAYS_SHOW_TYPES, 1);
+	// do not use the native list control on OSX (it is very slow with the control point list window)
+	wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+	// On OS X the file open does by default not show the file type list
+	// Apple means this is not necessary
+	// but the the add images dialog needs this selection, so force to 
+	// display always the file type list
+	wxSystemOptions::SetOption(wxOSX_FILEDIALOG_ALWAYS_SHOW_TYPES, 1);
+#endif
+	
+
+// Check if ARM architecture
+#ifdef __aarch64__
+	wxConfigBase* cfg = wxConfigBase::Get();
+	// Set the config value to 0 (disabled) for ARM architectures
+	if (cfg) {
+		cfg->Write(wxT("/Nona/UseGPU"), 0);  // Write the setting to the configuration
+	}
 #endif
 
-    // register our custom pano tools dialog handlers
-    registerPTWXDlgFcn();
 
-    // required by wxHtmlHelpController
-    wxFileSystem::AddHandler(new wxZipFSHandler);
+	// register our custom pano tools dialog handlers
+	registerPTWXDlgFcn();
 
-    // initialize help provider
-    wxHelpControllerHelpProvider* provider = new wxHelpControllerHelpProvider;
-    wxHelpProvider::Set(provider);
+	// required by wxHtmlHelpController
+	wxFileSystem::AddHandler(new wxZipFSHandler);
+
+	// initialize help provider
+	wxHelpControllerHelpProvider* provider = new wxHelpControllerHelpProvider;
+	wxHelpProvider::Set(provider);
 
 #if defined __WXMSW__
-    wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
-    m_utilsBinDir = exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
-    exePath.RemoveLastDir();
-    const wxString huginRoot=exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
-    m_xrcPrefix = huginRoot + wxT("share\\hugin\\xrc\\");
-    m_DataDir = huginRoot + wxT("share\\hugin\\data\\");
+	wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
+	m_utilsBinDir = exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+	exePath.RemoveLastDir();
+	const wxString huginRoot=exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+	m_xrcPrefix = huginRoot + wxT("share\\hugin\\xrc\\");
+	m_DataDir = huginRoot + wxT("share\\hugin\\data\\");
 
-    // locale setup
-    locale.AddCatalogLookupPathPrefix(huginRoot + wxT("share\\locale"));
+	// locale setup
+	locale.AddCatalogLookupPathPrefix(huginRoot + wxT("share\\locale"));
 
 #elif defined __WXMAC__ && defined MAC_SELF_CONTAINED_BUNDLE
-    // initialize paths
-    {
-        wxString thePath = MacGetPathToBundledResourceFile(CFSTR("xrc"));
-        if (thePath == wxT("")) {
-            wxMessageBox(_("xrc directory not found in bundle"), _("Fatal Error"));
-            return false;
-        }
-        m_xrcPrefix = thePath + wxT("/");
-        m_DataDir = thePath + wxT("/");
-    }
+	// initialize paths
+	{
+		wxString thePath = MacGetPathToBundledResourceFile(CFSTR("xrc"));
+		if (thePath == wxT("")) {
+			wxMessageBox(_("xrc directory not found in bundle"), _("Fatal Error"));
+			return false;
+		}
+		m_xrcPrefix = thePath + wxT("/");
+		m_DataDir = thePath + wxT("/");
+	}
 
 #ifdef HUGIN_HSI
-    // Set PYTHONHOME for the hsi module
-    {
-        wxString pythonHome = MacGetPathToBundledFrameworksDirectory() + wxT("/Python27.framework/Versions/Current");
-        if(! wxDir::Exists(pythonHome)){
-            wxMessageBox(wxString::Format(_("Directory '%s' does not exists"), pythonHome.c_str()));
-        } else {
-            wxUnsetEnv(wxT("PYTHONPATH"));
-            if(! wxSetEnv(wxT("PYTHONHOME"), pythonHome)){
-                wxMessageBox(_("Could not set environment variable PYTHONHOME"));
-            } else {
-                DEBUG_TRACE("PYTHONHOME set to " << pythonHome);
-            }
-        }
-    }
+	// Set PYTHONHOME for the hsi module
+	{
+		wxString pythonHome = MacGetPathToBundledFrameworksDirectory() + wxT("/Python27.framework/Versions/Current");
+		if(! wxDir::Exists(pythonHome)){
+			wxMessageBox(wxString::Format(_("Directory '%s' does not exists"), pythonHome.c_str()));
+		} else {
+			wxUnsetEnv(wxT("PYTHONPATH"));
+			if(! wxSetEnv(wxT("PYTHONHOME"), pythonHome)){
+				wxMessageBox(_("Could not set environment variable PYTHONHOME"));
+			} else {
+				DEBUG_TRACE("PYTHONHOME set to " << pythonHome);
+			}
+		}
+	}
 #endif
-    
+	
 #elif defined UNIX_SELF_CONTAINED_BUNDLE
-    // initialize paths
-    {
-      wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
-      m_utilsBinDir = exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
-      exePath.RemoveLastDir();
-      const wxString huginRoot=exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
-      m_xrcPrefix = huginRoot + wxT("share/hugin/xrc/");
-      m_DataDir = huginRoot + wxT("share/hugin/data/");
+	// initialize paths
+	{
+	  wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
+	  m_utilsBinDir = exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+	  exePath.RemoveLastDir();
+	  const wxString huginRoot=exePath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+	  m_xrcPrefix = huginRoot + wxT("share/hugin/xrc/");
+	  m_DataDir = huginRoot + wxT("share/hugin/data/");
 
-      // locale setup
-      locale.AddCatalogLookupPathPrefix(huginRoot + wxT("share/locale"));
-    }
+	  // locale setup
+	  locale.AddCatalogLookupPathPrefix(huginRoot + wxT("share/locale"));
+	}
 
 #else
-    // add the locale directory specified during configure
-    m_xrcPrefix = wxT(INSTALL_XRC_DIR);
-    m_DataDir = wxT(INSTALL_DATA_DIR);
-    locale.AddCatalogLookupPathPrefix(wxT(INSTALL_LOCALE_DIR));
+	// add the locale directory specified during configure
+	m_xrcPrefix = wxT(INSTALL_XRC_DIR);
+	m_DataDir = wxT(INSTALL_DATA_DIR);
+	locale.AddCatalogLookupPathPrefix(wxT(INSTALL_LOCALE_DIR));
 #endif
 
-    if ( ! wxFile::Exists(m_xrcPrefix + wxT("/main_frame.xrc")) ) {
-        wxMessageBox(_("xrc directory not found, hugin needs to be properly installed\nTried Path:" + m_xrcPrefix ), _("Fatal Error"));
-        return false;
-    }
+	if ( ! wxFile::Exists(m_xrcPrefix + wxT("/main_frame.xrc")) ) {
+		wxMessageBox(_("xrc directory not found, hugin needs to be properly installed\nTried Path:" + m_xrcPrefix ), _("Fatal Error"));
+		return false;
+	}
 
-    // here goes and comes configuration
-    wxConfigBase * config = wxConfigBase::Get();
-    // do not record default values in the preferences file
-    config->SetRecordDefaults(false);
+	// here goes and comes configuration
+	wxConfigBase * config = wxConfigBase::Get();
+	// do not record default values in the preferences file
+	config->SetRecordDefaults(false);
 
-    config->Flush();
+	config->Flush();
 
-    // need to explicitly initialize locale for C++ library/runtime
-    setlocale(LC_ALL, "");
-    // initialize i18n
-    int localeID = config->Read(wxT("language"), (long) HUGIN_LANGUAGE);
-    DEBUG_TRACE("localeID: " << localeID);
-    {
-        bool bLInit;
-	    bLInit = locale.Init(localeID);
-	    if (bLInit) {
-	        DEBUG_TRACE("locale init OK");
-	        DEBUG_TRACE("System Locale: " << locale.GetSysName().mb_str(wxConvLocal))
-	        DEBUG_TRACE("Canonical Locale: " << locale.GetCanonicalName().mb_str(wxConvLocal))
-        } else {
-          DEBUG_TRACE("locale init failed");
-        }
+	// need to explicitly initialize locale for C++ library/runtime
+	setlocale(LC_ALL, "");
+	// initialize i18n
+	int localeID = config->Read(wxT("language"), (long) HUGIN_LANGUAGE);
+	DEBUG_TRACE("localeID: " << localeID);
+	{
+		bool bLInit;
+		bLInit = locale.Init(localeID);
+		if (bLInit) {
+			DEBUG_TRACE("locale init OK");
+			DEBUG_TRACE("System Locale: " << locale.GetSysName().mb_str(wxConvLocal))
+			DEBUG_TRACE("Canonical Locale: " << locale.GetCanonicalName().mb_str(wxConvLocal))
+		} else {
+		  DEBUG_TRACE("locale init failed");
+		}
 	}
 	
-    // set the name of locale recource to look for
-    locale.AddCatalog(wxT("hugin"));
+	// set the name of locale recource to look for
+	locale.AddCatalog(wxT("hugin"));
 
-    // initialize image handlers
-    wxInitAllImageHandlers();
+	// initialize image handlers
+	wxInitAllImageHandlers();
 
-    // Initialize all the XRC handlers.
-    wxXmlResource::Get()->InitAllHandlers();
+	// Initialize all the XRC handlers.
+	wxXmlResource::Get()->InitAllHandlers();
 
-    // load all XRC files.
-    #ifdef _INCLUDE_UI_RESOURCES
-        InitXmlResource();
-    #else
+	// load all XRC files.
+	#ifdef _INCLUDE_UI_RESOURCES
+		InitXmlResource();
+	#else
 
-    // add custom XRC handlers
-    wxXmlResource::Get()->AddHandler(new ImagesPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new CPEditorPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new CPImageCtrlXmlHandler());
-    wxXmlResource::Get()->AddHandler(new CPImagesComboBoxXmlHandler());
-    wxXmlResource::Get()->AddHandler(new MaskEditorPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new ImagesListMaskXmlHandler());
-    wxXmlResource::Get()->AddHandler(new MaskImageCtrlXmlHandler());
-    wxXmlResource::Get()->AddHandler(new OptimizePanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new OptimizePhotometricPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new PanoPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new PreviewPanelXmlHandler());
-    wxXmlResource::Get()->AddHandler(new HtmlWindowXmlHandler());
-    wxXmlResource::Get()->AddHandler(new wxcode::wxTreeListCtrlXmlHandler());
-    wxXmlResource::Get()->AddHandler(new ImagesTreeCtrlXmlHandler());
-    wxXmlResource::Get()->AddHandler(new CPListCtrlXmlHandler());
-    wxXmlResource::Get()->AddHandler(new SplitButtonXmlHandler());
+	// add custom XRC handlers
+	wxXmlResource::Get()->AddHandler(new ImagesPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new CPEditorPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new CPImageCtrlXmlHandler());
+	wxXmlResource::Get()->AddHandler(new CPImagesComboBoxXmlHandler());
+	wxXmlResource::Get()->AddHandler(new MaskEditorPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new ImagesListMaskXmlHandler());
+	wxXmlResource::Get()->AddHandler(new MaskImageCtrlXmlHandler());
+	wxXmlResource::Get()->AddHandler(new OptimizePanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new OptimizePhotometricPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new PanoPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new PreviewPanelXmlHandler());
+	wxXmlResource::Get()->AddHandler(new HtmlWindowXmlHandler());
+	wxXmlResource::Get()->AddHandler(new wxcode::wxTreeListCtrlXmlHandler());
+	wxXmlResource::Get()->AddHandler(new ImagesTreeCtrlXmlHandler());
+	wxXmlResource::Get()->AddHandler(new CPListCtrlXmlHandler());
+	wxXmlResource::Get()->AddHandler(new SplitButtonXmlHandler());
 
-    // load XRC files
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cp_list_frame.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("preview_frame.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("edit_script_dialog.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_menu.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_tool.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("about.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("pref_dialog.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cpdetector_dialog.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("reset_dialog.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("optimize_photo_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cp_editor_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("images_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_frame.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("optimize_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("pano_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("mask_editor_panel.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("lensdb_dialogs.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("image_variable_dlg.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("dlg_warning.xrc"));
-    wxXmlResource::Get()->Load(m_xrcPrefix + wxT("import_raw_dialog.xrc"));
+	// load XRC files
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cp_list_frame.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("preview_frame.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("edit_script_dialog.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_menu.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_tool.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("about.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("pref_dialog.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cpdetector_dialog.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("reset_dialog.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("optimize_photo_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("cp_editor_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("images_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("main_frame.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("optimize_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("pano_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("mask_editor_panel.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("lensdb_dialogs.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("image_variable_dlg.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("dlg_warning.xrc"));
+	wxXmlResource::Get()->Load(m_xrcPrefix + wxT("import_raw_dialog.xrc"));
 #endif
 
 #ifdef __WXMAC__
-    // If hugin is starting with file opening AppleEvent, MacOpenFile will be called on first wxYield().
-    // Those need to be initialised before first call of Yield which happens in Mainframe constructor.
-    m_macInitDone=false;
-    m_macOpenFileOnStart=false;
+	// If hugin is starting with file opening AppleEvent, MacOpenFile will be called on first wxYield().
+	// Those need to be initialised before first call of Yield which happens in Mainframe constructor.
+	m_macInitDone=false;
+	m_macOpenFileOnStart=false;
 #endif
-    // read monitor profile
-    HuginBase::Color::GetMonitorProfile(m_monitorProfileName, m_monitorProfile);
-    // create main frame
-    frame = new MainFrame(NULL, pano);
-    SetTopWindow(frame);
+	// read monitor profile
+	HuginBase::Color::GetMonitorProfile(m_monitorProfileName, m_monitorProfile);
+	// create main frame
+	frame = new MainFrame(NULL, pano);
+	SetTopWindow(frame);
 
-    // setup main frame size, after it has been created.
-    RestoreFramePosition(frame, wxT("MainFrame"));
+	// setup main frame size, after it has been created.
+	RestoreFramePosition(frame, wxT("MainFrame"));
 #ifdef __WXMSW__
-    frame->SendSizeEvent();
+	frame->SendSizeEvent();
 #if wxCHECK_VERSION(3,1,0)
 // wxUSE_TASKBARBUTTON 1 is default, nevertheless check that the feature has not been deactivated by the user, otherwise issue a warning
 #if wxUSE_TASKBARBUTTON
-    wxTaskBarJumpList jumpList;
-    wxFileName exeFile(wxStandardPaths::Get().GetExecutablePath());
-    exeFile.SetName("PTBatcherGUI");
-    wxTaskBarJumpListItem *item1 = new wxTaskBarJumpListItem(
-        NULL, wxTASKBAR_JUMP_LIST_TASK, _("Open Batch Processor"), exeFile.GetFullPath(), wxEmptyString,
-        _("Opens PTBatcherGUI, the batch processor for Hugin's project files"),
-        exeFile.GetFullPath(), 0);
-    jumpList.GetTasks().Append(item1);
-    exeFile.SetName("calibrate_lens_gui");
-    wxTaskBarJumpListItem *item2 = new wxTaskBarJumpListItem(
-        NULL, wxTASKBAR_JUMP_LIST_TASK, _("Open Lens calibrate tool"), exeFile.GetFullPath(), wxEmptyString,
-        _("Opens Calibrate_lens_gui, a simple GUI for lens calibration"),
-        exeFile.GetFullPath(), 0);
-    jumpList.GetTasks().Append(item2);
+	wxTaskBarJumpList jumpList;
+	wxFileName exeFile(wxStandardPaths::Get().GetExecutablePath());
+	exeFile.SetName("PTBatcherGUI");
+	wxTaskBarJumpListItem *item1 = new wxTaskBarJumpListItem(
+		NULL, wxTASKBAR_JUMP_LIST_TASK, _("Open Batch Processor"), exeFile.GetFullPath(), wxEmptyString,
+		_("Opens PTBatcherGUI, the batch processor for Hugin's project files"),
+		exeFile.GetFullPath(), 0);
+	jumpList.GetTasks().Append(item1);
+	exeFile.SetName("calibrate_lens_gui");
+	wxTaskBarJumpListItem *item2 = new wxTaskBarJumpListItem(
+		NULL, wxTASKBAR_JUMP_LIST_TASK, _("Open Lens calibrate tool"), exeFile.GetFullPath(), wxEmptyString,
+		_("Opens Calibrate_lens_gui, a simple GUI for lens calibration"),
+		exeFile.GetFullPath(), 0);
+	jumpList.GetTasks().Append(item2);
 #else
   #if defined _MSC_VER
-    #pragma message("Warning: huginApp.cpp - wxWidgets is compiled without support for taskbar buttons. Some features have therefore disabled.")
+	#pragma message("Warning: huginApp.cpp - wxWidgets is compiled without support for taskbar buttons. Some features have therefore disabled.")
   #else
-    #warning "Warning: huginApp.cpp - wxWidgets is compiled without support for taskbar buttons. Some features have therefore disabled."
+	#warning "Warning: huginApp.cpp - wxWidgets is compiled without support for taskbar buttons. Some features have therefore disabled."
   #endif
 #endif
 #endif
 #endif
-    // init help system
-    provider->SetHelpController(&frame->GetHelpController());
+	// init help system
+	provider->SetHelpController(&frame->GetHelpController());
 #ifdef __WXMSW__
-    frame->GetHelpController().Initialize(m_xrcPrefix + wxT("data/hugin_help_en_EN.chm"));
+	frame->GetHelpController().Initialize(m_xrcPrefix + wxT("data/hugin_help_en_EN.chm"));
 #else
 #if wxUSE_WXHTML_HELP
-    // using wxHtmlHelpController
+	// using wxHtmlHelpController
 #if defined __WXMAC__ && defined MAC_SELF_CONTAINED_BUNDLE
-    // On Mac, xrc/data/help_LOCALE should be in the bundle as LOCALE.lproj/help
-    // which we can rely on the operating sytem to pick the right locale's.
-    wxString strFile = MacGetPathToBundledResourceFile(CFSTR("help"));
-    if (!strFile.IsEmpty())
-    {
-        frame->GetHelpController().AddBook(wxFileName(strFile + wxT("/hugin_help_en_EN.hhp")));
-    }
-    else
-    {
-        wxLogError(wxString::Format(wxT("Could not find help directory in the bundle"), strFile.c_str()));
-        return false;
-    }
+	// On Mac, xrc/data/help_LOCALE should be in the bundle as LOCALE.lproj/help
+	// which we can rely on the operating sytem to pick the right locale's.
+	wxString strFile = MacGetPathToBundledResourceFile(CFSTR("help"));
+	if (!strFile.IsEmpty())
+	{
+		frame->GetHelpController().AddBook(wxFileName(strFile + wxT("/hugin_help_en_EN.hhp")));
+	}
+	else
+	{
+		wxLogError(wxString::Format(wxT("Could not find help directory in the bundle"), strFile.c_str()));
+		return false;
+	}
 #else
-    frame->GetHelpController().AddBook(wxFileName(m_xrcPrefix + wxT("data/help_en_EN/hugin_help_en_EN.hhp")));
+	frame->GetHelpController().AddBook(wxFileName(m_xrcPrefix + wxT("data/help_en_EN/hugin_help_en_EN.hhp")));
 #endif
 #else
-    // using wxExtHelpController
-    frame->GetHelpController().Initialize(Initialize(m_xrcPrefix + wxT("data/help_en_EN")));
+	// using wxExtHelpController
+	frame->GetHelpController().Initialize(Initialize(m_xrcPrefix + wxT("data/help_en_EN")));
 #endif
 #endif
 
-    // we are closing Hugin, if the top level window is deleted
-    SetExitOnFrameDelete(true);
-    // show the frame.
-    if(frame->GetGuiLevel()==GUI_SIMPLE)
-    {
-        SetTopWindow(frame->getGLPreview());
-    }
-    else
-    {
-        frame->Show(TRUE);
-    };
+	// we are closing Hugin, if the top level window is deleted
+	SetExitOnFrameDelete(true);
+	// show the frame.
+	if(frame->GetGuiLevel()==GUI_SIMPLE)
+	{
+		SetTopWindow(frame->getGLPreview());
+	}
+	else
+	{
+		frame->Show(TRUE);
+	};
 
-    wxString cwd = wxFileName::GetCwd();
+	wxString cwd = wxFileName::GetCwd();
 
-    m_workDir = config->Read(wxT("tempDir"),wxT(""));
-    // FIXME, make secure against some symlink attacks
-    // get a temp dir
-    if (m_workDir == wxT("")) {
+	m_workDir = config->Read(wxT("tempDir"),wxT(""));
+	// FIXME, make secure against some symlink attacks
+	// get a temp dir
+	if (m_workDir == wxT("")) {
 #if (defined __WXMSW__)
-        DEBUG_DEBUG("figuring out windows temp dir");
-        /* added by Yili Zhao */
-        wxChar buffer[MAX_PATH];
-        GetTempPath(MAX_PATH, buffer);
-        m_workDir = buffer;
+		DEBUG_DEBUG("figuring out windows temp dir");
+		/* added by Yili Zhao */
+		wxChar buffer[MAX_PATH];
+		GetTempPath(MAX_PATH, buffer);
+		m_workDir = buffer;
 #elif (defined __WXMAC__) && (defined MAC_SELF_CONTAINED_BUNDLE)
-        DEBUG_DEBUG("temp dir on Mac");
-        m_workDir = MacGetPathToUserDomainTempDir();
-        if(m_workDir == wxT(""))
-            m_workDir = wxT("/tmp");
+		DEBUG_DEBUG("temp dir on Mac");
+		m_workDir = MacGetPathToUserDomainTempDir();
+		if(m_workDir == wxT(""))
+			m_workDir = wxT("/tmp");
 #else //UNIX
-        DEBUG_DEBUG("temp dir on unix");
-        // try to read environment variable
-        if (!wxGetEnv(wxT("TMPDIR"), &m_workDir)) {
-            // still no tempdir, use /tmp
-            m_workDir = wxT("/tmp");
-        }
+		DEBUG_DEBUG("temp dir on unix");
+		// try to read environment variable
+		if (!wxGetEnv(wxT("TMPDIR"), &m_workDir)) {
+			// still no tempdir, use /tmp
+			m_workDir = wxT("/tmp");
+		}
 #endif
-        
-    }
+		
+	}
 
-    if (!wxFileName::DirExists(m_workDir)) {
-        DEBUG_DEBUG("creating temp dir: " << m_workDir.mb_str(wxConvLocal));
-        if (!wxMkdir(m_workDir)) {
-            DEBUG_ERROR("Tempdir could not be created: " << m_workDir.mb_str(wxConvLocal));
-        }
-    }
-    if (!wxSetWorkingDirectory(m_workDir)) {
-        DEBUG_ERROR("could not change to temp. dir: " << m_workDir.mb_str(wxConvLocal));
-    }
-    DEBUG_DEBUG("using temp dir: " << m_workDir.mb_str(wxConvLocal));
+	if (!wxFileName::DirExists(m_workDir)) {
+		DEBUG_DEBUG("creating temp dir: " << m_workDir.mb_str(wxConvLocal));
+		if (!wxMkdir(m_workDir)) {
+			DEBUG_ERROR("Tempdir could not be created: " << m_workDir.mb_str(wxConvLocal));
+		}
+	}
+	if (!wxSetWorkingDirectory(m_workDir)) {
+		DEBUG_ERROR("could not change to temp. dir: " << m_workDir.mb_str(wxConvLocal));
+	}
+	DEBUG_DEBUG("using temp dir: " << m_workDir.mb_str(wxConvLocal));
 
-    // set some suitable defaults
-    PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::wxNewProjectCmd(pano));
-    PanoCommand::GlobalCmdHist::getInstance().clear();
+	// set some suitable defaults
+	PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::wxNewProjectCmd(pano));
+	PanoCommand::GlobalCmdHist::getInstance().clear();
 
-    // suppress tiff warnings
-    TIFFSetWarningHandler(0);
+	// suppress tiff warnings
+	TIFFSetWarningHandler(0);
 
-    if (argc > 1)
-    {
+	if (argc > 1)
+	{
 #ifdef __WXMSW__
-        //on Windows we need to update the fast preview first
-        //otherwise there is an infinite loop when starting with a project file
-        //and closed panorama editor aka mainframe
-        if(frame->GetGuiLevel()==GUI_SIMPLE)
-        {
-            frame->getGLPreview()->Update();
-        };
+		//on Windows we need to update the fast preview first
+		//otherwise there is an infinite loop when starting with a project file
+		//and closed panorama editor aka mainframe
+		if(frame->GetGuiLevel()==GUI_SIMPLE)
+		{
+			frame->getGLPreview()->Update();
+		};
 #endif
-        wxFileName file(argv[1]);
-        // if the first file is a project file, open it
-        if (file.GetExt().CmpNoCase(wxT("pto")) == 0 ||
-            file.GetExt().CmpNoCase(wxT("pts")) == 0 ||
-            file.GetExt().CmpNoCase(wxT("ptp")) == 0 )
-        {
-            if(file.IsRelative())
-                file.MakeAbsolute(cwd);
-            // Loading the project file with set actualPath to its
-            // parent directory.  (actualPath is used as starting
-            // directory by many subsequent file selection dialogs.)
-            frame->LoadProjectFile(file.GetFullPath());
-        } else {
-            std::vector<std::string> filesv;
-            std::vector<std::string> rawFilesv;
-            bool actualPathSet = false;
-            for (int i=1; i< argc; i++) 
-            {
+		wxFileName file(argv[1]);
+		// if the first file is a project file, open it
+		if (file.GetExt().CmpNoCase(wxT("pto")) == 0 ||
+			file.GetExt().CmpNoCase(wxT("pts")) == 0 ||
+			file.GetExt().CmpNoCase(wxT("ptp")) == 0 )
+		{
+			if(file.IsRelative())
+				file.MakeAbsolute(cwd);
+			// Loading the project file with set actualPath to its
+			// parent directory.  (actualPath is used as starting
+			// directory by many subsequent file selection dialogs.)
+			frame->LoadProjectFile(file.GetFullPath());
+		} else {
+			std::vector<std::string> filesv;
+			std::vector<std::string> rawFilesv;
+			bool actualPathSet = false;
+			for (int i=1; i< argc; i++) 
+			{
 #if defined __WXMSW__
-                //expand wildcards
-                wxFileName fileList(argv[i]);
-                if(fileList.IsRelative())
-                    fileList.MakeAbsolute(cwd);
-                wxDir dir;
-                wxString foundFile;
-                wxFileName file;
-                if(fileList.DirExists())
-                    if(dir.Open(fileList.GetPath()))
-                        if(dir.GetFirst(&foundFile,fileList.GetFullName(),wxDIR_FILES | wxDIR_HIDDEN))
-                            do
-                            {
-                                file=foundFile;
-                                file.MakeAbsolute(dir.GetName());
+				//expand wildcards
+				wxFileName fileList(argv[i]);
+				if(fileList.IsRelative())
+					fileList.MakeAbsolute(cwd);
+				wxDir dir;
+				wxString foundFile;
+				wxFileName file;
+				if(fileList.DirExists())
+					if(dir.Open(fileList.GetPath()))
+						if(dir.GetFirst(&foundFile,fileList.GetFullName(),wxDIR_FILES | wxDIR_HIDDEN))
+							do
+							{
+								file=foundFile;
+								file.MakeAbsolute(dir.GetName());
 #else
-                wxFileName file(argv[i]);
+				wxFileName file(argv[i]);
 #endif
-                if (file.IsRelative())
-                {
-                    file.MakeAbsolute(cwd);
-                };
-                if (IsRawExtension(file.GetExt()))
-                {
-                    // we got a raw file from command line
-                    if (!containsInvalidCharacters(file.GetFullPath()))
-                    {
-                        rawFilesv.push_back((const char*)file.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
-                        // Use the first filename to set actualPath.
-                        if (!actualPathSet)
-                        {
-                            config->Write(wxT("/actualPath"), file.GetPath());
-                            actualPathSet = true;
-                        };
-                    };
-                }
-                else
-                {
-                    if (vigra::isImage(file.GetFullPath().mb_str(HUGIN_CONV_FILENAME)))
-                    {
-                        if (!containsInvalidCharacters(file.GetFullPath()))
-                        {
-                            filesv.push_back((const char *)(file.GetFullPath().mb_str(HUGIN_CONV_FILENAME)));
-                            // Use the first filename to set actualPath.
-                            if (!actualPathSet)
-                            {
-                                config->Write(wxT("/actualPath"), file.GetPath());
-                                actualPathSet = true;
-                            };
-                        };
-                    };
-                };
+				if (file.IsRelative())
+				{
+					file.MakeAbsolute(cwd);
+				};
+				if (IsRawExtension(file.GetExt()))
+				{
+					// we got a raw file from command line
+					if (!containsInvalidCharacters(file.GetFullPath()))
+					{
+						rawFilesv.push_back((const char*)file.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
+						// Use the first filename to set actualPath.
+						if (!actualPathSet)
+						{
+							config->Write(wxT("/actualPath"), file.GetPath());
+							actualPathSet = true;
+						};
+					};
+				}
+				else
+				{
+					if (vigra::isImage(file.GetFullPath().mb_str(HUGIN_CONV_FILENAME)))
+					{
+						if (!containsInvalidCharacters(file.GetFullPath()))
+						{
+							filesv.push_back((const char *)(file.GetFullPath().mb_str(HUGIN_CONV_FILENAME)));
+							// Use the first filename to set actualPath.
+							if (!actualPathSet)
+							{
+								config->Write(wxT("/actualPath"), file.GetPath());
+								actualPathSet = true;
+							};
+						};
+					};
+				};
 #if defined __WXMSW__
-                } while (dir.GetNext(&foundFile));
+				} while (dir.GetNext(&foundFile));
 #endif
-            }
-            if(!filesv.empty())
-            {
-                std::vector<PanoCommand::PanoCommand*> cmds;
-                cmds.push_back(new PanoCommand::wxAddImagesCmd(pano,filesv));
-                cmds.push_back(new PanoCommand::DistributeImagesCmd(pano));
-                cmds.push_back(new PanoCommand::CenterPanoCmd(pano));
-                PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::CombinedPanoCommand(pano, cmds));
-            };
-            if (!rawFilesv.empty())
-            {
-                if (rawFilesv.size() == 1)
-                {
-                    wxMessageDialog message(GetTopWindow(), _("You selected only one raw file. This is not recommended.\nAll raw files should be converted at once."),
+			}
+			if(!filesv.empty())
+			{
+				std::vector<PanoCommand::PanoCommand*> cmds;
+				cmds.push_back(new PanoCommand::wxAddImagesCmd(pano,filesv));
+				cmds.push_back(new PanoCommand::DistributeImagesCmd(pano));
+				cmds.push_back(new PanoCommand::CenterPanoCmd(pano));
+				PanoCommand::GlobalCmdHist::getInstance().addCommand(new PanoCommand::CombinedPanoCommand(pano, cmds));
+			};
+			if (!rawFilesv.empty())
+			{
+				if (rawFilesv.size() == 1)
+				{
+					wxMessageDialog message(GetTopWindow(), _("You selected only one raw file. This is not recommended.\nAll raw files should be converted at once."),
 #ifdef _WIN32
-                        _("Hugin"),
+						_("Hugin"),
 #else
-                        wxT(""),
+						wxT(""),
 #endif
-                        wxICON_EXCLAMATION | wxOK | wxCANCEL);
-                    message.SetOKLabel(_("Convert anyway."));
-                    if (message.ShowModal() != wxID_OK)
-                    {
-                        return true;
-                    };
-            };
-                RawImportDialog dlg(GetTopWindow(), &pano, rawFilesv);
-                // check that raw files are from same camera and that all can be read
-                if (dlg.CheckRawFiles())
-                {
-                    // now show dialog
-                    if (dlg.ShowModal() == wxID_OK)
-                    {
-                        PanoCommand::GlobalCmdHist::getInstance().addCommand(dlg.GetPanoCommand());
-                    };
-                };
-            };
-        };
-    }
+						wxICON_EXCLAMATION | wxOK | wxCANCEL);
+					message.SetOKLabel(_("Convert anyway."));
+					if (message.ShowModal() != wxID_OK)
+					{
+						return true;
+					};
+			};
+				RawImportDialog dlg(GetTopWindow(), &pano, rawFilesv);
+				// check that raw files are from same camera and that all can be read
+				if (dlg.CheckRawFiles())
+				{
+					// now show dialog
+					if (dlg.ShowModal() == wxID_OK)
+					{
+						PanoCommand::GlobalCmdHist::getInstance().addCommand(dlg.GetPanoCommand());
+					};
+				};
+			};
+		};
+	}
 #ifdef __WXMAC__
-    m_macInitDone = true;
-    if(m_macOpenFileOnStart) {frame->LoadProjectFile(m_macFileNameToOpenOnStart);}
-    m_macOpenFileOnStart = false;
+	m_macInitDone = true;
+	if(m_macOpenFileOnStart) {frame->LoadProjectFile(m_macFileNameToOpenOnStart);}
+	m_macOpenFileOnStart = false;
 #endif
 
 	//check for no tip switch, needed by PTBatcher
@@ -635,82 +646,82 @@ bool huginApp::OnInit()
 		}
 	}
 
-    DEBUG_TRACE("=========================== huginApp::OnInit() end ===================");
-    return true;
+	DEBUG_TRACE("=========================== huginApp::OnInit() end ===================");
+	return true;
 }
 
 int huginApp::OnExit()
 {
-    DEBUG_TRACE("");
-    delete wxHelpProvider::Set(NULL);
-    return 0;
+	DEBUG_TRACE("");
+	delete wxHelpProvider::Set(NULL);
+	return 0;
 }
 
 huginApp * huginApp::Get()
 {
-    if (m_this) {
-        return m_this;
-    } else {
-        DEBUG_FATAL("huginApp not yet created");
-        DEBUG_ASSERT(m_this);
-        return 0;
-    }
+	if (m_this) {
+		return m_this;
+	} else {
+		DEBUG_FATAL("huginApp not yet created");
+		DEBUG_ASSERT(m_this);
+		return 0;
+	}
 }
 
 MainFrame* huginApp::getMainFrame()
 {
-    if (m_this) {
-        return m_this->frame;
-    } else {
-        return 0;
-    }
+	if (m_this) {
+		return m_this->frame;
+	} else {
+		return 0;
+	}
 }
 
 void huginApp::relayImageLoaded(ImageReadyEvent & event)
 {
-    if (event.entry.get())
-    {
-        ImageCache::getInstance().postEvent(event.request, event.entry);
-    }
-    else
-    {
-        // loading failed, first remove request from image cache list
-        ImageCache::getInstance().removeRequest(event.request);
-        // now notify main frame to remove the failed image from project
-        wxCommandEvent e(EVT_LOADING_FAILED);
-        e.SetString(wxString(event.request->getFilename().c_str(), HUGIN_CONV_FILENAME));
-        frame->GetEventHandler()->AddPendingEvent(e);
-    };
+	if (event.entry.get())
+	{
+		ImageCache::getInstance().postEvent(event.request, event.entry);
+	}
+	else
+	{
+		// loading failed, first remove request from image cache list
+		ImageCache::getInstance().removeRequest(event.request);
+		// now notify main frame to remove the failed image from project
+		wxCommandEvent e(EVT_LOADING_FAILED);
+		e.SetString(wxString(event.request->getFilename().c_str(), HUGIN_CONV_FILENAME));
+		frame->GetEventHandler()->AddPendingEvent(e);
+	};
 }
 
 void huginApp::imageLoadedAsync(ImageCache::RequestPtr request, ImageCache::EntryPtr entry)
 {
-    ImageReadyEvent event(request, entry);
-    // AddPendingEvent adds the event to the event queue and returns without
-    // processing it. This is necessary since we are probably not in the
-    // UI thread, but the event handler must be run in the UI thread since it
-    // could update image views.
-    Get()->AddPendingEvent(event);
+	ImageReadyEvent event(request, entry);
+	// AddPendingEvent adds the event to the event queue and returns without
+	// processing it. This is necessary since we are probably not in the
+	// UI thread, but the event handler must be run in the UI thread since it
+	// could update image views.
+	Get()->AddPendingEvent(event);
 }
 
 #ifdef __WXMAC__
 void huginApp::MacOpenFile(const wxString &fileName)
 {
-    if(!m_macInitDone)
-    {
-        m_macOpenFileOnStart=true;
-        m_macFileNameToOpenOnStart = fileName;
-        return;
-    }
+	if(!m_macInitDone)
+	{
+		m_macOpenFileOnStart=true;
+		m_macFileNameToOpenOnStart = fileName;
+		return;
+	}
 
-    if(frame) frame->MacOnOpenFile(fileName);
+	if(frame) frame->MacOnOpenFile(fileName);
 }
 #endif
 
 #if wxUSE_ON_FATAL_EXCEPTION
 void huginApp::OnFatalException()
 {
-    GenerateReport(wxDebugReport::Context_Exception);
+	GenerateReport(wxDebugReport::Context_Exception);
 };
 #endif
 
@@ -721,87 +732,87 @@ huginApp * huginApp::m_this = 0;
 
 void RestoreFramePosition(wxTopLevelWindow * frame, const wxString & basename)
 {
-    DEBUG_TRACE(basename.mb_str(wxConvLocal));
+	DEBUG_TRACE(basename.mb_str(wxConvLocal));
 
-    wxConfigBase * config = wxConfigBase::Get();
+	wxConfigBase * config = wxConfigBase::Get();
 
-    // get display size
-    int dx,dy;
-    wxDisplaySize(&dx,&dy);
+	// get display size
+	int dx,dy;
+	wxDisplaySize(&dx,&dy);
 
 #if ( __WXGTK__ )
 // restoring the splitter positions properly when maximising doesn't work.
 // Disabling maximise on wxWidgets >= 2.6.0 and gtk
-        //size
-        int w = config->Read(wxT("/") + basename + wxT("/width"),-1l);
-        int h = config->Read(wxT("/") + basename + wxT("/height"),-1l);
-        if (w > 0 && w <= dx) {
-            frame->SetClientSize(w,h);
-        } else {
-            frame->Fit();
-        }
-        //position
-        int x = config->Read(wxT("/") + basename + wxT("/positionX"),-1l);
-        int y = config->Read(wxT("/") + basename + wxT("/positionY"),-1l);
-        if ( y >= 0 && x >= 0 && x < dx && y < dy) {
-            frame->Move(x, y);
-        } else {
-            frame->Move(0, 44);
-        }
+		//size
+		int w = config->Read(wxT("/") + basename + wxT("/width"),-1l);
+		int h = config->Read(wxT("/") + basename + wxT("/height"),-1l);
+		if (w > 0 && w <= dx) {
+			frame->SetClientSize(w,h);
+		} else {
+			frame->Fit();
+		}
+		//position
+		int x = config->Read(wxT("/") + basename + wxT("/positionX"),-1l);
+		int y = config->Read(wxT("/") + basename + wxT("/positionY"),-1l);
+		if ( y >= 0 && x >= 0 && x < dx && y < dy) {
+			frame->Move(x, y);
+		} else {
+			frame->Move(0, 44);
+		}
 #else
-    bool maximized = config->Read(wxT("/") + basename + wxT("/maximized"), 0l) != 0;
-    if (maximized) {
-        frame->Maximize();
+	bool maximized = config->Read(wxT("/") + basename + wxT("/maximized"), 0l) != 0;
+	if (maximized) {
+		frame->Maximize();
 	} else {
-        //size
-        int w = config->Read(wxT("/") + basename + wxT("/width"),-1l);
-        int h = config->Read(wxT("/") + basename + wxT("/height"),-1l);
-        if (w > 0 && w <= dx) {
-            frame->SetClientSize(w,h);
-        } else {
-            frame->Fit();
-        }
-        //position
-        int x = config->Read(wxT("/") + basename + wxT("/positionX"),-1l);
-        int y = config->Read(wxT("/") + basename + wxT("/positionY"),-1l);
-        if ( y >= 0 && x >= 0 && x < dx && y < dy) {
-            frame->Move(x, y);
-        } else {
-            frame->Move(0, 44);
-        }
-    }
+		//size
+		int w = config->Read(wxT("/") + basename + wxT("/width"),-1l);
+		int h = config->Read(wxT("/") + basename + wxT("/height"),-1l);
+		if (w > 0 && w <= dx) {
+			frame->SetClientSize(w,h);
+		} else {
+			frame->Fit();
+		}
+		//position
+		int x = config->Read(wxT("/") + basename + wxT("/positionX"),-1l);
+		int y = config->Read(wxT("/") + basename + wxT("/positionY"),-1l);
+		if ( y >= 0 && x >= 0 && x < dx && y < dy) {
+			frame->Move(x, y);
+		} else {
+			frame->Move(0, 44);
+		}
+	}
 #endif
 }
 
 
 void StoreFramePosition(wxTopLevelWindow * frame, const wxString & basename)
 {
-    DEBUG_TRACE(basename);
+	DEBUG_TRACE(basename);
 
-    wxConfigBase * config = wxConfigBase::Get();
+	wxConfigBase * config = wxConfigBase::Get();
 
 #if ( __WXGTK__ )
 // restoring the splitter positions properly when maximising doesn't work.
 // Disabling maximise on wxWidgets >= 2.6.0 and gtk
-    
-        wxSize sz = frame->GetClientSize();
-        config->Write(wxT("/") + basename + wxT("/width"), sz.GetWidth());
-        config->Write(wxT("/") + basename + wxT("/height"), sz.GetHeight());
-        wxPoint ps = frame->GetPosition();
-        config->Write(wxT("/") + basename + wxT("/positionX"), ps.x);
-        config->Write(wxT("/") + basename + wxT("/positionY"), ps.y);
-        config->Write(wxT("/") + basename + wxT("/maximized"), 0);
+	
+		wxSize sz = frame->GetClientSize();
+		config->Write(wxT("/") + basename + wxT("/width"), sz.GetWidth());
+		config->Write(wxT("/") + basename + wxT("/height"), sz.GetHeight());
+		wxPoint ps = frame->GetPosition();
+		config->Write(wxT("/") + basename + wxT("/positionX"), ps.x);
+		config->Write(wxT("/") + basename + wxT("/positionY"), ps.y);
+		config->Write(wxT("/") + basename + wxT("/maximized"), 0);
 #else
-    if ( (! frame->IsMaximized()) && (! frame->IsIconized()) ) {
-        wxSize sz = frame->GetClientSize();
-        config->Write(wxT("/") + basename + wxT("/width"), sz.GetWidth());
-        config->Write(wxT("/") + basename + wxT("/height"), sz.GetHeight());
-        wxPoint ps = frame->GetPosition();
-        config->Write(wxT("/") + basename + wxT("/positionX"), ps.x);
-        config->Write(wxT("/") + basename + wxT("/positionY"), ps.y);
-        config->Write(wxT("/") + basename + wxT("/maximized"), 0);
-    } else if (frame->IsMaximized()){
-        config->Write(wxT("/") + basename + wxT("/maximized"), 1l);
-    }
+	if ( (! frame->IsMaximized()) && (! frame->IsIconized()) ) {
+		wxSize sz = frame->GetClientSize();
+		config->Write(wxT("/") + basename + wxT("/width"), sz.GetWidth());
+		config->Write(wxT("/") + basename + wxT("/height"), sz.GetHeight());
+		wxPoint ps = frame->GetPosition();
+		config->Write(wxT("/") + basename + wxT("/positionX"), ps.x);
+		config->Write(wxT("/") + basename + wxT("/positionY"), ps.y);
+		config->Write(wxT("/") + basename + wxT("/maximized"), 0);
+	} else if (frame->IsMaximized()){
+		config->Write(wxT("/") + basename + wxT("/maximized"), 1l);
+	}
 #endif
 }
