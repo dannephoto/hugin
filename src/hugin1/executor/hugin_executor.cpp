@@ -106,7 +106,7 @@ class HuginExecutor : public APP
     {
         HuginBase::Panorama pano;
         wxFileName inputFile(m_input);
-        inputFile.Normalize();
+        inputFile.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
         std::string input(inputFile.GetFullPath().mb_str(HUGIN_CONV_FILENAME));
         if (!pano.ReadPTOFile(input, hugin_utils::getPathPrefix(input)))
         {
@@ -133,7 +133,7 @@ class HuginExecutor : public APP
             if (m_prefix.IsEmpty())
             {
                 outputPrefix = getDefaultOutputName(m_input, pano);
-                outputPrefix.Normalize();
+                outputPrefix.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
             }
             else
             {

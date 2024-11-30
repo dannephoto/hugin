@@ -133,8 +133,9 @@ namespace HuginQueue
             if (generateGPanoTags)
             {
                 //GPano tags are only indented for equirectangular images
-                if (opts.getProjection() == HuginBase::PanoramaOptions::EQUIRECTANGULAR)
+                if (opts.getProjection() == HuginBase::PanoramaOptions::EQUIRECTANGULAR || opts.getProjection() == HuginBase::PanoramaOptions::CYLINDRICAL)
                 {
+                    const bool isCylindrical = opts.getProjection() == HuginBase::PanoramaOptions::CYLINDRICAL;
                     const vigra::Rect2D roi = opts.getROI();
                     int left = roi.left();
                     int top = roi.top();
@@ -148,20 +149,36 @@ namespace HuginQueue
                         left += (fullWidth - opts.getWidth()) / 2;
                     };
                     int fullHeight = opts.getHeight();
-                    if (opts.getVFOV()<180)
+                    if (!isCylindrical && opts.getVFOV()<180)
                     {
                         fullHeight = static_cast<int>(opts.getHeight() * 180.0 / opts.getVFOV());
                         top += (fullHeight - opts.getHeight()) / 2;
                     };
+                    if (isCylindrical)
+                    {
+                        // different calculation of top parameter for cylindrical projection
+                        top =  height/2 - top;
+                    };
                     outputFile << wxT("-UsePanoramaViewer=True") << endl;
                     outputFile << wxT("-StitchingSoftware=Hugin") << endl;
-                    outputFile << wxT("-ProjectionType=equirectangular") << endl;
+                    if (isCylindrical)
+                    {
+                        outputFile << wxT("-ProjectionType=cylindrical") << endl;
+                    }
+                    else
+                    {
+                        outputFile << wxT("-ProjectionType=equirectangular") << endl;
+                    };
                     outputFile << wxT("-CroppedAreaLeftPixels=") << left << endl;
                     outputFile << wxT("-CroppedAreaTopPixels=") << top << endl;
                     outputFile << wxT("-CroppedAreaImageWidthPixels=") << width << endl;
                     outputFile << wxT("-CroppedAreaImageHeightPixels=") << height << endl;
                     outputFile << wxT("-FullPanoWidthPixels=") << fullWidth << endl;
-                    outputFile << wxT("-FullPanoHeightPixels=") << fullHeight << endl;
+                    if (!isCylindrical)
+                    {
+                        // for cylindrical projection FullPanoHeightPixels is infinity
+                        outputFile << wxT("-FullPanoHeightPixels=") << fullHeight << endl;
+                    };
                     outputFile << wxT("-SourcePhotosCount=") << static_cast<wxUint32>(pano.getNrOfImages()) << endl;
                 };
             };
@@ -525,7 +542,7 @@ namespace HuginQueue
                 exiftoolArgfile = wxString(std::string(hugin_utils::GetDataDir() + "hugin_exiftool_copy.arg").c_str(), HUGIN_CONV_FILENAME);
             };
             wxFileName argfile(exiftoolArgfile);
-            argfile.Normalize();
+            argfile.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
             exiftoolArgs.Append(wxT(" -@ ") + wxEscapeFilename(argfile.GetFullPath()) + wxT(" "));
             wxString finalArgfile = detail::GenerateFinalArgfile(pano, project, config, allActiveImages, exiftoolVersion);
             if (!finalArgfile.IsEmpty())

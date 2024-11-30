@@ -178,6 +178,10 @@
       <accel>Ctrl-o</accel>
       <help>Open project</help>
     </object>
+    <object class="wxMenuItem" name="action_browse_projects">
+      <label>Browse project files...</label>
+      <help>Display all project files in a directory with a small preview of the pano</help>
+    </object>
     <object class="wxMenuItem" name="action_save_project">
       <label>&amp;Save</label>
       <accel>Ctrl-s</accel>

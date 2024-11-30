@@ -35,11 +35,17 @@ namespace HuginBase {
 double CalculateMeanExposure::calcMeanExposure(const PanoramaData& pano)
 {
     double exposure=0;
-    size_t i;
-    for (i = 0; i < pano.getNrOfImages(); i++) {
-        exposure += const_map_get(pano.getImageVariables(i),"Eev").getValue();
+    size_t counter = 0;
+    for (size_t i = 0; i < pano.getNrOfImages(); i++)
+    {
+        const HuginBase::SrcPanoImage& img = pano.getImage(i);
+        if (img.getActive())
+        {
+            exposure += img.getExposureValue();
+            ++counter;
+        };
     }
-    return exposure / i;
+    return (counter > 0) ? (exposure / counter) : 0.0;
 }
 
 

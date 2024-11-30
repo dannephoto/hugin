@@ -484,7 +484,7 @@ public:
 #endif
         bottomsizer->Add(m_progress, 1, wxEXPAND | wxALL, 10);
         m_cancelButton = new wxButton(this, wxID_CANCEL, _("Cancel"));
-        bottomsizer->Add(m_cancelButton, 0, wxALL | wxALIGN_RIGHT, 10);
+        bottomsizer->Add(m_cancelButton, 0, wxALL, 10);
         m_cancelButton->Bind(wxEVT_BUTTON, &RawImportProgress::OnCancel, this);
         topsizer->Add(bottomsizer, 0, wxEXPAND);
 #ifdef __WXMSW__
@@ -518,17 +518,25 @@ protected:
 
             };
             Unbind(wxEVT_END_PROCESS, &RawImportProgress::OnProcessReferenceTerminate, this);
-            m_progress->SetValue(hugin_utils::roundi(1.0 / m_images.size()));
+            m_progress->SetValue(hugin_utils::roundi(100.0 / m_images.size()));
             wxArrayString rawFiles(m_rawImages);
             rawFiles.RemoveAt(m_refImg);
             if (rawFiles.IsEmpty())
             {
+                // copy log to clipboard if preference is set
+                if (wxConfigBase::Get()->Read(wxT("CopyLogToClipboard"), 0l) == 1l)
+                {
+                    m_progressPanel->CopyLogToClipboard();
+                };
                 EndModal(wxID_OK);
+            }
+            else
+            {
+                wxArrayString imgFiles(m_images);
+                imgFiles.RemoveAt(m_refImg);
+                Bind(wxEVT_END_PROCESS, &RawImportProgress::OnProcessTerminate, this);
+                m_progressPanel->ExecQueue(m_converter->GetCmdQueueForImport(rawFiles, imgFiles));
             };
-            wxArrayString imgFiles(m_images);
-            imgFiles.RemoveAt(m_refImg);
-            Bind(wxEVT_END_PROCESS, &RawImportProgress::OnProcessTerminate, this);
-            m_progressPanel->ExecQueue(m_converter->GetCmdQueueForImport(rawFiles, imgFiles));
         }
         else
         {
@@ -540,6 +548,11 @@ protected:
     {
         if (e.GetExitCode() == 0)
         {
+            // copy log to clipboard if preference is set
+            if (wxConfigBase::Get()->Read(wxT("CopyLogToClipboard"), 0l) == 1l)
+            {
+                m_progressPanel->CopyLogToClipboard();
+            };
             EndModal(wxID_OK);
         }
         else
@@ -552,7 +565,7 @@ protected:
     {
         if (event.GetInt() >= 0)
         {
-            m_progress->SetValue(hugin_utils::roundi((1 + event.GetInt() / 100.0f * (m_images.size() - 2)) * 100.0f / m_images.size()));
+            m_progress->SetValue(hugin_utils::roundi((1 + event.GetInt() / 100.0f * (m_images.size() - 1)) * 100.0f / m_images.size()));
         };
     };
     void OnCancel(wxCommandEvent & event)
@@ -661,6 +674,12 @@ bool RawImportDialog::CheckRawFiles()
     {
         // check that all images are from the same camera
 #if defined EXIV2_VERSION && EXIV2_TEST_VERSION(0,27,99)
+#if defined EXV_ENABLE_BMFF && !EXIV2_TEST_VERSION(0,28,3)
+        // enable BMFF option if available, necessary for Canon CR3 files
+        // only needed for exiv2 version <0.28.3
+        // in higher version this function is deprecated
+        Exiv2::enableBMFF();
+#endif
         Exiv2::Image::UniquePtr image;
 #else
         Exiv2::Image::AutoPtr image;

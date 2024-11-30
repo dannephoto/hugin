@@ -1,6 +1,6 @@
 
-# require at least cmake 3.8
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR )
+# require at least cmake 3.15
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR )
 
 # prevent in-tree building
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
@@ -61,9 +61,9 @@ include(CheckIncludeFiles)
 project(hugin)
 
 # version
-set(V_MAJOR 2023)
+set(V_MAJOR 2024)
 set(V_MINOR 0)
-set(V_PATCH 0)
+set(V_PATCH 1)
 
 #
 # Check for mercurial and get current revision
@@ -174,7 +174,10 @@ ENDIF()
 
 # hugin requires wxwidgets 3.0 or above
 IF (UNIX)
-  EXEC_PROGRAM(sh ARGS "${wxWidgets_CONFIG_EXECUTABLE} --version" OUTPUT_VARIABLE wxWidgets_VERSION)
+  EXECUTE_PROCESS(
+    COMMAND ${wxWidgets_CONFIG_EXECUTABLE} --version
+    OUTPUT_VARIABLE wxWidgets_VERSION
+  )
   STRING(REGEX REPLACE "^([0-9]+\\.[0-9]+)\\..*" "\\1"  wxWidgets_VERSION ${wxWidgets_VERSION})
   IF(wxWidgets_VERSION VERSION_LESS "3.0")
     MESSAGE(FATAL_ERROR "At least wxWidgets 3.0 is required")
@@ -185,7 +188,10 @@ IF (UNIX)
     UNSET(USE_XDG_DIRS)
   ENDIF()
   # Ubuntu has 2 different devel packages, we need the GUI version
-  EXEC_PROGRAM(sh ARGS "${wxWidgets_CONFIG_EXECUTABLE} --query-toolkit" OUTPUT_VARIABLE wxWidgets_TOOLKIT)
+  EXECUTE_PROCESS(
+    COMMAND ${wxWidgets_CONFIG_EXECUTABLE} --query-toolkit
+    OUTPUT_VARIABLE wxWidgets_TOOLKIT
+  )
   IF(wxWidgets_TOOLKIT STREQUAL "base")
     MESSAGE(FATAL_ERROR "wxWidgets is as non-GUI package configured. Check you wxWidgets installation (maybe wxgtkXX-devel is missing)")
   ENDIF()
@@ -473,17 +479,16 @@ ENDIF()
 OPTION(BUILD_HSI "Python Scripting Interface" OFF)
 
 IF(BUILD_HSI)
-  # find Python first because the version of SWIG required depends on the
-  # version of Python available
-  if(WIN32)
-    FIND_PACKAGE(PythonLibs 3.0 REQUIRED)
-  else()
-    #  Linux/MacOS
-    find_package(PythonInterp 3.0 REQUIRED)
-    find_package(PythonLibs ${PYTHON_VERSION_STRING} REQUIRED)
-  endif()
-  INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+  # find Python, we need Python 3
+  FIND_PACKAGE(Python3 COMPONENTS Interpreter Development REQUIRED)
+  INCLUDE_DIRECTORIES(${Python3_INCLUDE_DIRS})
   ADD_DEFINITIONS(-DHUGIN_HSI)
+if(POLICY CMP0078)
+  cmake_policy(SET CMP0078 NEW)
+endif()
+if(POLICY CMP0086)
+  cmake_policy(SET CMP0086 NEW)
+endif()
   FIND_PACKAGE(SWIG 2.0.4 REQUIRED)
   INCLUDE(${SWIG_USE_FILE})
 ENDIF()
@@ -880,8 +885,6 @@ SET(CPACK_RPM_USER_FILELIST
   "%ignore /usr/local/share/applications" 
   "%ignore /usr/local/share/man" 
   "%ignore /usr/local/share/man/man1"
-  "%ignore /usr/lib/python2.7"
-  "%ignore /usr/lib/python2.7/site-packages"
 )
 
 message(STATUS "Current source dir = ${CMAKE_CURRENT_SOURCE_DIR}")

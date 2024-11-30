@@ -113,6 +113,7 @@ bool CPListCtrl::Create(wxWindow *parent, wxWindowID id, const wxPoint& pos,
     };
     EnableAlternateRowColours(true);
 
+#if !wxCHECK_VERSION(3,1,6)
     wxMemoryDC memDC;
     memDC.SetFont(GetFont());
     wxSize fontSize = memDC.GetTextExtent(wxT("\u25b3"));
@@ -141,11 +142,16 @@ bool CPListCtrl::Create(wxWindow *parent, wxWindowID id, const wxPoint& pos,
         sortIcons->Add(bmp, GetBackgroundColour());
     };
     AssignImageList(sortIcons, wxIMAGE_LIST_SMALL);
+#endif
     wxConfigBase* config = wxConfig::Get();
     m_sortCol=config->Read(wxT("/CPListFrame/SortColumn"), 0l);
     m_sortAscend = config->Read(wxT("/CPListFrame/SortAscending"), 1l) == 1;
     config->Flush();
+#if wxCHECK_VERSION(3,1,6)
+    ShowSortIndicator(m_sortCol, m_sortAscend);
+#else
     SetColumnImage(m_sortCol, m_sortAscend ? 0 : 1);
+#endif
     return true;
 };
 
@@ -408,6 +414,18 @@ void CPListCtrl::OnCPListSelectionChanged(wxListEvent & e)
 void CPListCtrl::OnCPListHeaderClick(wxListEvent& e)
 {
     const int newCol = e.GetColumn();
+#if wxCHECK_VERSION(3,1,6)
+    if (m_sortCol == newCol)
+    {
+        m_sortAscend = !m_sortAscend;
+    }
+    else
+    {
+        m_sortCol = newCol;
+        m_sortAscend = true;
+    };
+    ShowSortIndicator(m_sortCol, m_sortAscend);
+#else
     if (m_sortCol == newCol)
     {
         m_sortAscend = !m_sortAscend;
@@ -420,6 +438,7 @@ void CPListCtrl::OnCPListHeaderClick(wxListEvent& e)
         SetColumnImage(m_sortCol, 0);
         m_sortAscend = true;
     }
+#endif
     SortInternalList(false);
     Refresh();
 };

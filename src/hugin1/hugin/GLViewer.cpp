@@ -339,7 +339,6 @@ void GLViewer::RedrawE(wxPaintEvent& e)
         DEBUG_DEBUG("REDRAW_E IN");
         redrawing = true;
         SetUpContext();
-        wxPaintDC dc(this); // we need this object on the stack to draw.
         Redraw();
         redrawing = false;
     }

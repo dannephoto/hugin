@@ -1355,7 +1355,7 @@ void expand(bool add, bool wraparound,
 // Used when collapsing a laplacian pyramid.
 // Explict fromPromote necessary to avoid overflow/underflow problems.
 template<typename T1, typename T2, typename T3>
-struct FromPromotePlusFunctorWrapper : public std::binary_function<T1, T2, T3> {
+struct FromPromotePlusFunctorWrapper {
     inline T3 operator()(const T1 &a, const T2 &b) const {
         return NumericTraits<T3>::fromPromote(a + b);
     }

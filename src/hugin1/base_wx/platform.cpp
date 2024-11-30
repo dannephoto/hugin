@@ -29,13 +29,6 @@
 #include <hugin_utils/utils.h>
 #include <vigra/imageinfo.hxx>
 
-/** return vector of known extensions of raw files */
-std::vector<std::string> GetRawExtensions()
-{
-    std::vector<std::string> rawExt{ "dng", "crw", "cr2","cr3","raw","erf","raf","mrw","nef","orf","rw2","pef","srw","arw" };
-    return rawExt;
-};
-
 /** build filter string "*.ext", adds also upper case version for UNIX paths when needed */
 wxString GetFilterExtensions(const wxString& ext)
 {
@@ -89,7 +82,7 @@ wxString GetFileDialogImageAndRawFilters()
 {
     wxString filterString = GetVigraImageFilter();
     // now the raw formats
-    std::vector<std::string> exts = GetRawExtensions();
+    const std::vector<std::string> exts = hugin_utils::GetRawExtensions();
     filterString.Append(_("Raw files")).Append("|");
     for (auto& ext : exts)
     {
@@ -109,7 +102,7 @@ wxString GetFileDialogImageAndRawFilters()
 
 bool IsRawExtension(const wxString& testExt)
 {
-    std::vector<std::string> rawExts = GetRawExtensions();
+    const std::vector<std::string> rawExts = hugin_utils::GetRawExtensions();
     for (auto& ext : rawExts)
     {
         if (testExt.CmpNoCase(wxString(ext.c_str(), wxConvLocal)) == 0)

@@ -67,7 +67,7 @@
 </p>
 <h2><a name="Matching_strategy"><span class="mw-headline">Matching strategy</span></a></h2>
 <h3><a name="All_pairs"><span class="mw-headline">All pairs</span></a></h3>
-<p>This is the default matching strategy. Here all image pairs are matched against each other. E.g. if your project contains 5 images then <b>cpfind</b> matches the image pairs: 0-1, 0-2, 0-3, 0-4, 1-2, 1-3, 1-4, 2-3, 2-4 and 3-4
+<p>Here all image pairs are matched against each other. E.g. if your project contains 5 images then <b>cpfind --allpairs</b> matches the image pairs: 0-1, 0-2, 0-3, 0-4, 1-2, 1-3, 1-4, 2-3, 2-4 and 3-4
 </p><p>This strategy works for all shooting strategy (single-row, multi-row, unordered). It finds (nearly) all connected image pairs. But it is computational expensive for projects with many images, because it test many image pairs which are not connected.
 </p>
 <h3><a name="Linear_match"><span class="mw-headline">Linear match</span></a></h3>
@@ -78,11 +78,11 @@
 <p>This will only detect matches between adjacent images, e.g. for the 5 image example it will matches images pairs 0-1, 1-2, 2-3 and 3-4. The matching distance can be increased with the switch --linearmatchlen. E.g. with --linearmatchlen 2 <b>cpfind</b> will match a image with the next image and the image after next, in our example it would be 0-1, 0-2, 1-2, 1-3, 2-3, 2-4 and 3-4.
 </p>
 <h3><a name="Multirow_matching"><span class="mw-headline">Multirow matching</span></a></h3>
-<p>This is an optimized matching strategy for single and multi-row panorama:
+<p>Since Hugin 2024.0 this is the default matching strategy. This is an optimized matching strategy for single and multi-row panorama:
 </p>
 <pre>   cpfind --multirow -o output.pto input.pto
 </pre>
-<p>The algorithm is the same as described in <a href="Hugin_Parameters_for_Control_Point_Detectors_dialog.html#Multi-row_panorama" title="Hugin Parameters for Control Point Detectors dialog">multi-row panorama</a>. By integrating this algorithm into <b>cpfind</b> it is faster by using several cores of modern CPUs and don't caching the keypoints to disc (which is time consuming). If you want to use this multi-row matching inside <a href="Hugin.html" title="Hugin">hugin</a> set the control point detector type to <a href="Hugin_Parameters_for_Control_Point_Detectors_dialog.html#All_images_at_once" title="Hugin Parameters for Control Point Detectors dialog">All images at once</a>, this is so that Hugin passes all images to cpfind and lets cpfind apply the multirow matching smarts itself.
+<p>The algorithm is the same as described in <a href="Hugin_Parameters_for_Control_Point_Detectors_dialog.html#Multi-row_panorama" title="Hugin Parameters for Control Point Detectors dialog">multi-row panorama</a>. If after running this multi-row approach not all images are connected then all not yet checked image pairs are matched against each other. By integrating this algorithm into <b>cpfind</b> it is faster by using several cores of modern CPUs and don't caching the keypoints to disc (which is time consuming). If you want to use this multi-row matching inside <a href="Hugin.html" title="Hugin">hugin</a> set the control point detector type to <a href="Hugin_Parameters_for_Control_Point_Detectors_dialog.html#All_images_at_once" title="Hugin Parameters for Control Point Detectors dialog">All images at once</a>, this is so that Hugin passes all images to cpfind and lets cpfind apply the multirow matching smarts itself.
 </p>
 <h3><span id="Matching_overlapping_images_(prealigned_panorama)"></span><a name="Matching_overlapping_images_.28prealigned_panorama.29"><span class="mw-headline">Matching overlapping images (prealigned panorama)</span></a></h3>
 <p>This setting is for finding control points in panorama, in which the rough positions of the images are already known (e.g. when using a template or when generating the pto file by a script)
@@ -147,5 +147,5 @@ Transclusion expansion time report (%,ms,calls,template)
 -->
 
 
-</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Cpfind&amp;oldid=14282">https://wiki.panotools.org/index.php?title=Cpfind&amp;oldid=14282</a>"</div>
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Cpfind&amp;oldid=17431">https://wiki.panotools.org/index.php?title=Cpfind&amp;oldid=17431</a>"</div>
 		</div></div></body></html>

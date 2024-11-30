@@ -104,7 +104,7 @@ PanoDetector::PanoDetector() :
     _kdTreeSearchSteps(200), _kdTreeSecondDistance(0.25),
     _minimumMatches(6), _ransacMode(HuginBase::RANSACOptimizer::AUTO), _ransacIters(1000), _ransacDistanceThres(50),
     _sieve2Width(5), _sieve2Height(5), _sieve2Size(1),
-    _matchingStrategy(ALLPAIRS), _linearMatchLen(1),
+    _matchingStrategy(MULTIROW), _linearMatchLen(1),
     _test(false), _cores(0), _downscale(true), _cache(false), _cleanup(false),
     _celeste(false), _celesteThreshold(0.5), _celesteRadius(20), 
     _keypath(""), _outputFile("default.pto"), _outputGiven(false), svmModel(NULL)
@@ -1191,7 +1191,18 @@ bool PanoDetector::matchPrealigned(HuginBase::Panorama* pano, std::vector<HuginB
         for(size_t i=0; i<tempPano.getNrOfImages(); i++)
         {
             HuginBase::Variable& hfovVar = map_get(varMapVec[i], "v");
-            hfovVar.setValue(std::min(360.0, 1.25 * hfovVar.getValue()));
+            double newHFOV = 1.25 * hfovVar.getValue();
+            switch (tempPano.getImage(i).getProjection())
+            {
+                // range checking
+                case HuginBase::BaseSrcPanoImage::RECTILINEAR:
+                    newHFOV = std::min(170.0, newHFOV);
+                    break;
+                default:
+                    newHFOV = std::min(360.0, newHFOV);
+                    break;
+            }
+            hfovVar.setValue(newHFOV);
         };
         tempPano.updateVariables(varMapVec);
     };

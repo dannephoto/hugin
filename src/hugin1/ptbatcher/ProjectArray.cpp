@@ -112,7 +112,7 @@ HuginBase::PanoramaOptions Project::ReadOptions(wxString projectFile)
             if (prefix.IsEmpty())
             {
                 wxFileName prefixFilename(getDefaultOutputName(projectFile, pano));
-                prefixFilename.Normalize();
+                prefixFilename.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
                 prefix = prefixFilename.GetFullPath();
             };
             // if project contains at least 2 images and no control points add to assistant queue

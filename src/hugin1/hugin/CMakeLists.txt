@@ -12,7 +12,7 @@ IF(APPLE)
   set( MACOSX_BUNDLE_LONG_VERSION_STRING "Version ${MACOSX_BUNDLE_BUNDLE_VERSION}" )
   set( MACOSX_BUNDLE_INFO_STRING "Hugin ${MACOSX_BUNDLE_BUNDLE_VERSION}" )
   set( MACOSX_BUNDLE_BUNDLE_NAME "Hugin" )
-  set( MACOSX_BUNDLE_COPYRIGHT "Copyright 2023 Pablo d'Angelo" )
+  set( MACOSX_BUNDLE_COPYRIGHT "Copyright 2024 Pablo d'Angelo" )
 
 ELSE(APPLE)
   set( PROGNAME hugin )
@@ -34,7 +34,7 @@ GreatCircles.cpp AboutDialog.cpp LayoutRemapper.cpp PreviewLayoutLinesTool.cpp P
 MaskEditorPanel.cpp MaskImageCtrl.cpp MaskLoadDialog.cpp HtmlWindow.cpp 
 PanoOperation.cpp treelistctrl.cpp ImagesTree.cpp PanoOutputDialog.cpp SplitButton.cpp
 GuiLevel.cpp ImageVariableDialog.cpp PreviewEditCPTool.cpp PapywizardImport.cpp ChangeImageVariableDialog.cpp
-RawImport.cpp EditOutputIniDialog.cpp SelectCropAspectRatioDialog.cpp)
+RawImport.cpp EditOutputIniDialog.cpp SelectCropAspectRatioDialog.cpp BrowseDialog.cpp GenerateThumbnail.cpp)
 
 set(hugin_HEADERS
 huginApp.h ImagesList.h MainFrame.h CPImageCtrl.h CPImagesComboBox.h CPEditorPanel.h CPDetectorDialog.h 
@@ -51,7 +51,7 @@ GreatCircles.h AboutDialog.h LayoutRemapper.h PreviewLayoutLinesTool.h PreviewCo
 MaskEditorPanel.h MaskImageCtrl.h MaskLoadDialog.h HtmlWindow.h 
 PanoOperation.h treelistctrl.h ImagesTree.h PanoOutputDialog.h SplitButton.h
 GuiLevel.h ImageVariableDialog.h PreviewEditCPTool.h PapywizardImport.h ChangeImageVariableDialog.h
-RawImport.h EditOutputIniDialog.h SelectCropAspectRatioDialog.h)
+RawImport.h EditOutputIniDialog.h SelectCropAspectRatioDialog.h BrowseDialog.h GenerateThumbnail.h)
 
 IF(BUILD_HSI)
 LIST(APPEND hugin_SOURCES PluginItems.cpp)

@@ -1227,8 +1227,26 @@ int main(int argc, char* argv[])
     std::vector<std::string> files;
     for (size_t i=0; i < nFiles; i++)
     {
-        files.push_back(argv[optind+i]);
-    }
+        const std::string filename(argv[optind + i]);
+        // reject raw files
+        if (hugin_utils::IsRawExtension(hugin_utils::getExtension(filename)))
+        {
+            std::cerr << "Ignoring raw file " << filename << std::endl;
+            continue;
+        };
+        // check that it is a valid image file
+        if (!vigra::isImage(filename.c_str()))
+        {
+            std::cerr << "Could not read file " << filename << std::endl;
+            continue;
+        };
+        files.push_back(filename);
+    };
+    if (files.empty())
+    {
+        std::cerr << "ERROR: No valid files given. Nothing to do." << std::endl;
+        return 1;
+    };
 
     std::string pixelType;
 

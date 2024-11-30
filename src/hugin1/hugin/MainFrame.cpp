@@ -69,6 +69,7 @@
 #include "base_wx/huginConfig.h"
 #include "hugin/AboutDialog.h"
 #include "hugin/RawImport.h"
+#include "hugin/BrowseDialog.h"
 
 #if HUGIN_HSI
 #include "PluginItems.h"
@@ -240,6 +241,7 @@ DEFINE_EVENT_TYPE(EVT_LOADING_FAILED)
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(XRCID("action_new_project"),  MainFrame::OnNewProject)
     EVT_MENU(XRCID("action_load_project"),  MainFrame::OnLoadProject)
+    EVT_MENU(XRCID("action_browse_projects"), MainFrame::OnBrowseProjects)
     EVT_MENU(XRCID("action_save_project"),  MainFrame::OnSaveProject)
     EVT_MENU(XRCID("action_save_as_project"),  MainFrame::OnSaveProjectAs)
     EVT_MENU(XRCID("action_save_as_ptstitcher"),  MainFrame::OnSavePTStitcherAs)
@@ -377,7 +379,9 @@ MainFrame::MainFrame(wxWindow* parent, HuginBase::Panorama & pano)
             dc.DrawText(version, bitmap.GetWidth() - tw - 3, bitmap.GetHeight() - th - 3);
             dc.SelectObject(wxNullBitmap);
         }
-
+#if wxCHECK_VERSION(3,1,6)
+        bitmap.SetScaleFactor(GetDPIScaleFactor());
+#endif
         splash = new HuginSplashScreen(NULL, bitmap);
     } else {
         wxLogFatalError(_("Fatal installation error\nThe file data/splash.png was not found at:") + huginApp::Get()->GetXRCPath());
@@ -1039,7 +1043,7 @@ void MainFrame::OnSaveProjectAs(wxCommandEvent & e)
     {
         scriptName=m_filename;
     };
-    scriptName.Normalize();
+    scriptName.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
     wxFileDialog dlg(wxGetActiveWindow(),
                      _("Save project file"),
                      scriptName.GetPath(), scriptName.GetFullName(),
@@ -1247,6 +1251,27 @@ void MainFrame::OnLoadProject(wxCommandEvent & e)
     // do not close old project
     // nothing to open
     SetStatusText( _("Open project: cancel"));
+}
+
+void MainFrame::OnBrowseProjects(wxCommandEvent& e)
+{
+    // first check if there are unsaved changes
+    if (CloseProject(true, LOAD_NEW_PROJECT)) 
+    {
+        // remove old images from cache
+        ImageCache::getInstance().flush();
+        // get the global config object
+        wxConfigBase* config = wxConfigBase::Get();
+        // show dialog
+        BrowsePTOFilesDialog dialog(this, config->Read("/actualPath", ""));
+        if (dialog.ShowModal() == wxID_OK)
+        {
+            // open newly selected file
+            LoadProjectFile(dialog.GetSelectedProject());
+            // remember path for later
+            config->Write("/actualPath", dialog.GetSelectedPath());
+        };
+    };
 }
 
 void MainFrame::OnNewProject(wxCommandEvent & e)

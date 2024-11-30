@@ -96,6 +96,7 @@ CPEditorPanel::CPEditorPanel()
     m_countCP = 0;
 }
 
+#if !wxCHECK_VERSION(3,1,6)
 // helper function to set image in header
 void SetColumnImage(wxListCtrl* list, int col, int image)
 {
@@ -103,7 +104,8 @@ void SetColumnImage(wxListCtrl* list, int col, int image)
     item.SetMask(wxLIST_MASK_IMAGE);
     item.SetImage(image);
     list->SetColumn(col, item);
-};
+}
+#endif
 
 bool CPEditorPanel::Create(wxWindow* parent, wxWindowID id,
                     const wxPoint& pos,
@@ -172,9 +174,14 @@ bool CPEditorPanel::Create(wxWindow* parent, wxWindowID id,
     m_sortAscending = config->Read(wxT("/CPEditorPanel/SortAscending"), 1) == 1 ? true : false;
     if (m_sortCol != -1)
     {
+#if wxCHECK_VERSION(3,1,6)
+        m_cpList->ShowSortIndicator(m_sortCol, m_sortAscending);
+#else
         SetColumnImage(m_cpList, m_sortCol, m_sortAscending ? 0 : 1);
+#endif
     };
 
+#if !wxCHECK_VERSION(3,1,6)
     // creating bitmaps for indicating sorting order
     wxMemoryDC memDC;
     memDC.SetFont(GetFont());
@@ -204,6 +211,7 @@ bool CPEditorPanel::Create(wxWindow* parent, wxWindowID id,
         sortIcons->Add(bmp, GetBackgroundColour());
     };
     m_cpList->AssignImageList(sortIcons, wxIMAGE_LIST_SMALL);
+#endif
 
     // other controls
     m_x1Text = XRCCTRL(*this,"cp_editor_x1", wxTextCtrl);
@@ -1549,6 +1557,8 @@ void CPEditorPanel::panoramaImagesChanged(HuginBase::Panorama &pano, const Hugin
 
         ImageCache::getInstance().softFlush();
 
+        m_leftChoice->Freeze();
+        m_rightChoice->Freeze();
         for (unsigned int i=0; i < ((nrTabs < nrImages)? nrTabs: nrImages); i++) {
             wxFileName fileName(wxString (pano.getImage(i).getFilename().c_str(), HUGIN_CONV_FILENAME));
             m_leftChoice->SetString(i, wxString::Format(wxT("%d"), i) + wxT(". - ") + fileName.GetFullName());
@@ -1569,6 +1579,8 @@ void CPEditorPanel::panoramaImagesChanged(HuginBase::Panorama &pano, const Hugin
                 m_rightChoice->Append(wxString::Format(wxT("%d"), i) + wxT(". - ") + fileName.GetFullName());
             }
         }
+        m_leftChoice->Thaw();
+        m_rightChoice->Thaw();
     }
     if (nrTabs > nrImages)
     {
@@ -1576,10 +1588,14 @@ void CPEditorPanel::panoramaImagesChanged(HuginBase::Panorama &pano, const Hugin
         // we have to disable listening to notebook selection events,
         // else we might update to a noexisting image
         m_listenToPageChange = false;
+        m_leftChoice->Freeze();
+        m_rightChoice->Freeze();
         for (int i=nrTabs-1; i >= (int)nrImages; i--) {
             m_leftChoice->Delete(i);
             m_rightChoice->Delete(i);
         }
+        m_leftChoice->Thaw();
+        m_rightChoice->Thaw();
         m_listenToPageChange = true;
         if (nrImages > 0) {
             // select some other image if we deleted the current image
@@ -1647,12 +1663,16 @@ void CPEditorPanel::panoramaImagesChanged(HuginBase::Panorama &pano, const Hugin
     };
 
     // if there is no selection, select the first one.
+    m_leftChoice->Freeze();
+    m_rightChoice->Freeze();
     if (m_rightImageNr == UINT_MAX && nrImages > 0) {
         setRightImage(0);
     }
     if (m_leftImageNr == UINT_MAX && nrImages > 0) {
         setLeftImage(0);
     }
+    m_leftChoice->Thaw();
+    m_rightChoice->Thaw();
 
     if (update || nrImages == 0) {
         UpdateDisplay(false);
@@ -2678,6 +2698,18 @@ void CPEditorPanel::OnColumnWidthChange( wxListEvent & e )
 void CPEditorPanel::OnColumnHeaderClick(wxListEvent & e)
 {
     const int newCol = e.GetColumn();
+#if wxCHECK_VERSION(3,1,6)
+    if (m_sortCol == newCol)
+    {
+        m_sortAscending = !m_sortAscending;
+    }
+    else
+    {
+        m_sortCol = newCol;
+        m_sortAscending = true;
+    };
+    m_cpList->ShowSortIndicator(m_sortCol, m_sortAscending);
+#else
     if (m_sortCol == newCol)
     {
         m_sortAscending = !m_sortAscending;
@@ -2692,7 +2724,8 @@ void CPEditorPanel::OnColumnHeaderClick(wxListEvent & e)
         m_sortCol = newCol;
         SetColumnImage(m_cpList, m_sortCol, 0);
         m_sortAscending = true;
-    }
+    };
+#endif
     SortList();
     Refresh();
 }

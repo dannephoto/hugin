@@ -23,6 +23,7 @@
  */
 
 #include "utils.h"
+#include "stl_utils.h"
 #include "hugin_version.h"
 #include "hugin_config.h"
 
@@ -330,6 +331,12 @@ void ReplaceAll(std::string& s, const std::string& oldChar, char newChar)
         found = s.find_first_of(oldChar, found + 1);
     };
 };
+
+bool StringContainsCaseInsensitive(const std::string& s1, const std::string& s2)
+{
+    const auto it = std::search(s1.begin(), s1.end(), s2.begin(), s2.end(), [](const char a, const char b)->bool { return std::tolower(a) == std::tolower(b); });
+    return it != s1.end();
+}
 
     void ControlPointErrorColour(const double cperr, 
         double &r,double &g, double &b)
@@ -941,4 +948,26 @@ std::string GetICCDesc(const cmsHPROFILE& profile)
     StrTrim(information);
     return information;
 }
+
+/** return vector of known extensions of raw files, all lower case */
+std::vector<std::string> GetRawExtensions()
+{
+    std::vector<std::string> rawExt{ "dng", "crw", "cr2","cr3","raw","erf","raf","mrw","nef","orf","rw2","pef","srw","arw" };
+    return rawExt;
+};
+
+bool IsRawExtension(const std::string testExt)
+{
+    const std::string testExtLower = tolower(testExt);
+    const auto rawExts = GetRawExtensions();
+    for (const auto& ext : rawExts)
+    {
+        if (testExtLower.compare(ext) == 0)
+        {
+            return true;
+        };
+    };
+    return false;
+};
+
 } //namespace

@@ -108,7 +108,7 @@ void MaskImageCtrl::SetMaskMode(bool newMaskMode)
             m_maskEditState=CROP_SHOWING;
         };
     };
-    ClearOverlay();
+    m_overlay.Reset();
     update();
 };
 
@@ -698,7 +698,7 @@ void MaskImageCtrl::OnLeftMouseUp(wxMouseEvent& mouse)
         case POLYGON_SELECTING:
             if(HasCapture())
                 ReleaseMouse();
-            ClearOverlay();
+            m_overlay.Reset();
             m_currentPos=mpos;
             m_maskEditState=NO_SELECTION;
             {
@@ -713,7 +713,7 @@ void MaskImageCtrl::OnLeftMouseUp(wxMouseEvent& mouse)
             {
                 if(HasCapture())
                     ReleaseMouse();
-                ClearOverlay();
+                m_overlay.Reset();
                 m_currentPos=mpos;
                 bool selectedPoints=!m_selectedPoints.empty();
                 if(!mouse.ShiftDown())
@@ -760,7 +760,6 @@ void MaskImageCtrl::OnLeftMouseUp(wxMouseEvent& mouse)
         case CROP_CIRCLE_SCALING:
             if(HasCapture())
                 ReleaseMouse();
-            ClearOverlay();
             UpdateCrop(currentPos);
             m_maskEditState=CROP_SHOWING;
             SetCursor(wxNullCursor);
@@ -1207,6 +1206,7 @@ void MaskImageCtrl::DrawCrop()
 {
     wxClientDC dc(this);
     PrepareDC(dc);
+    DrawImageBitmap(dc, scale(HuginBase::maskOffset));
     DrawCrop(dc);
 };
 
@@ -1215,8 +1215,6 @@ void MaskImageCtrl::DrawCrop(wxDC & dc)
     // draw crop rectangle/circle
     if(!m_maskMode)
     {
-        wxDCOverlay overlayDC(m_overlay, &dc);
-        overlayDC.Clear();
         // draw all areas without fillings
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.SetPen(wxPen(m_color_selection, 2, wxPENSTYLE_SOLID));
@@ -1237,20 +1235,25 @@ void MaskImageCtrl::DrawCrop(wxDC & dc)
     };
 };
 
+void MaskImageCtrl::DrawImageBitmap(wxDC& dc, int offset)
+{
+    //draw border around image to allow drawing mask over boudaries of image
+    //don't draw as one complete rectangle to prevent flickering
+    dc.SetPen(wxPen(GetBackgroundColour(), 1, wxPENSTYLE_SOLID));
+    dc.SetBrush(wxBrush(GetBackgroundColour(), wxBRUSHSTYLE_SOLID));
+    dc.DrawRectangle(0, 0, offset, m_bitmap.GetHeight() + 2 * offset);
+    dc.DrawRectangle(0, 0, m_bitmap.GetWidth() + 2 * offset, offset);
+    dc.DrawRectangle(m_bitmap.GetWidth() + offset, 0, m_bitmap.GetWidth() + 2 * offset, m_bitmap.GetHeight() + 2 * offset);
+    dc.DrawRectangle(0, m_bitmap.GetHeight() + offset, m_bitmap.GetWidth() + 2 * offset, m_bitmap.GetHeight() + 2 * offset);
+    dc.DrawBitmap(m_bitmap, offset, offset);
+}
+
 void MaskImageCtrl::OnDraw(wxDC & dc)
 {
     if(m_maskEditState!=NO_IMAGE && m_bitmap.IsOk())
     {
-        int offset=scale(HuginBase::maskOffset);
-        //draw border around image to allow drawing mask over boudaries of image
-        //don't draw as one complete rectangle to prevent flickering
-        dc.SetPen(wxPen(GetBackgroundColour(), 1, wxPENSTYLE_SOLID));
-        dc.SetBrush(wxBrush(GetBackgroundColour(), wxBRUSHSTYLE_SOLID));
-        dc.DrawRectangle(0,0,offset,m_bitmap.GetHeight()+2*offset);
-        dc.DrawRectangle(0,0,m_bitmap.GetWidth()+2*offset,offset);
-        dc.DrawRectangle(m_bitmap.GetWidth()+offset,0,m_bitmap.GetWidth()+2*offset,m_bitmap.GetHeight()+2*offset);
-        dc.DrawRectangle(0,m_bitmap.GetHeight()+offset,m_bitmap.GetWidth()+2*offset,m_bitmap.GetHeight()+2*offset);
-        dc.DrawBitmap(m_bitmap,offset,offset);
+        const int offset=scale(HuginBase::maskOffset);
+        DrawImageBitmap(dc, offset);
         if(m_fitToWindow)
         {
             //draw border when image is fit to window, otherwise the border (without image) is not updated
@@ -1363,19 +1366,6 @@ void MaskImageCtrl::OnDraw(wxDC & dc)
         dc.Clear();
         return;
     };
-}
-
-void MaskImageCtrl::ClearOverlay()
-{
-    {
-        wxClientDC dc(this);
-        PrepareDC(dc);
-        wxDCOverlay overlaydc(m_overlay, &dc);
-        overlaydc.Clear();
-    };
-    // before reseting the wxOverlay we need to disconnet it from wxDCOverlay
-    // so destruct wxDCOverlay before calling Reset()
-    m_overlay.Reset();
 }
 
 void MaskImageCtrl::OnSize(wxSizeEvent &e)

@@ -299,6 +299,7 @@ void MaskEditorPanel::setImage(unsigned int imgNr, bool updateListSelection)
     if(updateListSelection)
     {
         m_imagesListMask->SelectSingleImage(imgNr);
+        m_imagesListMask->EnsureVisible(imgNr);
     };
 }
 

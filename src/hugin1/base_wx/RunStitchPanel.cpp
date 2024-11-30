@@ -303,7 +303,7 @@ bool RunStitchPanel::DetectProject(const wxString& scriptFile, const wxString& u
 
     try {
         // prepare running assistant
-        fname.Normalize();
+        fname.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
         const wxFileName exePath(wxStandardPaths::Get().GetExecutablePath());
         HuginQueue::CommandQueue* commands;
         if (userDefinedAssistant.IsEmpty())

@@ -433,7 +433,7 @@ void PreferencesDialog::OnExifArgfileEdit(wxCommandEvent & e)
     if(!filename.empty())
     {
         wxFileName file(filename);
-        file.Normalize();
+        file.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
         if(!file.Exists())
         {
             if( wxMessageBox(wxString::Format(_("File %s does not exist.\nShould the argfile be created with default tags?"),filename.c_str()),
@@ -503,7 +503,7 @@ void PreferencesDialog::OnExifArgfile2Edit(wxCommandEvent & e)
     if (!filename.empty())
     {
         wxFileName file(filename);
-        file.Normalize();
+        file.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
         if (!file.Exists())
         {
             if (wxMessageBox(wxString::Format(_("File %s does not exist.\nShould an example argfile be created?"), filename.c_str()),

@@ -149,8 +149,9 @@ void OptimizePanel::panoramaImagesChanged(HuginBase::Panorama &pano,
 void OptimizePanel::OnOptimizeButton(wxCommandEvent & e)
 {
     DEBUG_TRACE("");
+    // disable window so that user can't click optimize button twice
+    wxWindowDisabler winDisable;
     // run optimizer
-
     HuginBase::UIntSet imgs;
     if (m_only_active_images_cb->IsChecked() || m_pano->getOptimizerSwitch()!=0)
     {

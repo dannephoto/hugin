@@ -439,9 +439,20 @@ void DisplayedControlPoint::DrawLine(wxDC& dc)
                     m_control->roundP(m_control->scale(m_control->applyRot(hugin_utils::FDiff2D(m_cp.x2, m_cp.y2)))));
                 return;
             };
+            // check that all points are inside of image, accept a little border around the whole image
+            if (p2.x<-100 || p2.x>m_control->GetRealImageSize().GetWidth() + 100 ||
+                p2.y<-100 || p2.y>m_control->GetRealImageSize().GetHeight() + 100)
+            {
+                // this can happen, if the line cp span the 360 deg border
+                // in this case don't draw anything
+                delete[]points;
+                return;
+            }
             points[i]=m_control->roundP(m_control->scale(m_control->applyRot(p2)));
         };
+        dc.SetClippingRegion(wxPoint(0, 0), m_control->GetBitmapSize());
         dc.DrawLines(len+1, points);
+        dc.DestroyClippingRegion();
         delete []points;
     };
 };
@@ -1470,13 +1481,7 @@ void CPImageCtrl::mouseReleaseRMBEvent(wxMouseEvent& mouse)
         if(editState==SELECT_DELETE_REGION)
         {
             // clear overlay
-            {
-                wxClientDC dc(this);
-                PrepareDC(dc);
-                wxDCOverlay overlaydc(m_overlay, &dc);
-                overlaydc.Clear();
-                m_overlay.Reset();
-            };
+            m_overlay.Reset();
             editState=NO_SELECTION;
             CPEvent e(this,rectStartPos,mpos);
             emit(e);
@@ -1697,10 +1702,13 @@ void CPImageCtrl::OnMouseLeave(wxMouseEvent & e)
 
 void CPImageCtrl::OnMouseEnter(wxMouseEvent & e)
 {
-    DEBUG_TRACE("MOUSE Enter, setting focus");
-    m_mouseInWindow = true;
-    SetFocus();
-    update();
+    if (huginApp::Get()->getMainFrame()->IsActive())
+    {
+        DEBUG_TRACE("MOUSE Enter, setting focus");
+        m_mouseInWindow = true;
+        SetFocus();
+        update();
+    };
 }
 
 hugin_utils::FDiff2D CPImageCtrl::getNewPoint()

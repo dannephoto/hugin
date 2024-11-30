@@ -4,7 +4,7 @@
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-MESSAGE(STATUS "Python libs version: ${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}.${PYTHON_VERSION_PATCH}")
+MESSAGE(STATUS "Python libs version: ${Python3_VERSION}")
 
 # access to the swig runtime code in the hpi module is via
 # inclusion of a generated header file, swigpyrun.h:
@@ -48,7 +48,7 @@ IF (${HUGIN_SHARED_LIBS})
 ELSE (${HUGIN_SHARED_LIBS})
   add_library(hugin_python_interface STATIC  ${HUGIN_HPI_SOURCES})
 ENDIF (${HUGIN_SHARED_LIBS})
-TARGET_LINK_LIBRARIES(hugin_python_interface huginbase ${PYTHON_LIBRARIES})
+TARGET_LINK_LIBRARIES(hugin_python_interface huginbase ${Python3_LIBRARIES})
 
 # the next section deals with setting up hsi, the hugin scripting
 # interface. This part generates the hsi Python module.
@@ -189,10 +189,9 @@ SET(SWIG_MODULE_hsi_EXTRA_DEPS
 SET_SOURCE_FILES_PROPERTIES(hsi.i PROPERTIES CPLUSPLUS ON)
 SWIG_ADD_LIBRARY(hsi LANGUAGE python SOURCES hsi.i)
 SET_PROPERTY(SOURCE hsi.i PROPERTY COMPILE_OPTIONS -py3)
-SWIG_LINK_LIBRARIES(hsi ${PYTHON_LIBRARIES} ${common_libs})
+SWIG_LINK_LIBRARIES(hsi ${Python3_LIBRARIES} ${common_libs})
 
 # The remainder defines where the files are installed.
-# TODO this section is incomplete - non-windows install is missing
 
 IF(WIN32)
     INSTALL(TARGETS ${SWIG_MODULE_hsi_REAL_NAME} DESTINATION ${BINDIR})
@@ -202,14 +201,9 @@ ELSE()
     # Linux/MacOS
     # install Python related files into folder depending on used Python version
 
-    EXECUTE_PROCESS( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))"
+    EXECUTE_PROCESS( COMMAND ${Python3_EXECUTABLE} -c "from sysconfig import get_path; print(get_path(\"platlib\"))"
                      OUTPUT_VARIABLE pyinstalldir
                      OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    # replaced by the above EXECUTE_PROCESS command.
-    #SET(pynstalldir
-    #    ${LIBDIR}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages
-    #    )
 
     MESSAGE("-- Install Python libs into ${pyinstalldir}")
 

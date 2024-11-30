@@ -1139,7 +1139,7 @@ void PanoPanel::DoStitch(const wxString& userDefinedSetting)
 
     // Derive a default output prefix from the project filename if set, otherwise default project filename
     wxFileName outputPrefix(getDefaultOutputName(MainFrame::Get()->getProjectName(), *pano));
-    outputPrefix.Normalize();
+    outputPrefix.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
 
     // Show a file save dialog so user can confirm/change the prefix.
     // (We don't have to worry about overwriting existing files, since hugin_switch_project checks this.)
@@ -1280,7 +1280,7 @@ void PanoPanel::DoSendToBatch(const wxString& userDefinedSetting)
     if(wxFileName::FileExists(projectFile))
     {
         wxFileName outputPrefix(getDefaultOutputName(projectFile, *pano));
-        outputPrefix.Normalize();
+        outputPrefix.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
 
         // Show a file save dialog so user can confirm/change the prefix.
         // (We don't have to worry about overwriting existing files, since PTBatcherGUI checks this, or the overwrite flag was set.)

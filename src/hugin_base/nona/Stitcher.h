@@ -83,8 +83,13 @@ public:
      *  The filename can be specified with and without extension
      */
     virtual void stitch(const PanoramaOptions & opts,
-                        UIntSet & images, const std::string & file,
+                        const UIntSet & images, const std::string & file,
                         SingleImageRemapper<ImageType, AlphaType> & remapper)
+    {
+        init(opts, images);
+    }
+
+    void init(const PanoramaOptions & opts, const UIntSet & images)
     {
         m_images=images;
         calcOutputROIS(opts, images);
@@ -263,7 +268,7 @@ public:
     {
     }
 
-    virtual void stitch(const PanoramaOptions & opts, UIntSet & images,
+    virtual void stitch(const PanoramaOptions & opts, const UIntSet & images,
                         const std::string & basename,
                         SingleImageRemapper<ImageType, AlphaType> & remapper,
                         const AdvancedOptions& advOptions)
@@ -465,7 +470,7 @@ public:
 
     virtual ~WeightedStitcher() {};
 
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                         const std::string & filename,
                         ImageType& panoImage,
                         AlphaType& alpha,
@@ -540,7 +545,7 @@ public:
         }
     }
 
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                         const std::string & filename,
                         SingleImageRemapper<ImageType, AlphaType> & remapper,
                         const AdvancedOptions& advOptions)
@@ -613,6 +618,14 @@ public:
         */
     }
 
+    vigra::Rect2D GetPanoROI() const
+    {
+        return m_panoROI;
+    }
+    vigra::ImageImportInfo::ICCProfile GetICCProfile() const
+    {
+        return iccProfile;
+    };
 protected:
     vigra::ImageImportInfo::ICCProfile iccProfile;
     vigra::Rect2D m_panoROI;
@@ -688,7 +701,7 @@ public:
     }
 
     template <class FUNCTOR>
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                 const std::string & filename,
                 SingleImageRemapper<ImageType, AlphaType> & remapper,
                 FUNCTOR & reduce,
@@ -750,7 +763,7 @@ public:
     template<class ImgIter, class ImgAccessor,
              class AlphaIter, class AlphaAccessor,
              class FUNCTOR>
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                 vigra::triple<ImgIter, ImgIter, ImgAccessor> pano,
                 std::pair<AlphaIter, AlphaAccessor> alpha,
                 SingleImageRemapper<ImageType, AlphaType> & remapper,
@@ -838,7 +851,7 @@ public:
     template<class ImgIter, class ImgAccessor,
              class AlphaIter, class AlphaAccessor,
              class BlendFunctor>
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                 vigra::triple<ImgIter, ImgIter, ImgAccessor> pano,
                 std::pair<AlphaIter, AlphaAccessor> alpha,
                 SingleImageRemapper<ImageType, AlphaType> & remapper,
@@ -883,7 +896,7 @@ public:
     }
 
     template <class BlendFunctor>
-    void stitch(const PanoramaOptions & opts, UIntSet & imgSet,
+    void stitch(const PanoramaOptions & opts, const UIntSet & imgSet,
                 const std::string & filename,
                 SingleImageRemapper<ImageType, AlphaType> & remapper,
                 BlendFunctor & blend)

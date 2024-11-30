@@ -132,7 +132,7 @@ public:
     void SetUserColourPointUnselected(wxColour newColour) { m_colour_point_unselected=newColour; };
 
     /** drawing routine */
-    virtual void OnDraw(wxDC& dc);
+    virtual void OnDraw(wxDC& dc) wxOVERRIDE;
 protected:
     /** handler called when size of control was changed */
     void OnSize(wxSizeEvent & e);
@@ -251,6 +251,8 @@ protected:
         }
     }
 
+    // draws the wxBitmap with the necessary borders with offset
+    void DrawImageBitmap(wxDC& dc, int offset);
     //draw the given polygon
     void DrawPolygon(wxDC &dc, HuginBase::MaskPolygon poly, bool isSelected, bool drawMarker);
     //draw a selection rectange, when called the second time the rectangle is deleted
@@ -264,8 +266,6 @@ protected:
     bool SelectPointsInsideMouseRect(HuginBase::UIntSet &points,const bool considerSelectedOnly);
     // updates the crop
     void UpdateCrop(hugin_utils::FDiff2D delta);
-    // clears the overlay
-    void ClearOverlay();
 
     // where the cursor is 
     enum ClickPos

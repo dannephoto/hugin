@@ -36,6 +36,7 @@
 #include "wx/process.h"
 #include "wx/mimetype.h"
 #include <wx/sstream.h>
+#include <wx/tokenzr.h>
 
 #ifdef _WIN32
     #include "wx/dde.h"
@@ -516,12 +517,7 @@ void MyExecPanel::CopyLogToClipboard()
 
 wxArrayString MyExecPanel::GetLogAsArrayString()
 {
-    wxArrayString output;
-    for (size_t i = 0; i < m_textctrl->GetNumberOfLines(); ++i)
-    {
-        output.push_back(m_textctrl->GetLineText(i));
-    }
-    return output;
+    return wxStringTokenize(m_textctrl->GetValue(), "\r\n");
 };
 
 void MyExecPanel::AddString(const wxString& s)

@@ -68,7 +68,8 @@ Set the <b>Language</b> if you need to switch languages temporarily or if you ar
 <p>In this section you can provide the paths to the external raw converters (dcraw, RawTherapee and darktable). For RawTherapee and darktable you should use the command line version (as indicated by -cli extension) and not the GUI executable.
 </p><p>If you leave these fields empty the default names will be used. (The programs should be in the paths specified by the PATH variable.)
 </p><p><b>Windows:</b> On Windows the paths can be read from registry when the raw converter is installed correctly. (For RawTherapee this works only for version 5.5 or later.)
-</p><p><b>MacOS:</b> For MacOS the paths "/Applications/RawTherapee.app/Contents/MacOS/rawtherapee-cli" und "/Applications/darktable.app/Contents/MacOS/darktable-cli" to the corresponding app images is taken as default.
+</p><p><b>MacOS:</b> For MacOS the paths "/Applications/RawTherapee.app/Contents/MacOS/rawtherapee-cli" and "/Applications/darktable.app/Contents/MacOS/darktable-cli" to the corresponding app images is taken as default.
+</p><p><b>Linux:</b> The cli (from Command Line Interface) should be available from the /bin/ path.
 </p>
 <h1><a name="File_names"><span class="mw-headline">File names</span></a></h1>
 <h2><a name="File_options"><span class="mw-headline">File options</span></a></h2>
@@ -78,6 +79,18 @@ Set the <b>Language</b> if you need to switch languages temporarily or if you ar
 <h2><a name="Default_file_names"><span class="mw-headline">Default file names</span></a></h2>
 <p>Here you can construct a default file name for saving the project and for the output prefix. You can always change the proposal when saving.
 Several place holders can be used to build the file names.
+</p><p>%firstimage - filename of the first image file<br />
+%lastimage - filename of the last image file<br />
+%#images - the complete number of images in the project (e.g. not the number of active images)<br />
+%directory - folder name (path of the first image file)<br />
+%projection - projection name<br />
+%focallength - focal length of the lens<br />
+%date - date (of the first image)<br />
+%time - time (of the first image)<br />
+%maker - camera maker (of first image)<br />
+%model - camera model (of  first image)<br />
+%lens - lens (of first image)<br />
+%projectname - the project`s filename (only for output prefix)
 </p>
 <h1><a name="Assistant"><span class="mw-headline">Assistant</span></a></h1>
 <p>The <a href="Hugin_Assistant_tab.html" title="Hugin Assistant tab">Assistant tab</a> automates the entire panorama creation process, these
@@ -227,10 +240,10 @@ An easy way to ask your version of Hugin about Enblend's version number is to ad
 
 <!--
 Transclusion expansion time report (%,ms,calls,template)
-100.00%   10.660      1 -total
- 97.22%   10.364      3 Template:Clr
+100.00%    5.682      1 -total
+ 97.53%    5.542      3 Template:Clr
 -->
 
 
-</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Preferences&amp;oldid=17409">https://wiki.panotools.org/index.php?title=Hugin_Preferences&amp;oldid=17409</a>"</div>
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Hugin_Preferences&amp;oldid=17434">https://wiki.panotools.org/index.php?title=Hugin_Preferences&amp;oldid=17434</a>"</div>
 		</div></div></body></html>

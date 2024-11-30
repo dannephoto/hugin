@@ -186,7 +186,63 @@ namespace HuginBase
                 return l;
             }
             return 0;
-        };
+        }
+
+        bool getExiv2GPSLatitude(Exiv2::ExifData& exifData, double& latitude)
+        {
+            Exiv2::ExifData::iterator lat = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLatitude"));
+            Exiv2::ExifData::iterator latRef = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLatitudeRef"));
+            // check that both tags exists
+            if (lat != exifData.end() && latRef != exifData.end())
+            {
+                // check type
+                if (lat->value().typeId() == Exiv2::unsignedRational)
+                {
+                    double denom = 1;
+                    double value = 0;
+                    for (int i = 0; i < lat->value().count(); i++)
+                    {
+                        value += lat->value().toFloat(i) / denom;
+                        denom *= 60;
+                    };
+                    if (latRef->toString() == "S")
+                    {
+                        value *= -1;
+                    };
+                    latitude = value;
+                    return true;
+                };
+            };
+            return false;
+        }
+
+        bool getExiv2GPSLongitude(Exiv2::ExifData& exifData, double& longitude)
+        {
+            Exiv2::ExifData::iterator longitudeTag = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLongitude"));
+            Exiv2::ExifData::iterator longitudeRef = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLongitudeRef"));
+            // check that both tags exists
+            if (longitudeTag != exifData.end() && longitudeRef != exifData.end())
+            {
+                // check type
+                if (longitudeTag->value().typeId() == Exiv2::unsignedRational)
+                {
+                    double denom = 1;
+                    double value = 0;
+                    for (int i = 0; i < longitudeTag->value().count(); i++)
+                    {
+                        value += longitudeTag->value().toFloat(i) / denom;
+                        denom *= 60;
+                    };
+                    if (longitudeRef->toString() == "W")
+                    {
+                        value *= -1;
+                    };
+                    longitude = value;
+                    return true;
+                };
+            };
+            return false;
+        }
         
         //for diagnostic
         void PrintTag(Exiv2::ExifData::iterator itr)

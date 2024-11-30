@@ -875,7 +875,7 @@ void PreviewFrame::OnBlendChoice(wxCommandEvent & e)
 
 void PreviewFrame::OnDefaultExposure( wxCommandEvent & e )
 {
-    if (m_pano.getNrOfImages() > 0) {
+    if (m_pano.getActiveImages().size() > 0) {
         HuginBase::PanoramaOptions opt = m_pano.getOptions();
         opt.outputExposureValue = HuginBase::CalculateMeanExposure::calcMeanExposure(m_pano);
         PanoCommand::GlobalCmdHist::getInstance().addCommand(

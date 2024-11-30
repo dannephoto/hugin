@@ -55,8 +55,10 @@ void printUsage()
         << "                  Can be fine tuned with" << std::endl
         << "      --linearmatchlen=<int>  Number of images to match (default: 1)" << std::endl
         << "  --multirow      Enable heuristic multi row matching" << std::endl
+        << "                  default matching strategy, keep for backward reason" << std::endl
         << "  --prealigned    Match only overlapping images," << std::endl
         << "                  requires a rough aligned panorama" << std::endl
+        << "  --allpairs      Match all image pairs (slow)" << std::endl
         << std::endl << "Feature description options" << std::endl
         << "  --sieve1width=<int>    Sieve 1: Number of buckets on width (default: 10)" << std::endl
         << "  --sieve1height=<int>   Sieve 1: Number of buckets on height (default: 10)" << std::endl
@@ -99,6 +101,7 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
         LINEARMATCHLEN,
         MULTIROW,
         PREALIGNED,
+        ALLPAIRS,
         KDTREESTEPS,
         KDTREESECONDDIST,
         MINMATCHES,
@@ -128,6 +131,7 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
         {"linearmatchlen", required_argument, NULL, LINEARMATCHLEN},
         {"multirow", no_argument, NULL, MULTIROW},
         {"prealigned", no_argument, NULL, PREALIGNED},
+        { "allpairs", no_argument, NULL, ALLPAIRS},
         {"kdtreesteps", required_argument, NULL, KDTREESTEPS},
         {"kdtreeseconddist", required_argument, NULL, KDTREESECONDDIST},
         {"minmatches", required_argument, NULL, MINMATCHES},
@@ -161,6 +165,7 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
     int doLinearMatch=0;
     int doMultirow=0;
     int doPrealign=0;
+    int doAllParis = 0;
     while ((c = getopt_long (argc, argv, optstring, longOptions,nullptr)) != -1)
     {
         switch (c)
@@ -210,6 +215,9 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
                 break;
             case PREALIGNED:
                 doPrealign=1;
+                break;
+            case ALLPAIRS:
+                doAllParis = 1;
                 break;
             case KDTREESTEPS:
                 number=atoi(optarg);
@@ -394,10 +402,10 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
         return false;
     };
     ioPanoDetector.setInputFile(argv[optind]);
-    if(doLinearMatch + doMultirow + doPrealign>1)
+    if(doLinearMatch + doMultirow + doPrealign + doAllParis >1)
     {
-        std::cerr << hugin_utils::stripPath(argv[0]) << ": The arguments --linearmatch, --multirow and --prealigned are" << std::endl
-             << "  mutually exclusive. Use only one of them." << std::endl;
+        std::cerr << hugin_utils::stripPath(argv[0]) << ": The arguments --linearmatch, --multirow, --prealigned and --allpairs" << std::endl
+             << "  are mutually exclusive. Use only one of them." << std::endl;
         return false;
     };
     if(doLinearMatch)
@@ -411,6 +419,10 @@ bool parseOptions(int argc, char** argv, PanoDetector& ioPanoDetector)
     if(doPrealign)
     {
         ioPanoDetector.setMatchingStrategy(PanoDetector::PREALIGNED);
+    };
+    if (doAllParis)
+    {
+        ioPanoDetector.setMatchingStrategy(PanoDetector::ALLPAIRS);
     };
     if(!keyfilesIndex.empty())
     {

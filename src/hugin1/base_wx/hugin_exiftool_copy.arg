@@ -5,6 +5,9 @@
 -Copyright
 -GPS:all
 -AllDates
+-OffsetTime
+-OffsetTimeOriginal
+-OffsetTImeDigitized
 -UserComment
 -OwnerName
 -SerialNumber

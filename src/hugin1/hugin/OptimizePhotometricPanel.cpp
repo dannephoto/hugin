@@ -135,6 +135,8 @@ void OptimizePhotometricPanel::SetOnlyActiveImages(const bool onlyActive)
 void OptimizePhotometricPanel::OnOptimizeButton(wxCommandEvent & e)
 {
     DEBUG_TRACE("");
+    // disable window so that user can't click optimize button twice
+    wxWindowDisabler winDisable;
     // run optimizer
 
     HuginBase::UIntSet imgs;

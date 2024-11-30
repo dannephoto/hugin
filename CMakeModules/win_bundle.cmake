@@ -48,13 +48,30 @@ IF(WIN32)
   INSTALL(FILES ${ENBLEND_EXECUTABLES} DESTINATION ${BINDIR})
   INSTALL(FILES ${ENBLEND_DOC_FILES} DESTINATION doc/enblend)
 
-  # install exiftool
-  FIND_PATH(EXIFTOOL_EXE_DIR exiftool.exe
-        ${SOURCE_BASE_DIR}/tools
-        ${SOURCE_BASE_DIR}/exiftool
-        DOC "Location of exiftool.exe"
-        NO_DEFAULT_PATH)
-  INSTALL(FILES ${EXIFTOOL_EXE_DIR}/exiftool.exe DESTINATION ${BINDIR})
+  # install exiftool, for version >=12.88
+  IF(CMAKE_SIZEOF_VOID_P EQUAL 8) 
+    # 64 bit version
+    FILE(GLOB EXIFTOOL_PATHS LIST_DIRECTORIES true ${SOURCE_BASE_DIR}/exiftool/exiftool-*_64)
+  ELSE()
+    # 32 bit version
+    FILE(GLOB EXIFTOOL_PATHS LIST_DIRECTORIES true ${SOURCE_BASE_DIR}/exiftool/exiftool-*_32)
+  ENDIF()
+  # check that we found at least one folder
+  LIST(LENGTH EXIFTOOL_PATHS EXIFTOOL_COUNT)
+  IF(EXIFTOOL_COUNT<1)
+    MESSAGE(ERROR "Exiftool folder not found")
+  ENDIF()
+  # file list is sorted, so take last directory has it the highest number
+  LIST(POP_BACK EXIFTOOL_PATHS EXIFTOOL_PATH)
+  MESSAGE(STATUS "Exiftool path ${EXIFTOOL_PATH}")
+  # check that correctly renamed executable is in path
+  IF(NOT EXISTS "${EXIFTOOL_PATH}/exiftool.exe")
+    MESSAGE(FATAL_ERROR "exiftool.exe not in exiftool path ${EXIFTOOL_PATH} found. Did you forget to rename exiftool(-k).exe to exiftool.exe?")
+  ENDIF()
+  INSTALL(
+    DIRECTORY "${EXIFTOOL_PATH}/"
+    DESTINATION ${BINDIR}
+  )
 
   # now install all necessary DLL
   IF(HUGIN_SHARED)
@@ -94,7 +111,7 @@ IF(WIN32)
       NO_SYSTEM_ENVIRONMENT_PATH
     )
     FIND_PATH(OPENEXR_BIN_DIR
-            NAMES OpenEXR-3_1.dll OpenEXR-3_0.dll
+            NAMES OpenEXR-3_2.dll OpenEXR-3_1.dll OpenEXR-3_0.dll
             PATHS ${DLL_SEARCH_PATH}
             DOC "Location of OpenEXR3 libraries"
             NO_SYSTEM_ENVIRONMENT_PATH
@@ -104,7 +121,7 @@ IF(WIN32)
       # DLL for OpenEXR 3.x
       FILE(GLOB OPENEXR_DLL 
         ${OPENEXR_BIN_DIR}/OpenEXR*.dll ${OPENEXR_BIN_DIR}/IlmThread*.dll ${OPENEXR_BIN_DIR}/IEx*.dll
-        ${OPENEXR_BIN_DIR}/Imath*.dll
+        ${OPENEXR_BIN_DIR}/Imath*.dll ${OPENEXR_BIN_DIR}/deflate.dll
       )
     ELSE()
       # DLL for OpenEXR 2.x
@@ -155,13 +172,16 @@ IF(WIN32)
         ${SOURCE_BASE_DIR}/expat/bin 
       NO_SYSTEM_ENVIRONMENT_PATH
     )
-    IF(LIBICONV_DLL)
-      FIND_FILE(LIBCHARSET_DLL
-        NAMES libcharset.dll charset-1.dll
-        PATHS ${DLL_SEARCH_PATH}
-        NO_SYSTEM_ENVIRONMENT_PATH
-      )
-    ENDIF()
+    FIND_FILE(LIBBROTLI_DLL 
+      NAMES brotlidec.dll
+      PATHS ${DLL_SEARCH_PATH}
+      NO_SYSTEM_ENVIRONMENT_PATH
+    )
+    FIND_FILE(LIBBROTLI_COMMON_DLL
+      NAMES brotlicommon.dll
+      PATHS ${DLL_SEARCH_PATH}
+      NO_SYSTEM_ENVIRONMENT_PATH
+    )
     IF(BUILD_WITH_EPOXY)
       FIND_FILE(EPOXY_DLL
         NAMES epoxy-0.dll epoxy.dll
@@ -279,7 +299,10 @@ IF(WIN32)
       INSTALL(FILES ${LZMA_DLL} DESTINATION ${BINDIR})
     ENDIF()
     IF(LIBICONV_DLL)
-      INSTALL(FILES ${LIBICONV_DLL} ${LIBCHARSET_DLL} DESTINATION ${BINDIR})
+      INSTALL(FILES ${LIBICONV_DLL} DESTINATION ${BINDIR})
+    ENDIF()
+    IF(LIBBROTLI_DLL)
+        INSTALL(FILES ${LIBBROTLI_DLL} ${LIBBROTLI_COMMON_DLL} DESTINATION ${BINDIR})
     ENDIF()
     IF(BUILD_WITH_EPOXY)
       #install epoxy dll

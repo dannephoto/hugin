@@ -221,6 +221,7 @@ private:
     void OnSaveProjectAs(wxCommandEvent & e);
     void OnSavePTStitcherAs(wxCommandEvent & e);
     void OnLoadProject(wxCommandEvent & e);
+    void OnBrowseProjects(wxCommandEvent & e);
     void OnNewProject(wxCommandEvent & e);
     void OnAddTimeImages(wxCommandEvent & e);
     void OnRunAssistant(wxCommandEvent & e);

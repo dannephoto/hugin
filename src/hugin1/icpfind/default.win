@@ -6,13 +6,13 @@ Default=0
 Type=1
 Description=Hugin's CPFind
 Program=cpfind.exe
-Arguments=--multirow -o %o %s
+Arguments=-o %o %s
 
 [AutoPano/AutoPano_1]
 Type=1
 Description=Hugin's CPFind + Celeste (slower, but no cps on clouds)
 Program=cpfind.exe
-Arguments=--celeste --multirow -o %o %s
+Arguments=--celeste -o %o %s
 
 [AutoPano/AutoPano_2]
 Type=1
@@ -23,7 +23,7 @@ Arguments=-f %v -v -p %o %i
 [AutoPano/AutoPano_3]
 Type=1
 Description=Align image stack Full Frame Fisheye
-Program=align_image_stack
+Program=align_image_stack.exe
 Arguments=-f %v -e -p %o %i
 
 [AutoPano/AutoPano_4]

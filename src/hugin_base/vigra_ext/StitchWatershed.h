@@ -133,7 +133,7 @@ namespace vigra_ext
         // we start with the values of the image2 as begin
         vigra::omp::copyImageIf(vigra::srcImageRange(image2), vigra::srcImage(seams[0], vigra_ext::poisson::MaskGreaterAccessor<vigra::Int8>(2)), vigra::destImage(target));
         // solve poisson equation
-        vigra_ext::poisson::Multigrid(target, gradient, seams, minLength, 0.01f, 500, doWrap);
+        vigra_ext::poisson::Multigrid(target, gradient, seams, minLength, 0.1f, 500, doWrap);
         // copy result back into output
         vigra::omp::copyImageIf(vigra::srcImageRange(target), vigra::srcImage(seams[0], vigra_ext::poisson::MaskGreaterAccessor<vigra::Int8>(2)), vigra::destImage(image1, offsetPoint));
     }

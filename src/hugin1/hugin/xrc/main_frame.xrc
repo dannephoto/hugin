@@ -416,4 +416,113 @@
     <title>Import positions from Papywizard XML</title>
     <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSTAY_ON_TOP|wxRESIZE_BORDER</style>
   </object>
+  <object class="wxDialog" name="browse_pto_dialog">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxSplitterWindow" name="browse_splitter1">
+          <object class="wxGenericDirCtrl" name="browse_dirctrl">
+            <style>wxDIRCTRL_DIR_ONLY</style>
+          </object>
+          <object class="wxSplitterWindow" name="browse_splitter2">
+            <object class="wxPanel">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxButton" name="browse_show_map">
+                        <label>Show on Openstreetmap</label>
+                        <tooltip>Show position of panorama on Openstreetmap</tooltip>
+                        <enabled>0</enabled>
+                        <hidden>1</hidden>
+                      </object>
+                      <flag>wxALL</flag>
+                      <border>6</border>
+                    </object>
+                    <object class="spacer">
+                      <size>1</size>
+                      <option>1</option>
+                      <flag>wxEXPAND</flag>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <label>Display:</label>
+                      </object>
+                      <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                      <border>3</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxChoice" name="browse_list_type">
+                        <content>
+                          <item>Icons</item>
+                          <item>Details</item>
+                        </content>
+                        <selection>0</selection>
+                      </object>
+                      <flag>wxALL|wxALIGN_CENTRE_VERTICAL</flag>
+                      <border>3</border>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxEXPAND</flag>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxListCtrl" name="browse_listctrl">
+                    <style>wxLC_ICON|wxLC_SINGLE_SEL</style>
+                  </object>
+                  <option>1</option>
+                  <flag>wxEXPAND</flag>
+                </object>
+              </object>
+            </object>
+            <object class="wxPanel">
+              <object class="wxStaticBitmap" name="browse_preview"/>
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxStaticText" name="browse_statictext">
+                    <label>Could not generate preview.</label>
+                    <hidden>1</hidden>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>6</border>
+                </object>
+              </object>
+            </object>
+            <orientation>horizontal</orientation>
+            <sashpos>300</sashpos>
+            <minsize>200</minsize>
+            <style>wxSP_3D</style>
+          </object>
+          <orientation>vertical</orientation>
+          <sashpos>300</sashpos>
+          <minsize>200</minsize>
+          <style>wxSP_3D</style>
+        </object>
+        <option>1</option>
+        <flag>wxEXPAND</flag>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStdDialogButtonSizer">
+          <object class="button">
+            <object class="wxButton" name="wxID_OK">
+              <label>Open</label>
+              <default>1</default>
+            </object>
+          </object>
+          <object class="button">
+            <object class="wxButton" name="wxID_CANCEL">
+              <label>Cancel</label>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>6</border>
+      </object>
+    </object>
+    <size>600,400</size>
+    <title>Browse project files in %s</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU|wxRESIZE_BORDER|wxCLOSE_BOX|wxMAXIMIZE_BOX</style>
+  </object>
 </resource>

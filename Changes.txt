@@ -1,3 +1,10 @@
+
+Hugin 2024.0
+* Added browser for project files to Hugin. It can show thumbnails or project
+  details of all project files in a directory.
+* Create GPano tags also for cylindrical output projection.
+
+============================================================================================
 Hugin 2023.0
 * PTBatcherGUI can now also queue user defined assistant and user defined output
   sequences.

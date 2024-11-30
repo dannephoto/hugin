@@ -35,7 +35,7 @@
 namespace PanoCommand
 {
 
-    struct FileIsNewer : public std::binary_function<const std::string &, const std::string &, bool>
+    struct FileIsNewer
     {
 
         bool operator()(const std::string & file1, const std::string & file2)

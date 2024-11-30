@@ -16,7 +16,7 @@ Users compiling Hugin from source will need:
           without OpenMP nona and cpfind (and some other
           algorithm) are running only with one thread, 
           which is slower.
-    
+    CMake (the build system), version >=3.15
     The wxWidgets GUI toolkit version >=3.0.0.
     C++17 TS <filesystem> or boost::filesystem (boost >=1.47)
     libtiff the TIFF library with LZW support.
@@ -45,7 +45,7 @@ Users compiling Hugin from source will need:
         Python package setuptools only with Python >=3.12
         SWIG >=2.0.4 
     Hugin can be compiled with gcc, as well as with MSVC.
-    The build process requires CMake version >=3.8
+    The build process requires CMake version >=3.12
 
 If cmake fails to pick up some dependencies, make sure you have
 the corresponding development packages installed (often named:
@@ -77,12 +77,13 @@ First, create a build directory and change into it:
 $ mkdir mybuild
 $ cd mybuild
 
-Then call CMake from this build directory.
+Then call CMake from this build directory and point to the *root* directory of the 
+extracted Hugin sources. (Don't specify the src subdirectory in the Hugin sources.)
 CMake can also create install package. Depending on the format of your packages
 call for a Debian package
-$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_DEB:BOOL=ON /PATH/TO/HUGIN/SOURCES
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_DEB:BOOL=ON /PATH/HUGIN_SOURCE
 or for a rpm package
-$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_RPM:BOOL=ON /PATH/TO/HUGIN/SOURCES
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCPACK_BINARY_RPM:BOOL=ON /PATH/HUGIN_SOURCE
 (for other formats see CMake documentation)
 
 Build the package
@@ -108,6 +109,10 @@ BUILD_WITH_EGL=on     When set to on it uses EGL to initialize OpenGL context
                       in nona instead of X windows functions.
 BUILD_WITH_EPOXY=on   Use libepoxy instead of GLEW for handling OpenGL function 
                       pointers
+ENABLE_LAPACK=on      Use LAPACK based solver, otherwise a builtin LU based
+                      solver is used for photometric optimizer.
+                      The LAPACK solver could be more stable, but no extensive
+                      comparison was done.
 
 MAC_SELF_CONTAINED_BUNDLE=1 Configures hugin for a fully bundled version, where
                       all required programs (nona, enblend, HuginStitchProject,

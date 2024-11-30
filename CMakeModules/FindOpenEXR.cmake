@@ -46,7 +46,7 @@ ENDIF (NOT WIN32 OR MINGW)
 
   find_library_with_debug(OPENEXR_OPENEXR_LIBRARY 
     WIN32_DEBUG_POSTFIX d
-    NAMES OpenEXR OpenEXR-3_1 OpenEXR-3_0
+    NAMES OpenEXR OpenEXR-3_2 OpenEXR-3_1 OpenEXR-3_0
     PATHS
       ${_OPENEXRLinkDir}
       ${SYSTEM_LIB_DIRS}
@@ -66,7 +66,7 @@ ENDIF (NOT WIN32 OR MINGW)
 
   find_library_with_debug(OPENEXR_IEX_LIBRARY
     WIN32_DEBUG_POSTFIX d
-    NAMES Iex-3_1 Iex-3_0 Iex-2_5 Iex-2_4 Iex-2_3 Iex-2_2 Iex
+    NAMES Iex-3_2 Iex-3_1 Iex-3_0 Iex-2_5 Iex-2_4 Iex-2_3 Iex-2_2 Iex
     PATHS
       ${_OPENEXRLinkDir}
       ${SYSTEM_LIB_DIRS}
@@ -76,7 +76,7 @@ ENDIF (NOT WIN32 OR MINGW)
 
   find_library_with_debug(OPENEXR_ILMTHREAD_LIBRARY 
     WIN32_DEBUG_POSTFIX d
-    NAMES IlmThread-3_1 IlmThread-3_0 IlmThread-2_5 IlmThread-2_4 IlmThread-2_3 IlmThread-2_2 IlmThread
+    NAMES IlmThread-3_2 IlmThread-3_1 IlmThread-3_0 IlmThread-2_5 IlmThread-2_4 IlmThread-2_3 IlmThread-2_2 IlmThread
     PATHS
       ${_OPENEXRLinkDir}
       ${SYSTEM_LIB_DIRS}
@@ -86,7 +86,7 @@ ENDIF (NOT WIN32 OR MINGW)
   
   find_library_with_debug(OPENEXR_IMATH_LIBRARY 
     WIN32_DEBUG_POSTFIX d
-    NAMES Imath-3_1 Imath-3_0 Imath-2_5 Imath-2_4 Imath-2_3 Imath-2_2 Imath
+    NAMES Imath-3_2 Imath-3_1 Imath-3_0 Imath-2_5 Imath-2_4 Imath-2_3 Imath-2_2 Imath
     PATHS
       ${_OPENEXRLinkDir}
       ${SYSTEM_LIB_DIRS}

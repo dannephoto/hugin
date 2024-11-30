@@ -291,6 +291,12 @@ int main(int argc, char* argv[])
         if(hasVerticalLines)
         {
             std::cout << "Skipping automatic leveling because of existing vertical control points." << std::endl;
+            // center pano, ignore step for single image project files or when using rectilinear projection
+            // where vertical control points can be used for correction of perspective
+            if (pano.getNrOfImages() > 1 && pano.getOptions().getProjection() != HuginBase::PanoramaOptions::RECTILINEAR)
+            {
+                HuginBase::CenterHorizontally(pano).run();
+            }
         }
         else
         {

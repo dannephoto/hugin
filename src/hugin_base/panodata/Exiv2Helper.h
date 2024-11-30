@@ -46,6 +46,8 @@ namespace HuginBase
         const std::string getExiv2ValueString(Exiv2::ExifData& exifData, std::string keyName);
         const long getExiv2ValueLong(Exiv2::ExifData& exifData, Exiv2::ExifData::const_iterator it);
         const long getExiv2ValueLong(Exiv2::ExifData& exifData, std::string keyName);
+        bool getExiv2GPSLatitude(Exiv2::ExifData& exifData, double& latitude);
+        bool getExiv2GPSLongitude(Exiv2::ExifData& exifData, double& longitude);
         
         // read the RedBalance and BlueBalance data from makernotes of different manufactures
         bool readRedBlueBalance(Exiv2::ExifData &exifData, double & redBalance, double & blueBalance);

@@ -49,7 +49,7 @@
 </div>
 
 <h3><a name="Step_1"><span class="mw-headline">Step 1</span></a></h3>
-<p>optimises all image pairs, calculates for each pair mean and standard deviation sigma and then deletes all control points with an error bigger then mean+n*sigma.
+<p>optimises all image pairs, calculates for each pair mean and standard deviation sigma of the control points error and then deletes all control points with an error bigger then mean+n*sigma.
 </p>
 <h3><a name="Step_2"><span class="mw-headline">Step 2</span></a></h3>
 <p>optimises the whole project together using more conservative assumptions, calculates then mean and standard deviation sigma and then deletes another round of control points with error bigger then mean+n*sigma. If there is more than one image chain present this step is not done.
@@ -65,7 +65,7 @@ The results of the internal optimisations are only used for the calculation of t
 <pre> cpclean --output=output.pto project.pto
 </pre>
 <h3><a name="Options"><span class="mw-headline">Options</span></a></h3>
-<p>Vary the threshold with the <tt>--max-distance</tt> parameter (defaults to 2, i.e. points with a distance error greater than mean + 2 * sigma are deleted). E.g. when decreasing this factor to 1, then cp with error bigger than mean+1*sigma will be removed, therefore removing more control points:
+<p>Vary the threshold with the <tt>--max-distance</tt> parameter (defaults to 2, i.e. points with a distance error greater than mean + 2 * sigma are deleted). E.g. when decreasing this factor to 1, then cp with error bigger than mean+1*sigma will be removed, therefore removing less control points:
 </p>
 <pre> cpclean --max-distance=1 --output=output.pto project.pto
 </pre>
@@ -98,5 +98,5 @@ Transclusion expansion time report (%,ms,calls,template)
 -->
 
 
-</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Cpclean&amp;oldid=17278">https://wiki.panotools.org/index.php?title=Cpclean&amp;oldid=17278</a>"</div>
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Cpclean&amp;oldid=17439">https://wiki.panotools.org/index.php?title=Cpclean&amp;oldid=17439</a>"</div>
 		</div></div></body></html>

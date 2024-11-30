@@ -536,7 +536,13 @@ bool SrcPanoImage::readEXIF()
     float eFocalLength = Exiv2Helper::getExiv2ValueDouble(exifData, Exiv2::focalLength(exifData));
     float eFocalLength35 = Exiv2Helper::getExiv2ValueLong(exifData,"Exif.Photo.FocalLengthIn35mmFilm");
     // take also digital zoom into account for cell phone cameras
-    const float digitalZoom = Exiv2Helper::getExiv2ValueDouble(exifData, "Exif.Photo.DigitalZoomRatio");
+    float digitalZoom = Exiv2Helper::getExiv2ValueDouble(exifData, "Exif.Photo.DigitalZoomRatio");
+    if (hugin_utils::StringContainsCaseInsensitive(getExifMake(), "Apple"))
+    {
+        // Apple ignores the guidelines in EXIF standards and includes the digital zoom into FocalLength35mm
+        // so ignore the digital zoom in this case
+        digitalZoom = 0;
+    };
     if (eFocalLength35 > 0 && digitalZoom > 1)
     {
         eFocalLength35 *= digitalZoom;
@@ -596,6 +602,20 @@ bool SrcPanoImage::readEXIF()
     Exiv2Helper::readRedBlueBalance(exifData, redBalance, blueBalance);
     setExifRedBalance(redBalance);
     setExifBlueBalance(blueBalance);
+
+    double gpsCoord;
+    if (Exiv2Helper::getExiv2GPSLatitude(exifData, gpsCoord))
+    {
+        FileMetaData metaData = getFileMetadata();
+        metaData["latitude"] = hugin_utils::doubleToString(gpsCoord);
+        setFileMetadata(metaData);
+    };
+    if (Exiv2Helper::getExiv2GPSLongitude(exifData, gpsCoord))
+    {
+        FileMetaData metaData = getFileMetadata();
+        metaData["longitude"] = hugin_utils::doubleToString(gpsCoord);
+        setFileMetadata(metaData);
+    };
 
     DEBUG_DEBUG("Results for:" << filename);
     DEBUG_DEBUG("Focal Length: " << getExifFocalLength());

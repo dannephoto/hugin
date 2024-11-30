@@ -22,7 +22,7 @@
 
 namespace deghosting {
     
-    void Deghosting::loadImages(std::vector<std::string>& newInputFiles) THROWNOIMAGES
+    void Deghosting::loadImages(std::vector<std::string>& newInputFiles)
     {
         if (newInputFiles.empty())
             throw NoImages();

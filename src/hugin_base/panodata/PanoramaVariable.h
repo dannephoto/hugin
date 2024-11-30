@@ -157,7 +157,7 @@ class IMPEX LensVariable : public Variable
 #ifndef SWIG
 /* this gave me trouble in hsi, currently deactivated
  * TODO: find out how it can be made to work */
-struct PrintVar : public std::unary_function<Variable, void>
+struct PrintVar
 {
     explicit PrintVar(std::ostream & o)
         : os(o)

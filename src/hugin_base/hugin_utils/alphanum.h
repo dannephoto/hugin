@@ -39,7 +39,6 @@ freely, subject to the following restrictions:
 #define ALPHANUM__HPP
 
 #include <hugin_shared.h>
-#include <functional>
 #include <string>
 
 // TODO: make comparison with hexadecimal numbers. Extend the alphanum_comp() function by traits to choose between decimal and hexadecimal.
@@ -63,7 +62,7 @@ IMPEX int alphanum_comp(const char* l, const char* r);
    Algorithm". If the objects are no std::string, they must
    implement "std::ostream operator<< (std::ostream&, const Ty&)".
 */
-struct IMPEX alphanum_less : public std::binary_function<const std::string&, const std::string&, bool>
+struct IMPEX alphanum_less
 {
     bool operator()(const std::string& left, const std::string& right) const;
 };

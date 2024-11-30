@@ -148,7 +148,7 @@ void RestrictErrorToNextLevel(const Image & in, Image & out)
     Image smoothImage(in.size());
     vigra::convolveImage(vigra::srcImageRange(in), vigra::destImage(smoothImage), vigra::kernel2d(filter2D));
     // downsample smoothed image
-    vigra::resizeImageNoInterpolation(vigra::srcImageRange(smoothImage), vigra::destImageRange(out));
+    vigra::resizeImageLinearInterpolation(vigra::srcImageRange(smoothImage), vigra::destImageRange(out));
 }
 
 // internal use by FindEdgesForPoisson
@@ -819,19 +819,20 @@ void Multigrid(Image& out, const Image& gradient, const vigra::ImagePyramid<Seam
         return;
     };
     // pre-smoothing
-    detail::SOR(out, gradient, seamMaskPyramid[maskIndex], 1.95f, errorThreshold, maxIter, doWrap);
+    const float omega = 1.6f; // relaxation parameter: 0 < omega < 2
+    detail::SOR(out, gradient, seamMaskPyramid[maskIndex], omega, errorThreshold, maxIter, doWrap);
     detail::CalcResidualError(err, out, gradient, seamMaskPyramid[maskIndex], doWrap);    // Fehler berechnen
     detail::RestrictErrorToNextLevel(err, err2);
     Multigrid(out2, err2, seamMaskPyramid, minLen, errorThreshold, maxIter, doWrap);
     // now do a W cycle calculation, another run of multigrid follows
     Multigrid(out2, err2, seamMaskPyramid, minLen, errorThreshold, maxIter, doWrap); 
-    vigra::resizeImageNoInterpolation(srcImageRange(out2), destImageRange(err)); 
+    vigra::resizeImageLinearInterpolation(srcImageRange(out2), destImageRange(err)); 
     vigra::omp::combineTwoImagesIf(vigra::srcImageRange(out), vigra::srcImage(err),
         vigra::srcImage(seamMaskPyramid[maskIndex], MaskGreaterAccessor<typename SeamMask::PixelType>(2)),
         vigra::destImage(out),
         vigra::functor::Arg1() - vigra::functor::Arg2());
     // post smoothing
-    detail::SOR(out, gradient, seamMaskPyramid[maskIndex], 1.95f, 2.0f * errorThreshold, maxIter, doWrap);
+    detail::SOR(out, gradient, seamMaskPyramid[maskIndex], omega, errorThreshold, maxIter, doWrap);
     return;
 }
 

@@ -409,7 +409,7 @@ GLPreviewFrame::GLPreviewFrame(wxFrame * frame, HuginBase::Panorama &pano)
         m_selectAllButton->GetSplitButtonMenu()->Check(XRCID("selectMenu_resetSelection"), true);
     };
     bitmap.LoadFile(huginApp::Get()->GetXRCPath()+wxT("data/preview_show_none.png"),wxBITMAP_TYPE_PNG);
-    wxButton* select_none=new wxButton(panel,ID_SHOW_NONE,_("None"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT);
+    wxButton* select_none = new wxButton(panel, ID_SHOW_NONE, _("None"));
     select_none->SetBitmap(bitmap,wxLEFT);
     select_none->SetBitmapMargins(5,0);
 
@@ -2084,7 +2084,7 @@ void GLPreviewFrame::DragChoiceLayout( int index )
 
 void GLPreviewFrame::OnDefaultExposure( wxCommandEvent & e )
 {
-    if (m_pano.getNrOfImages() > 0) {
+    if (m_pano.getActiveImages().size() > 0) {
         HuginBase::PanoramaOptions opt = m_pano.getOptions();
         opt.outputExposureValue = HuginBase::CalculateMeanExposure::calcMeanExposure(m_pano);
         PanoCommand::GlobalCmdHist::getInstance().addCommand(

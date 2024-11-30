@@ -93,8 +93,8 @@ void Batch::AddProjectToBatch(wxString projectFile, wxString outputFile, wxStrin
 {
     wxFileName projectName(projectFile);
     wxFileName outName(outputFile);
-    projectName.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_ENV_VARS);
-    outName.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_ENV_VARS);
+    projectName.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
+    outName.Normalize(wxPATH_NORM_ABSOLUTE | wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_SHORTCUT);
 
     if(!outputFile.IsEmpty() || target==Project::DETECTING)
     {
@@ -877,7 +877,7 @@ void Batch::SaveBatchFile(wxString file)
     //then for each project: project path, prefix, id, status, skip
     for (unsigned int i = 0; i < m_projList.GetCount(); i++)
     {
-        batchFile.SetPath(wxString::Format("/Project_%ld", i + 1));
+        batchFile.SetPath(wxString::Format("/Project_%u", i + 1));
         batchFile.Write("Project", m_projList.Item(i).path);
         switch (m_projList.Item(i).target)
         {

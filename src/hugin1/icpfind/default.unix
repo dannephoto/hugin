@@ -6,13 +6,13 @@ Default=0
 Type=1
 Description=Hugin's CPFind
 Program=cpfind
-Arguments=--multirow -o %o %s
+Arguments=-o %o %s
 
 [AutoPano/AutoPano_1]
 Type=1
 Description=Hugin's CPFind + Celeste (slower, but no cps on clouds)
 Program=cpfind
-Arguments=--celeste --multirow -o %o %s
+Arguments=--celeste -o %o %s
 
 [AutoPano/AutoPano_2]
 Type=1

@@ -176,6 +176,9 @@ namespace hugin_utils
     /** replace all characters oldChar in s with newChar */
     IMPEX void ReplaceAll(std::string& s, const std::string& oldChar, char newChar);
 
+    /** check if s1 contains s2 using case insensitive comparison */
+    IMPEX bool StringContainsCaseInsensitive(const std::string& s1, const std::string& s2);
+
     template <class str>
     str QuoteStringInternal(const str & arg, const str & quotechar,
                             const str & replacements)
@@ -238,6 +241,11 @@ namespace hugin_utils
     /** returns description of given icc profile */
     IMPEX std::string GetICCDesc(const vigra::ImageImportInfo::ICCProfile& iccProfile);
     IMPEX std::string GetICCDesc(const cmsHPROFILE& profile);
+
+    /** return vector of known extensions of raw files, all in lower case */
+    IMPEX std::vector<std::string> GetRawExtensions();
+    /** return true if extension belongs to a raw file */
+    IMPEX bool IsRawExtension(const std::string testExt);
 
 } // namespace
 

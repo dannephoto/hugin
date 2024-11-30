@@ -1936,28 +1936,7 @@ bool wxTreeListMainWindow::Create (wxTreeListCtrl *parent,
     // prevent any background repaint in order to reducing flicker
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
-#ifdef __WXMSW__
-    {
-        int i, j;
-        wxBitmap bmp(8, 8);
-        wxMemoryDC bdc;
-        bdc.SelectObject(bmp);
-        bdc.SetPen(*wxGREY_PEN);
-        bdc.DrawRectangle(-1, -1, 10, 10);
-        for (i = 0; i < 8; i++) {
-            for (j = 0; j < 8; j++) {
-                if (!((i + j) & 1)) {
-                    bdc.DrawPoint(i, j);
-                }
-            }
-        }
-
-        m_dottedPen = wxPen(bmp, 1);
-    }
-#else
-//?    m_dottedPen = wxPen( *wxGREY_PEN, 1, wxDOT );  // too slow under XFree86
-    m_dottedPen = wxPen( _T("grey"), 0, 0 ); // Bitmap based pen is not supported by GTK!
-#endif
+    m_dottedPen = wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT), 0, wxPENSTYLE_DOT);
 
     m_owner = parent;
     m_main_column = 0;
@@ -3493,7 +3472,7 @@ void wxTreeListMainWindow::PaintLevel (wxTreeListItem *item, wxDC &dc,
                 // draw the plus sign here
                 wxRect rect (x-m_btnWidth2, y_mid-m_btnHeight2, m_btnWidth, m_btnHeight);
                 int flag = item->IsExpanded()? wxCONTROL_EXPANDED: 0;
-                wxRendererNative::GetDefault().DrawTreeItemButton (this, dc, rect, flag);
+                wxRendererNative::Get().DrawTreeItemButton (this, dc, rect, flag);
             }
 
         }

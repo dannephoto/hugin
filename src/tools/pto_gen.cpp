@@ -283,6 +283,13 @@ int main(int argc, char* argv[])
     double blueBalanceAnchor = 1.0;
     for(size_t i=0; i<filelist.size(); i++)
     {
+        const std::string ext = hugin_utils::getExtension(filelist[i]);
+        // check that extension does not belong to a raw file
+        if (hugin_utils::IsRawExtension(ext))
+        {
+            std::cerr << "Ignoring raw file " << filelist[i] << "." << std::endl;
+            continue;
+        };
         HuginBase::SrcPanoImage srcImage;
         std::cout << "Reading " << filelist[i] << "..." << std::endl;
         srcImage.setFilename(filelist[i]);

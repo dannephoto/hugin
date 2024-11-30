@@ -17,7 +17,7 @@ ELSEIF(APPLE)
   set( MACOSX_BUNDLE_GUI_IDENTIFIER net.sourceforge.HuginStitchProject)
   set( MACOSX_BUNDLE_INFO_STRING "HuginStitchProject ${MACOSX_BUNDLE_VERSION}" )
   set( MACOSX_BUNDLE_BUNDLE_NAME "HuginStitchProject" )
-  set( MACOSX_BUNDLE_COPYRIGHT "Copyright 2023 Pablo d'Angelo" )
+  set( MACOSX_BUNDLE_COPYRIGHT "Copyright 2024 Pablo d'Angelo" )
 
   IF(MAC_SELF_CONTAINED_BUNDLE)
 

@@ -509,7 +509,12 @@ void ImagesPanel::UpdatePreviewImage()
         {
             HuginBase::Color::CorrectImage(scaled, *(cacheEntry->iccProfile), huginApp::Get()->GetMonitorProfile());
         };
-        m_smallImgCtrl->SetBitmap(wxBitmap(scaled));
+        wxBitmap scaledBitmap(scaled);
+#if wxCHECK_VERSION(3,1,6)
+        // set the DPI scale factor in wxBitmap, otherwise wxStaticBitmap scales the wxBitmap also
+        scaledBitmap.SetScaleFactor(m_smallImgCtrl->GetDPIScaleFactor());
+#endif
+        m_smallImgCtrl->SetBitmap(scaledBitmap);
         m_smallImgCtrl->GetParent()->Layout();
         m_smallImgCtrl->Refresh();
     }

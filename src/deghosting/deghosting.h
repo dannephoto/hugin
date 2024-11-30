@@ -30,12 +30,6 @@
 #include <vigra/stdimage.hxx>
 #include <vigra/imageinfo.hxx>
 
-#ifdef _MSC_VER
-#define THROWNOIMAGES
-#else
-#define THROWNOIMAGES throw(NoImages)
-#endif
-
 namespace deghosting {
     
     /** exception called when there are no input images
@@ -74,7 +68,7 @@ namespace deghosting {
         /** load images for processing
          * @param inputFiles images to be processed
          */
-        virtual void loadImages(std::vector<std::string>& inputFiles) THROWNOIMAGES;
+        virtual void loadImages(std::vector<std::string>& inputFiles);
 
         /** set advanced flags
          * Allows to change behavior of used algorithm

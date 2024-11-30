@@ -37,10 +37,18 @@
 		
 		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>align_image_stack is a command-line tool to align overlapping images to facilitate <a href="HDR.html" title="HDR">HDR</a> creation, Exposure blending<a class="external" href="https://wiki.panotools.org/Exposure_blending">[*]</a>, extended <a href="Depth_of_Field.html" title="Depth of Field">Depth of Field</a>, and Stereoscopic<a class="external" href="https://wiki.panotools.org/index.php?title=Stereoscopic&amp;action=edit&amp;redlink=1">[*]</a> images.
 </p>
-<h2><a name="Usage"><span class="mw-headline">Usage</span></a></h2>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" />
+<ul>
+
+</ul>
+</div>
+
+<h1><a name="Usage"><span class="mw-headline">Usage</span></a></h1>
 <pre>align_image_stack [options] input_files
 </pre>
-<h3><a name="Options:_modes_of_operation"><span class="mw-headline">Options: modes of operation</span></a></h3>
+<h2><a name="Options:_modes_of_operation"><span class="mw-headline">Options: modes of operation</span></a></h2>
+<p>As main switch you have to specify which type of results align_image_stack should produce. It can be a pto file for further tweaking, multiple tiff files for further processing with other programs or a HDR file. You can also combine these switches and output so several different output formats at once.
+</p>
 <pre>-p file   
 </pre>
 <p>Output .pto file. (Useful for debugging, or further refinement.)
@@ -53,26 +61,74 @@
 </pre>
 <p>Merge images to HDR, generate output.hdr.
 </p>
-<h3><a name="Options:_modifiers"><span class="mw-headline">Options: modifiers</span></a></h3>
+<h2><a name="Options:_modifiers"><span class="mw-headline">Options: modifiers</span></a></h2>
+<p>The workflow of align_image_stack can be divided into several steps:
+</p>
+<ol><li>Load all images and provide some necessary information about the images</li>
+<li>Find interest points in first image</li>
+<li>Correlate interest points with second image</li>
+<li>Repeat step 2 and 3 for each consecutive image pair</li>
+<li>Optimize positions and lens parameters</li>
+<li>Remap all images and output result files</li></ol>
+<p>There are several switches which affects only parts of the process. These will be described in the following.
+</p>
+<h3><a name="General_switches"><span class="mw-headline">General switches</span></a></h3>
 <pre>-v        
 </pre>
-<p>Verbose, print progress messages.
+<p>Verbose, print progress messages. Repeat for higher verbosity (prints more progress messages).
+</p>
+<pre>-h        
+</pre>
+<p>Display help.
+</p>
+<pre> --align-to-first   
+</pre>
+<p>Align all images to the first one instead of the default workflow of matches of all consecutive image pairs. This activates also the --use-given-order option.
+</p>
+<h3><a name="Image_information"><span class="mw-headline">Image information</span></a></h3>
+<p>You need to provide some information about the images so align_image_stack can assume some pre requirement for the processing. It tries to read these information from the EXIF data, but if these data are missing or incomplete you need to provide these on the command line.
 </p>
 <pre>-e
 </pre>
 <p>Assume input images are full frame <a href="Fisheye_Projection.html" title="Fisheye Projection">fish eye</a> (default: <a href="Rectilinear_Projection.html" title="Rectilinear Projection">rectilinear</a>).
 </p>
-<pre>-t num    
-</pre>
-<p>Remove all control points with an error higher than num pixels (default: 3).
-</p>
-<pre>--corr=num
-</pre>
-<p>Correlation threshold for identifying control points (default: 0.9).
-</p>
 <pre>-f HFOV   
 </pre>
 <p>Approximate horizontal field of view<a class="external" href="https://wiki.panotools.org/Field_of_view">[*]</a> of input images. Use if <a href="EXIF.html" title="EXIF">EXIF</a> info not complete.
+</p>
+<pre>-l
+</pre>
+<p>Assume input files are in linear color space.
+</p>
+<pre>--distortion
+</pre>
+<p>Try to load distortion information from lens database. That has the advantage that during the remapping step the lens distortion and the corrections of the image positions are done in one processing step.
+</p>
+<pre>--use-given-order  
+</pre>
+<p>Use the image order as given from command line. By default (without this switch) images will be sorted by exposure values as found in EXIF data.
+</p>
+<h3><a name="Control_point_detection"><span class="mw-headline">Control point detection</span></a></h3>
+<p>The internal processing in this step is done on a scaled down image for speed reason. The first image is split into gsize x gsize subregions. In each subregion num interest points are created. 
+</p>
+<pre>-s scale
+</pre>
+<p>Scale down image by 2<sup>scale</sup> (default: 1 [2x downsampling]). Scaling down images will improve speed at the cost of accuracy. This affects only the internal processing.
+</p>
+<pre>-g gsize
+</pre>
+<p>Break image into a rectangular grid (gsize x gsize) and attempt to find num control points in each section (default: 5 [5x5 grid] )
+</p>
+<pre>-c num    
+</pre>
+<p>Number of <a href="Control_points.html" title="Control points">control points</a> (per grid, see option -g) to create between adjacent images (default: 8).
+</p>
+<pre>--corr=num
+</pre>
+<p>Correlation threshold for identifying control points (default: 0.9). If there is some blur in the images try to decrease this value to e.g. 0.8 or 0.7.
+</p>
+<h3><a name="Optimization_phase"><span class="mw-headline">Optimization phase</span></a></h3>
+<p>By default only the image position (yaw, pitch and roll) are optimized. For special use cases you can optimize further parameters like field of view or lens distortion.
 </p>
 <pre>-m        
 </pre>
@@ -98,72 +154,46 @@
 </pre>
 <p>Optimize Z coordinate of the camera position. Useful for aligning more distorted images.
 </p>
+<pre>-t num    
+</pre>
+<p>After a first optimization run the result is checked and all control points with an error higher than num pixels are removed. The default value is 3. Then a second optimizer runs follows with only the "good" control points.
+</p>
+<h3><a name="Generating_stereo_image_pairs"><span class="mw-headline">Generating stereo image pairs</span></a></h3>
+<p>Align_image_stack can also be used for the alignment of stereoscopic images, see <a rel="nofollow" class="external autonumber" href="http://vndlinuxphoto.blogspot.com/2011/01/stereo-image-alignment-in-hugin.html">[1]</a> for more details about these options
+</p>
 <pre>-S
 </pre>
 <p>Assume stereo images - allow horizontal shift of control points.  Adds all control points as "horizontal lines".
 </p>
 <pre>-A
 </pre>
-<p>Align stereo window - assumes -S.  Adds one "normal" control point that is the nearest point, so that everything will appear behind the display plane.
+<p>Align stereo window - this activates also the -S switch.  Adds one "normal" control point that is the nearest point, so that everything will appear behind the display plane.
 </p>
 <pre>-P
 </pre>
-<p>Align stereo window with pop-out effect - assumes -S.  Adds one "normal" control point that is the nearest point from the border areas, so that the center of the image may appear in front of the display plane.
+<p>Align stereo window with pop-out effect - this activates also the -S switch.  Adds one "normal" control point that is the nearest point from the border areas, so that the center of the image may appear in front of the display plane.
 </p>
-<pre>-C
+<h3><a name="Remapping_stage"><span class="mw-headline">Remapping stage</span></a></h3>
+<p>The follow switches affect the process of remapping of the individual images
+</p>
+<pre> -C        
 </pre>
-<p>Auto crop the image to the area covered by all images.
+<p>Auto crop the image to the area covered by all images, otherwise the result files can contain transparent (black) borders which are not covered from all images
 </p>
-<pre>-c num    
+<pre> --dont-remap-ref  
 </pre>
-<p>Number of <a href="Control_points.html" title="Control points">control points</a> (per grid, see option -g) to create between adjacent images (default: 8).
+<p>Don't output the remapped reference image (the first image specified at the command line).
 </p>
-<pre>-l
+<pre> --gpu     
 </pre>
-<p>Assume linear input files.
+<p>Use GPU for remapping
 </p>
-<pre>-s scale
-</pre>
-<p>Scale down image by 2<sup>scale</sup> (default: 1 [2x downsampling]). Scaling down images will improve speed at the cost of accuracy.
-</p>
-<pre>-g gsize
-</pre>
-<p>Break image into a rectangular grid (gsize x gsize) and attempt to find num control points in each section (default: 5 [5x5 grid] )
-</p>
-<pre>--distortion
-</pre>
-<p>Try to load distortion information from lens database.
-</p>
-<pre>--use-given-order  
-</pre>
-<p>Use the image order as given from command line. (By default images will be sorted by exposure values as found in EXIF data.)
-</p>
-<pre>--gpu     
-</pre>
-<p>Use GPU for remapping.
-</p>
-<pre>-h        
-</pre>
-<p>Display help.
-</p>
-<div class="usermessage" id="stub">
-<table cellpadding="0" cellspacing="0" style="background-color:inherit">
-<tbody><tr>
-<td><i>This article is incomplete.  You can help Panotools Wiki by <a rel="nofollow" class="external text" href="https://wiki.panotools.org/index.php?title=Align_image_stack&amp;action=edit">expanding it</a>.</i>
-</td></tr></tbody></table>
-<p><span style="font-weight:normal;">
-<small>Once the article is ok feel free to remove the {{Incomplete}} template</small>
-</span></p><p class="mw-empty-elt">
-</p>
-</div>
 
 <!--
 Transclusion expansion time report (%,ms,calls,template)
-100.00%   28.836      1 Template:Incomplete
-100.00%   28.836      1 -total
- 47.46%   13.686      1 Template:Enhance
+100.00%    0.000      1 -total
 -->
 
 
-</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Align_image_stack&amp;oldid=15916">https://wiki.panotools.org/index.php?title=Align_image_stack&amp;oldid=15916</a>"</div>
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="https://wiki.panotools.org/index.php?title=Align_image_stack&amp;oldid=17440">https://wiki.panotools.org/index.php?title=Align_image_stack&amp;oldid=17440</a>"</div>
 		</div></div></body></html>
