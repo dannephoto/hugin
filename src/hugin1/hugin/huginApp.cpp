@@ -207,6 +207,17 @@ bool huginApp::OnInit()
 	wxSystemOptions::SetOption(wxOSX_FILEDIALOG_ALWAYS_SHOW_TYPES, 1);
 #endif
 	
+
+// Check if ARM architecture
+#ifdef __aarch64__
+	wxConfigBase* cfg = wxConfigBase::Get();
+	// Set the config value to 0 (disabled) for ARM architectures
+	if (cfg) {
+		cfg->Write(wxT("/Nona/UseGPU"), 0);  // Write the setting to the configuration
+	}
+#endif
+
+
 	// register our custom pano tools dialog handlers
 	registerPTWXDlgFcn();
 

@@ -803,6 +803,25 @@ void PreferencesDialog::UpdateDisplayData(int panel)
 
 	if (panel==0 || panel == 8)
 	{
+		
+		// Check if ARM architecture
+		#ifdef __aarch64__
+			// Set the config value to 0 (disabled)
+			if (cfg) {
+				cfg->Write(wxT("/Nona/UseGPU"), 0);  // Write the setting to the configuration
+			}
+
+			wxCheckBox* checkbox = (wxCheckBox*)FindWindowByName("prefs_nona_useGpu");
+			if (checkbox) {
+				checkbox->Hide();  // Hide the checkbox if ARM architecture
+			}
+		#else
+			wxCheckBox* checkbox = (wxCheckBox*)FindWindowByName("prefs_nona_useGpu");
+			if (checkbox) {
+				checkbox->Show();  // Ensure it's shown if not ARM
+			}
+		#endif
+
 		/////
 		/// NONA
 		MY_CHOICE_VAL("prefs_nona_interpolator", cfg->Read(wxT("/Nona/Interpolator"), HUGIN_NONA_INTERPOLATOR));
