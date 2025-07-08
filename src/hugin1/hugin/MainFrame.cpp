@@ -379,9 +379,10 @@ MainFrame::MainFrame(wxWindow* parent, HuginBase::Panorama & pano)
             dc.DrawText(version, bitmap.GetWidth() - tw - 3, bitmap.GetHeight() - th - 3);
             dc.SelectObject(wxNullBitmap);
         }
-#if wxCHECK_VERSION(3,1,6)
-        bitmap.SetScaleFactor(GetDPIScaleFactor());
-#endif
+//Below check will cause wxWidget issues crashes Hugin on startup
+//#if wxCHECK_VERSION(3,1,6)
+  //      bitmap.SetScaleFactor(GetDPIScaleFactor());
+//#endif
         splash = new HuginSplashScreen(NULL, bitmap);
     } else {
         wxLogFatalError(_("Fatal installation error\nThe file data/splash.png was not found at:") + huginApp::Get()->GetXRCPath());

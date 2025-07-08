@@ -11,13 +11,13 @@
 # The compiler(s) to use
 # CC="/usr/local/opt/llvm/bin/clang"
 # CXX="/usr/local/opt/llvm/bin/clang++"
-CC="/opt/homebrew/Cellar/llvm/17.0.5/bin/clang"
-CXX="/opt/homebrew/Cellar/llvm/17.0.5/bin/clang++"
+CC="/opt/homebrew/Cellar/llvm@17/17.0.6/bin/clang" \
+CXX="/opt/homebrew/Cellar/llvm@17/17.0.6/bin/clang++" \
 
 
 # The minimum macOS version required to run the compiled files
 # USE AT LEAST VERSION 10.9
-DEPLOY_TARGET="10.10"
+DEPLOY_TARGET="11.0"
 # DEPLOY_TARGET="13.3"
 
 

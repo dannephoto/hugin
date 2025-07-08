@@ -1,3 +1,35 @@
+20250708
+Compiled on macOS Sequoia 15.5
+More or less on a vanilla MacBook Pro M4
+
+Updated install info
+First tried brew install cmake but a lot of complaining from vigra and other sources
+Instead use cmake-3.19, download from web, install manually
+Brew install llvm@17 seems working.
+Disabled libomp from enfuse/enblend as it was causing compiler conflicts. Might be fixable
+Some new stuff in configure-bundle.sh
+wxWidget issue fix in MainFrame.cpp causing crash on start up.
+//Below check will cause wxWidget issues crashes Hugin on startup
+//#if wxCHECK_VERSION(3,1,6)
+  //      bitmap.SetScaleFactor(GetDPIScaleFactor());
+//#endif
+Run codesign on all libs 
+codesign --force --deep --sign -
+If downloaded from web use xattr -cr in terminal on the full Hugin package
+
+I think that is it...
+
+
+
+
+
+
+
+
+
+
+
+
 20230508
 
 Build modified to work with apple silicon arm64. Tested mainly on M1, should work om M2.

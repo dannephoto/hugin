@@ -21,7 +21,7 @@ mv VERSION ENBLEND_VERSION
 patch -p1 -N < ../../patches/enblend.patch
 
 LDFLAGS="-L$REPOSITORYDIR/lib $LDARGS" \
-cmake . -DENABLE_OPENMP=ON
+cmake . -DENABLE_OPENMP=OFF
 
 make clean || fail "make clean step"
 make $MAKEARGS || fail "make step"
